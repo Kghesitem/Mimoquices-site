@@ -16,14 +16,23 @@ class Produto extends Model
     protected $fillable =[
         'titulo',
         'descricao',
+        'conteudo',
+        'detalhes',
         'url_completo',
         'tipo_prod',
         'nome_original',
         'nome_cod',
+        'pode_personalizar',
+        'personalizar_opcoes',
         'group_img'
     ];
     public function getRouteKeyName()
     {
         return 'url_completo';
+    }
+
+    public function personalizacoes()
+    {
+        return $this->hasMany(Personalizacao::class);
     }
 }

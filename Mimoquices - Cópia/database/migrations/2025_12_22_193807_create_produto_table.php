@@ -15,12 +15,19 @@ return new class extends Migration
             $table->id();
             $table->string('titulo');
             $table->text('descricao');
+            $table->text('conteudo')->nullable();
+            $table->text('detalhes')->nullable();
             $table->string('url_completo');
             $table->unsignedBigInteger('tipo_prod');
             $table->string('nome_original');
+            $table->boolean('disponivel')->default(1);
             $table->string('nome_cod');
             $table->foreign('tipo_prod', 'fk_produto_tipo')->references('id')->on('tipo')->onDelete('restrict')->onUpdate('restrict');
             $table->timestamps();
+        });
+        Schema::table('produto', function (Blueprint $table) {
+            $table->string('pode_personalizar')->nullable()->default('Não');
+            $table->json('personalizar_opcoes')->nullable();
         });
     }
 
@@ -29,10 +36,12 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('produto');
         Schema::table('produto', function (Blueprint $table) {
             $table->dropForeign(['tipo_prod']);
-            $table->dropForeign(['group_img']);
-    });
+        });
+        Schema::dropIfExists('produto');
+        Schema::table('produto', function (Blueprint $table) {
+            $table->dropColumn(['pode_personalizar', 'personalizar_opcoes']);
+        });
     }
 };

@@ -21,11 +21,12 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
 Route::get('/produtos/criar', [ProdutoController::class,'create'])->name('produto.criar');
 });
 
-Route::get('/produtos/{url_completo}', [ProdutoController::class, 'show'])->name('produto.show');
+Route::get('/produtos/{titulo}', [ProdutoController::class, 'show'])->name('produto.show');
 Route::get('/', [ProdutoController::class, 'welcome'])->name('welcome');
 
 Route::get('/produtos', [ProdutoController::class, 'index'])->name('produto.index');
 Route::post('/produtos', [ProdutoController::class, 'store'])->name('produto.store');
+Route::post('/produtos/{titulo}/personalizar', [ProdutoController::class, 'personalizarProduto'])->name('produto.personalizar');
 
 
 Route::middleware('auth')->group(function () {

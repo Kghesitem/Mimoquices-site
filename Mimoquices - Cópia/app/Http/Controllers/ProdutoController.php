@@ -5,13 +5,15 @@ use Illuminate\Http\Request;
 use App\Models\Produto;
 use App\Models\Tipo;
 use App\Models\Fotos;
+use App\Models\Personalizacao;
+use App\Models\Pedido;
 use Illuminate\Support\Str;
 
 class ProdutoController extends Controller
 {
     public function index()
     {
-        $produtos = Produto::all();
+        $produtos = Produto::all()->where('disponivel', 1);
         $tipos = Tipo::all();
 
         return view('produto.index', [
@@ -22,7 +24,7 @@ class ProdutoController extends Controller
 
     public function welcome()
     {
-        $produtos = Produto::orderBy('created_at', 'desc')->take(8)->get();
+        $produtos = Produto::orderBy('created_at', 'desc')->where('disponivel', 1)->take(8)->get();
         $tipos = Tipo::all();
 
         return view('welcome', [
@@ -33,7 +35,7 @@ class ProdutoController extends Controller
 
     public function show($url_completo)
     {
-        $produto = Produto::where('url_completo', $url_completo)->firstOrFail();
+        $produto = Produto::where('url_completo', $url_completo)->where('disponivel', 1)->firstOrFail();
         $tipo    = Tipo::find($produto->tipo_prod);
         $fotos = Fotos::where('group_img', $produto->id)
         ->select('img_original', 'img_cod')
@@ -64,10 +66,14 @@ class ProdutoController extends Controller
         $data = $request->validate([
             'titulo' => ['required'],
             'descricao' => ['required'],
+            'conteudo' => ['nullable'],
+            'detalhes' => ['nullable'],
             'url_completo' => ['nullable'],
             'tipo_prod' => ['required'],
             'nome_original' => ['required', 'array', 'min:1'],
             'nome_original.*' => ['image'],
+            'pode_personalizar' => ['nullable'],
+            'personalizar_opcoes' => ['nullable', 'array'],
         ]);
 
         if (!empty($uploaded) && isset($uploaded[0]) && $uploaded[0]) {
@@ -82,10 +88,20 @@ class ProdutoController extends Controller
             $fotos['img_1_cod'] = $caminho0;
         }
 
-        $data['url_completo'] = rand(0, 10) . "-" . $data['titulo'];
+        $data['url_completo'] = $data['titulo'];
+        
+        // Guardar as opções de personalização como JSON
+        if ($request->has('pode_personalizar')) {
+            $data['pode_personalizar'] = $request->input('pode_personalizar');
+        }
+        
+        if ($request->has('personalizar_opcoes')) {
+            $data['personalizar_opcoes'] = json_encode($request->input('personalizar_opcoes'));
+        } else {
+            $data['personalizar_opcoes'] = null;
+        }
+
         $novoproduto = Produto::create($data);
-
-
 
         foreach ($uploaded as $index => $file) {
             if (!$file) continue;
@@ -105,5 +121,54 @@ class ProdutoController extends Controller
         
         return redirect()->route('produto.index');
     }
+
+public function personalizarProduto(Request $request, $url_completo)
+{
+    // 1️⃣ Obter produto
+    $produto = Produto::where('url_completo', $url_completo)->firstOrFail();
+
+    // 2️⃣ Criar pedido ligado ao utilizador e produto
+    $pedido = Pedido::create([
+        'id_user' => auth()->id(),       
+        'id_produto' => $produto->id,    
+        'estado',         
+    ]);
+
+    // 3️⃣ Campos que podem ser personalizados
+    $campos = [
+        'texto_capa',
+        'formato_agenda',
+        'acessorio',
+        'paginas_especiais',
+        'cor_argolas',
+    ];
+
+    // 4️⃣ Guardar cada personalização
+    foreach ($campos as $campo) {
+        if (!$request->filled($campo)) {
+            continue;
+        }
+
+        $valor = $request->input($campo);
+
+        // Se for array (ex.: paginas_especiais[])
+        if (is_array($valor)) {
+            $valor = implode(', ', $valor);
+        }
+
+        Personalizacao::create([
+            'personalizacao_pedida' => $campo,   // nome do campo
+            'opcoes_selecionadas' => $valor,     // valor escolhido
+            'id_produto' => $produto->id,
+            'id_pedido' => $pedido->id,          // ID do pedido recém-criado
+        ]);
+    }
+
+    // 5️⃣ Redirecionar de volta
+    return redirect()
+        ->route('produto.show', $url_completo)
+        ->with('success', 'Produto personalizado com sucesso!');
+}
+
 }
 ?>

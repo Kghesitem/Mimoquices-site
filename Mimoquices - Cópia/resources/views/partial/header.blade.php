@@ -43,12 +43,6 @@
             @else
                 <a class="paginas" href="{{ route('produto.index') }}">Produtos</a>
             @endif
-
-            @if (Route::currentRouteName() == '')
-                <a  class="paginas active" href="contact.html">Contact</a>
-            @else
-                <a  class="paginas" href="contact.html">Contact</a>
-            @endif
             
             
     @if (Route::has('login'))

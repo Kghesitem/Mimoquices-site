@@ -42,7 +42,7 @@
                     </div>
 
                     <div>
-                        <h3>{{$produto->titulo}}</h3><br>
+                        <h3>{{$produto->titulo}}</h3> 
                     </div>
 
                     <div>

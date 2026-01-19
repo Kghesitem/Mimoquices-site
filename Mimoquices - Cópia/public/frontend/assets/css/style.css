@@ -372,8 +372,14 @@ div.limite {
   flex-wrap: wrap;
   justify-content: center;
   gap: 1em;
-  width: 80%;
+  width: 100%;
 }
+.produtos-produto h3 {
+    white-space: normal;      /* permite quebra de linha automática */
+    word-break: break-word;    /* quebra palavras longas se necessário */
+    overflow-wrap: break-word; /* compatibilidade extra */
+}
+
 
 .produtos-produto {
   width: 255px;
@@ -386,6 +392,9 @@ div.limite {
   text-decoration: none;
   color: #000;
   border: 2px solid var(--main_color);
+  flex-shrink: 0;
+  aspect-ratio: auto; /* opcional */
+    height: auto; 
 }
 
 .produto-img {
@@ -397,7 +406,6 @@ div.limite {
   border-bottom: 2px solid var(--main_color);
 }
 
-/* removido: img.principal não usado */
 
 
 /*------------------------------------ Filtro Produtos ------------------------------------*/
@@ -539,7 +547,7 @@ div.container {
     max-height: 500px;
     width: 75%;
   }
-    .produto-imagem{
+  .produto-imagem{
       width: 75%;
       max-width: 546px;
         height: auto;
@@ -548,7 +556,6 @@ div.container {
     max-height: 500px;
     width: 100%;
   }
-  /* removido: classe `.teste` não usada */
 }
 
 @media(max-width: 867px) {
@@ -646,6 +653,10 @@ div.container {
   .filtro select,
   .filtro input[type="text"] {
     width: 100%;
+  }
+  .troca-colum{
+    flex-direction: column;
+    align-items: center;
   }
 }
 

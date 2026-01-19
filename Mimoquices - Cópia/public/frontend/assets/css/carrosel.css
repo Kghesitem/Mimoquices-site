@@ -4,15 +4,17 @@ div.Produto{
     background-color: white;
 }
 .carrosel{
-
+    min-width: 400px;
     display: flex;
     gap: 10px;
     scroll-snap-type: x mandatory;
     overflow-x: auto;
     anchor-name: --carrosel;
     scroll-behavior: smooth;
-
+    width: 100%;
+    flex-wrap: nowrap;
 }
+
 .carrosel::-webkit-scrollbar {
     display: none;
 }

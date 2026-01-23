@@ -1,0 +1,622 @@
+/*------------------------------------ Variáveis e Reset ------------------------------------*/
+:root {
+  --color1: #0f1016;
+  --textcolor: #f0f0f0;
+  --accent: #006aff;
+  --main_color: #c89286;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 12pt;
+  background-color: var(--textcolor);
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: flex-start;
+  background-color: white;
+}
+
+/*------------------------------------ Dropdown Menu ------------------------------------*/
+.dropdown {
+  display: inline;
+}
+
+.dropdown-toggle::after {
+  display: none !important;
+}
+
+.dropdown-menu {
+  border: 2px solid var(--main_color) !important;
+  border-radius: 0.5em;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.dropdown-item {
+  color: var(--color1) !important;
+  padding: 0.75rem 1rem !important;
+  transition: all 0.3s ease;
+}
+
+/*------------------------------------ Logo & Social ------------------------------------*/
+.logo img,
+.social-links img {
+  width: auto;
+  transition: transform 0.3s ease;
+}
+
+.logo, .logo img {
+  height: 112.5px;
+  padding-left: 11.25px;
+  max-width: 123px;
+}
+
+.social-links img {
+  height: 32px;
+}
+
+.logo img:hover,
+.social-links img:hover {
+  transform: scale(1.05);
+}
+
+.social-links-container {
+  display: flex;
+  gap: 3px;
+  padding-right: 15px;
+}
+
+/*------------------------------------ Navbar ------------------------------------*/
+nav {
+  font-family: Georgia, "Times New Roman", serif;
+  min-height: 100px;
+  background: #fff;
+  border: 2px solid var(--main_color);
+  border-radius: 0.5em;
+  display: flex;
+  align-items: center;
+  padding: 15px 0;
+}
+
+.link-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  height: 100%;
+  padding: 0 15px;
+}
+
+nav a {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  color: var(--color1);
+  text-decoration: none;
+}
+
+nav svg {
+  fill: var(--color1);
+}
+
+/*------------------------------------ Paginas ------------------------------------*/
+.paginas {
+  font-size: 12.75pt;
+  font-weight: 500;
+  color: #333;
+  position: relative;
+  transition: color 0.3s ease;
+  padding: 0 15px;
+}
+
+.paginas:hover {
+  background: linear-gradient(90deg, #ca4a63, #d4a99a);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.paginas::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -10px;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #ca4a63, #d4a99a);
+  transform: translateX(20%);
+  transition: width 0.3s ease;
+}
+
+.paginas:hover::after,
+.paginas.active::after {
+  width: 70%;
+}
+
+.a {
+  top: -5px;
+}
+
+/*------------------------------------ Sidebar Responsivo ------------------------------------*/
+#sidebar-active,
+.open,
+.close {
+  display: none;
+}
+
+/*------------------------------------ Footer ------------------------------------*/
+.footer {
+  min-height: 200px;
+  background: #fff;
+  color: var(--color1);
+  border: 2px solid var(--main_color);
+  border-radius: 0.5em;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.footer-divs {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 5px;
+}
+
+.login-logout {
+  background: var(--accent);
+  color: #fff;
+  padding: 8px 18px;
+  border-radius: 0.4em;
+  font-size: 16px;
+  font-weight: 500;
+  border: 0;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease-in;
+  margin-right: 15px;
+}
+
+.login-logout:hover {
+  background: var(--main_color);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/*------------------------------------ Banner ------------------------------------*/
+div.banner {
+  background: #fff;
+  display: flex;
+  min-height: 200px;
+}
+
+img.banner {
+  width: 100%;
+  height: 100%;
+  min-height: 200px;
+  max-height: 400px;
+  object-fit: cover;
+}
+
+/*------------------------------------ Login/Register ------------------------------------*/
+.img {
+  background-image: url("../img/2382062-volta-as-aulas-papelaria-fundo-gratis-vetor.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  align-items: center;
+}
+
+div.login-register {
+  width: 50%;
+  min-height: 400px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 2px solid rgba(200, 146, 134, 0.6);
+  border-radius: 0.5em;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.45);
+}
+
+div.logo-login {
+  margin: 10px;
+  min-height: 100px;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  background: #fff;
+  backdrop-filter: blur(5px);
+  border: 2px solid var(--main_color);
+  border-radius: 0.5em;
+}
+
+.logo-login img {
+  height: 18dvh;
+  min-height: 100px;
+  width: auto;
+}
+
+/*------------------------------------ Tipografia ------------------------------------*/
+h1, h2 {
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+h1 {
+  justify-self: center;
+  padding: 10px;
+}
+
+.label {
+  margin: 25px 25px 10px;
+  font-size: larger;
+}
+
+.input-login {
+  display: flex;
+  flex-direction: column;
+  margin: 0 25px 15px;
+  padding: 12px;
+  width: 85%;
+  font-size: 25px;
+  border-radius: 0.5em;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(200, 146, 134, 0.35);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+  color: #2b2b2b;
+  outline: none;
+  transition: box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.input-login:focus {
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.6);
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+/*------------------------------------ Botões e Tabs ------------------------------------*/
+.centrador {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.tab-button {
+  padding: 10px 25px;
+  font-size: 16px;
+  border-radius: 0.5em;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: black;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: 0 6px 20px rgba(0,0,0,.25), inset 0 1px 1px rgba(255,255,255,.4);
+  transition: all 0.25s ease;
+}
+
+.tab-button:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.tab-button.active {
+  background: rgba(200, 146, 134, 0.45);
+  border-color: rgba(200, 146, 134, 0.8);
+  font-weight: 600;
+}
+
+.btn-submit {
+  margin: 30px auto;
+  display: block;
+  padding: 12px 30px;
+  font-size: 18px;
+  border-radius: 0.5em;
+  border: none;
+  cursor: pointer;
+  background: rgba(200, 146, 134, 0.6);
+  color: #2b2b2b;
+  box-shadow: 0 8px 30px rgba(0,0,0,.3), inset 0 1px 2px rgba(255,255,255,.5);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0,0,0,.4), inset 0 1px 2px rgba(255,255,255,.6);
+  color: #000;
+}
+
+/*------------------------------------ Produtos ------------------------------------*/
+div.produtos {
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.produto-imagem {
+  aspect-ratio: 1 / 1;
+  border-radius: 0.5em;
+  border: 2px solid var(--main_color);
+  display: flex;
+  justify-self: center;
+  overflow: hidden;
+  margin-top: 20px;
+  height: 550px;
+}
+
+div.limite {
+  padding: 4em 10px 4.5em;
+  background: #fff;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1em;
+  width: 100%;
+}
+
+.produtos-produto {
+  width: 255px;
+  height: auto;
+  max-width: 260px;
+  background: #ccc;
+  border-radius: 0.5em;
+  text-align: center;
+  color: #000;
+  border: 2px solid var(--main_color);
+  flex-shrink: 0;
+}
+
+.produtos-produto h3 {
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.produto-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-top-left-radius: 0.5em;
+  border-top-right-radius: 0.5em;
+  border-bottom: 2px solid var(--main_color);
+}
+
+/*------------------------------------ Filtro Produtos ------------------------------------*/
+.filtro {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 15px;
+  padding: 15px 20px;
+  background: var();
+  backdrop-filter: blur(8px);
+  font-family: Poppins, Arial, Helvetica, sans-serif;
+  border: solid 2px var(--main_color);
+  border-radius: .5em;
+}
+
+.filtro select,
+.filtro input[type="text"] {
+  padding: 8px 12px;
+  border-radius: 0.4em;
+  border: 1px solid rgba(200, 146, 134, 0.6);
+  background: rgb(255, 255, 255);
+  color: var(--color1);
+  font-size: 14pt;
+  outline: none;
+  transition: all 0.3s ease;
+  min-width: 150px;
+}
+
+.filtro select:hover,
+.filtro input[type="text"]:hover,
+.filtro select:focus,
+.filtro input[type="text"]:focus {
+  border-color: var(--accent);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.filtro input::placeholder {
+  color: rgba(15, 16, 22, 0.5);
+}
+/*------------------------------------ Sobre ------------------------------------*/
+div.sobre {
+  display: flex;
+  max-width: 1400px;
+  justify-content: center;
+  height: auto;
+}
+
+div.esquerda {
+  flex: 0.9;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 500px;
+}
+
+div.direita {
+  flex: 1.1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 50px 100px 50px 50px;
+  margin-left: auto;
+  align-items: center;
+}
+
+.texto {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 20px;
+  line-height: 1.7;
+  color: #4a4a4a;
+  text-align: left;
+  max-width: 600px;
+  margin: 0 auto;
+  font-weight: normal;
+}
+
+.texto p {
+  margin-bottom: 18px;
+}
+
+.container-sobre {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 44%;
+  justify-self: center;
+  overflow: hidden;
+}
+
+img.sobre {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.2);
+  transform-origin: 65% 80%;
+}
+
+.butao-sobre {
+  background-color: var(--main_color);
+  text-decoration: none;
+  color: white;
+  padding: 20px;
+}
+
+/*------------------------------------ Container Geral ------------------------------------*/
+div.container {
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+/*------------------------------------ Media Queries ------------------------------------*/
+
+
+@media (max-width: 1240px) { 
+  div.sobre { flex-direction: column; }
+  div.esquerda { width: 100%; }
+  div.direita { margin-left: 0; padding: 50px 0; }
+  .container-sobre { max-height: 500px; width: 75%; }
+  .produto-imagem { width: 75%; max-width: 546px; height: auto; }
+  img.sobre { max-height: 500px; width: 100%; }
+}
+
+
+@media(max-width: 867px) {
+  .link-container {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 50%;
+    height: 100%;
+    z-index: 10;
+    background-color: var(--textcolor);
+    transform: translateX(100%);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform .5s ease, opacity .5s ease;
+    overflow-y: auto;
+  }
+
+  #sidebar-active:checked ~ .link-container {
+    transform: translateX(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  @keyframes aparecer {
+    to {
+      visibility: visible;
+    }
+  }
+
+  nav a {
+    height: auto;
+    width: 100%;
+  }
+
+  .open,
+  .close {
+    display: block;
+  }
+
+  .close {
+    padding: 20px;
+  }
+
+  .open {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    margin-left: auto;
+    margin-right: 30px;
+  }
+
+  #sidebar-active:checked ~ .link-container {
+    transform: translateX(0);
+    visibility: visible;
+    transition: transform .5s ease;
+  }
+
+  #sidebar-active:checked ~ #overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9;
+  }
+
+  .paginas,
+  .social-links-container {
+    padding: 20px 30px;
+  }
+
+  .paginas::after {
+    transform: translateX(10%);
+    bottom: 0;
+  }
+
+  .login-logout {
+    margin-top: 15px;
+    margin-left: 15px;
+  }
+    .filtro {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filtro select,
+  .filtro input[type="text"] {
+    width: 100%;
+  }
+}
+
+

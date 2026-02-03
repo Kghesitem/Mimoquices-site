@@ -47,9 +47,13 @@ php artisan migrate --seed
 php artisan storage:link
 
 💻 Execução
-Para iniciar o servidor de desenvolvimento:
+Para iniciar o servidor de desenvolvimento abra o cmd e coloque:
 
     php artisan serve
+    
+e outro cmd para o envio de emails:
+
+    php artisan queue:work
 
 A aplicação estará disponível em: http://localhost:8000
 

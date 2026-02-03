@@ -16,8 +16,8 @@ Antes de começar, certifica-te de que tens instalado:
 
 Segue estes passos para configurar o projeto localmente:
 
-1. abrir repositório mimoquises site e download em zip
 
+1. abrir repositório mimoquises site e download em zip
 
 2- instalar o node.js - link - https://nodejs.org/en/download/current
 istalar o .msi

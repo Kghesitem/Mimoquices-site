@@ -1,7 +1,5 @@
 # Mimoquices
 
-# Nome do Projeto
-
 Breve descrição do que o projeto faz e qual o seu objetivo principal.
 
 ## 🚀 Requisitos de Sistema

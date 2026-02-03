@@ -1,6 +1,9 @@
 # Mimoquices
 
-Breve descrição do que o projeto faz e qual o seu objetivo principal.
+A Mimoquices é um site dinâmico.
+Funciona como uma montra digital (portefólio), permitindo a apresentação das imagens dos produtos,
+acompanhadas das respetivas descrições. personalizações de cada produto e, quando necessário, de detalhes técnicos
+
 
 ## 🚀 Requisitos de Sistema
 

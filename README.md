@@ -13,6 +13,8 @@ Antes de começar, certifica-te de que tens instalado:
 * Node.js & NPM
 * Servidor de Base de Dados (MySQL / PostgreSQL / SQLite)
 
+Se Não estiver instalado não tem problema, pois iremos instalar as dependencias em baixo 
+
 ## 🛠️ Instalação e Configuração
 
 Segue estes passos para configurar o projeto localmente:

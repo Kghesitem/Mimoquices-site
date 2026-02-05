@@ -50,7 +50,7 @@ Configurar o Ambiente:
 
 8-Executar as Migrations:
 
-    php artisan migrate --seed
+    php artisan migrate
 
 9-Criar o link simbólico para o armazenamento:
 

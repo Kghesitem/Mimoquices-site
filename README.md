@@ -35,7 +35,9 @@ No instalador onde diz "command-line php you want to use" coloque o xampp/php/ph
 descomprime o .zip e coloque a pasta do projeto dentro da pasta C:\xampp\htdocs ou no caso do Wampp dentro do C:\Wampp\www
 
 
-5-em seguida abra o cmd dentro da pasta C:\xampp\htdocs\mimoquices e utilize o comando composer require laravel/installer
+5-em seguida abra o cmd dentro da pasta C:\xampp\htdocs\mimoquices e utilize o comando 
+
+    composer require laravel/installer
 
 6
 Configurar o Ambiente:

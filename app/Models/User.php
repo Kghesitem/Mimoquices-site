@@ -73,4 +73,13 @@ class User extends Authenticatable implements MustVerifyEmail // Implementação
             }
         });
     }
+    
+    /**
+     * Histórico de Personalizações do Utilizador
+     */
+    public function historicoPersonalizacoes()
+    {
+        return $this->hasMany(Personalizacao::class);
+    }
+
 }

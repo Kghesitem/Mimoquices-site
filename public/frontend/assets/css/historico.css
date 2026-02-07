@@ -1,0 +1,203 @@
+:root {
+    --mimo-main: #c89286;
+    --mimo-dark: #4a4a4a;
+    --mimo-bg: #fdfaf9;
+    --mimo-light: #f4ecea;
+    --mimo-text: #666;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: var(--mimo-dark);
+}
+
+.bg-mimo-bg { background-color: var(--mimo-bg); }
+
+.historico-container {
+    padding: 60px 20px;
+    min-height: 70vh;
+}
+
+.content-wrapper {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.historico-header {
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.historico-header h1 {
+    font-size: 2.2rem;
+    color: var(--mimo-dark);
+    margin-bottom: 10px;
+}
+
+.historico-header p {
+    color: var(--mimo-text);
+}
+
+/* Estilo da Tabela */
+.table-container {
+    background: white;
+    border-radius: 25px;
+    box-shadow: 0 10px 30px rgba(200, 146, 134, 0.1);
+    overflow: hidden;
+    border: 1px solid var(--mimo-light);
+}
+
+.mimo-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.mimo-table thead tr {
+    background-color: #f9f4f2;
+}
+
+.mimo-table th {
+    padding: 20px;
+    text-align: left;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--mimo-main);
+}
+
+.mimo-table td {
+    padding: 20px;
+    border-bottom: 1px solid #f0f0f0;
+    vertical-align: middle;
+}
+
+.mimo-table tbody tr:hover {
+    background-color: #fffcfb;
+}
+
+/* Detalhes Internos */
+.produto-nome {
+    display: block;
+    font-weight: 600;
+    color: #333;
+}
+
+.link-ver {
+    font-size: 0.75rem;
+    color: var(--mimo-main);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.link-ver:hover { text-decoration: underline; }
+
+.texto-personalizado {
+    background: #fff9f8;
+    padding: 12px;
+    border-radius: 12px;
+    font-style: italic;
+    font-size: 0.9rem;
+    border-left: 3px solid var(--mimo-main);
+    color: #555;
+}
+
+.tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.tag-mimo {
+    background: var(--mimo-light);
+    color: var(--mimo-main);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.pedido-meta strong {
+    display: block;
+    color: #444;
+}
+
+.pedido-meta span {
+    font-size: 0.8rem;
+    color: #999;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 50px !important;
+    color: #999;
+}
+
+/* Responsividade para Telemóveis */
+@media (max-width: 768px) {
+    .mimo-table thead { display: none; }
+    
+    .mimo-table td {
+        display: block;
+        text-align: right;
+        border-bottom: 1px solid #eee;
+        position: relative;
+        padding-left: 50%;
+    }
+
+    .mimo-table td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 20px;
+        font-weight: bold;
+        color: var(--mimo-main);
+        text-transform: uppercase;
+        font-size: 0.7rem;
+    }
+}
+/* Nome do Produto em Grande com Link */
+.produto-nome-link {
+    font-size: 1.2rem; /* Tamanho maior */
+    font-weight: 700;
+    color: var(--mimo-dark);
+    text-decoration: none;
+    transition: color 0.3s ease;
+    display: inline-block;
+    line-height: 1.2;
+}
+
+.produto-nome-link:hover {
+    color: var(--mimo-main); /* Muda para a cor rosa da marca no hover */
+    text-decoration: underline;
+}
+
+/* Ajuste da célula do produto para dar mais espaço */
+.produto-info {
+    padding: 5px 0;
+}
+
+/* Estilo para quando não há dados */
+.empty-container {
+    text-align: center;
+    padding: 60px;
+    background: white;
+    border-radius: 25px;
+    border: 1px dashed var(--mimo-main);
+}
+
+.btn-voltar {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 25px;
+    background-color: var(--mimo-main);
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: opacity 0.3s;
+}
+
+.btn-voltar:hover {
+    opacity: 0.9;
+}

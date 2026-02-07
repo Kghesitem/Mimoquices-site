@@ -1,7 +1,18 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ $produto->titulo }}- Mimoquices</title>    
+    <link rel="icon" type="image/png" style="border-radius: .5em;" href="{{ asset('frontend/assets/img/logo.png') }}">
+    <link rel="stylesheet" href="{{ asset('frontend/assets/css/carrosel.css') }}">
+</head>
+<body>
+
 @include('partial/header')
 
 <head>
-    <link rel="stylesheet" href="{{ asset('frontend/assets/css/carrosel.css') }}">
+    
 
     <style>
         /* ================= ACCORDION ================= */

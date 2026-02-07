@@ -1,7 +1,15 @@
+<!DOCTYPE html>
+<html lang="pt">
 <head>
-    <link rel="stylesheet" href="{{ asset('frontend/assets/css/style.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vereficação de e-mail- Mimoquices</title>    
+    <link rel="icon" type="image/png" style="border-radius: .5em;" href="{{ asset('frontend/assets/img/logo.png') }}">
 </head>
+<body>
 
+
+@include('partial/header')
 <main>
     <div class="auth-container">
         <div class="auth-header">
@@ -47,3 +55,4 @@
     </div>
 </main>
 
+@include('partial/footer')

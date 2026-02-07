@@ -61,7 +61,10 @@
 
             <ul class="dropdown-menu dropdown-menu-end">
                 <li>
-                    <a class="dropdown-item" href="{{ url('/dashboard') }}">Dashboard</a>
+                    <a class="dropdown-item" href="{{ url('/dashboard') }}">Painel de Controlo</a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="{{ url('/profile') }}">Perfil</a>
                 </li>
                 <li>
                     <form

@@ -131,7 +131,7 @@ public function personalizarProduto(Request $request, $url_completo)
     // 2️⃣ Criar o pedido
     $pedido = Pedido::create([
         'id_user' => auth()->id(),
-        'estado' => 'pendente',
+        'estado' => 'não visto',
     ]);
 
     // 3️⃣ Preparar campos possíveis

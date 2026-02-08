@@ -13,6 +13,11 @@ return [
     'confirmed' => 'A confirmação de :attribute não corresponde.',
     'unique' => 'O :attribute já está a ser utilizado',
 
+    "lowercase" => "O campo deve estar em minúsculas.",
+    "uppercase" => "O campo deve estar em maiúsculas.",
+
+    'current_password' => 'A palavra-passe actual está incorrecta.',
+
     'attributes' => [
         'name' => 'nome',
         'email' => 'email',

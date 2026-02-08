@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('id_user');
             $table->string('estado')->default('não visto');
-            $table->foreign('id_user', 'fk_users_pedido')->references('id')->on('users')->onDelete('restrict')->onUpdate('restrict');
+            $table->foreign('id_user', 'fk_users_pedido')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

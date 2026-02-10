@@ -36,9 +36,9 @@
                 $pedido = $itens->first()->pedido;
             @endphp
 
-            <div class="pedido-group mb-12">
+            <div class="pedido-group mb-3">
                 {{-- Cabeçalho do Grupo de Pedido --}}
-                <div class="pedido-info-header d-flex justify-content-between">
+                <div class="pedido-info-header d-flex justify-content-between mb-1">
                     <span class="pedido-data">Realizado em {{ $pedido->created_at->format('d/m/Y') }}</span>
 
                 @if($pedido->estado === 'não visto')

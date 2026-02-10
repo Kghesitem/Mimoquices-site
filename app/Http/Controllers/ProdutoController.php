@@ -164,7 +164,7 @@ public function personalizarProduto(Request $request, $url_completo)
     }
 
     if (in_array('cor_argolas', $opcoesDisponiveis)) {
-        $rules['cor_argolas'] = ['required', 'in:Prata,Ouro,Preto,Rose Gold,Cobre'];
+        $rules['cor_argolas'] = ['required', 'in:Prateado,Dourado,Preto,Cobre'];
     }
 
     if (in_array('tipo_de_chocolate', $opcoesDisponiveis)) {

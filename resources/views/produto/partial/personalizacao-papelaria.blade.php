@@ -74,6 +74,13 @@
 @if(in_array('paginas', $opcoesDisponiveis))
     <div class="form-group-personalizacao">
         <label><strong>📄 Páginas no Final de Cada Mês</strong></label>
+
+        <a href="{{ asset('frontend/assets/pdf/interiores-personalizados-2026.pdf') }}"
+               target="_blank"
+               class="btn btn-outline-secondary btn-sm px-3 mb-3">
+                Abrir PDF
+            </a>
+
         <div class="checkbox-group">
             <label class="checkbox-label">
                 <input
@@ -143,10 +150,9 @@
         <div class="cores-grid">
             @php
                 $cores = [
-                    ['valor' => 'Prata', 'emoji' => '🤍', 'cor' => '#c0c0c0'],
-                    ['valor' => 'Ouro', 'emoji' => '💛', 'cor' => '#ffd700'],
+                    ['valor' => 'Prateado', 'emoji' => '🤍', 'cor' => '#c0c0c0'],
+                    ['valor' => 'Dourado', 'emoji' => '💛', 'cor' => '#ffd700'],
                     ['valor' => 'Preto', 'emoji' => '🖤', 'cor' => '#000000'],
-                    ['valor' => 'Rose Gold', 'emoji' => '🌹', 'cor' => '#b76e79'],
                     ['valor' => 'Cobre', 'emoji' => '🧡', 'cor' => '#b87333'],
                 ];
             @endphp

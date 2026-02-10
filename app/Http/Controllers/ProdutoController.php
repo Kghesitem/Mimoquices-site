@@ -152,7 +152,7 @@ public function personalizarProduto(Request $request, $url_completo)
     }
 
     if (in_array('formato_agenda', $opcoesDisponiveis)) {
-        $rules['formato_agenda'] = ['required', 'in:Com horas,Sem horas'];
+        $rules['formato_agenda'] = ['required', 'in:Com horas,Com linhas sem horas,Sem horas,Semanal dividida,Semanal em caixa,Semanal com horas,Unissexo'];
     }
 
     if (in_array('acessorio', $opcoesDisponiveis)) {
@@ -168,7 +168,7 @@ public function personalizarProduto(Request $request, $url_completo)
     }
 
     if (in_array('tipo_de_chocolate', $opcoesDisponiveis)) {
-        $rules['tipo_de_chocolate'] = ['required', 'in:Chocolate negro,Chocolate branco,Chocolate com leite'];
+        $rules['tipo_de_chocolate'] = ['required', 'in:Chocolate negro,Chocolate branco,Chocolate de leite'];
     }
 
     if (in_array('nome_embalagem', $opcoesDisponiveis)) {

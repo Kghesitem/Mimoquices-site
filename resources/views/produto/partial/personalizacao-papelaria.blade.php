@@ -23,36 +23,52 @@
 {{-- Formato da Agenda --}}
 @if(in_array('formato', $opcoesDisponiveis))
     <div class="form-group-personalizacao">
-        <label><strong>📅 Formato da Agenda</strong></label>
-        <a href="{{ asset('frontend/assets/pdf/modelos-agendas-26.pdf') }}"
-            target="_blank"
-            class="btn btn-sm btn-outline-secondary">
-            Abrir PDF
-        </a>
-        <div class="radio-group mt-3">
-            <label class="radio-label">
-                <input
-                    type="radio"
-                    name="formato_agenda"
-                    value="Com horas"
-                    {{ old('formato_agenda') == 'Com horas' ? 'checked' : '' }}
-                    required
-                />
-                Com horas
-            </label>
-            <label class="radio-label">
-                <input
-                    type="radio"
-                    name="formato_agenda"
-                    value="Sem horas"
-                    {{ old('formato_agenda') == 'Sem horas' ? 'checked' : '' }}
-                    required
-                />
-                Sem horas
-            </label>
+        <label for="formato_agenda">
+            <strong>📅 Formato da Agenda</strong>
+        </label>
+
+        <div class="d-flex align-items-center gap-2 mt-2">
+            <select
+                id="formato_agenda"
+                name="formato_agenda"
+                class="form-select-personalizacao"
+                required
+            >
+                <option value="">Selecione uma opção...</option>
+
+                <option value="Com horas" {{ old('formato_agenda') == 'Com horas' ? 'selected' : '' }}>
+                    Com horas
+                </option>
+                <option value="Com linhas sem horas" {{ old('formato_agenda') == 'Com linhas sem horas' ? 'selected' : '' }}>
+                    Com linhas sem horas
+                </option>
+                <option value="Sem horas" {{ old('formato_agenda') == 'Sem horas' ? 'selected' : '' }}>
+                    Sem horas
+                </option>
+                <option value="Semanal dividida" {{ old('formato_agenda') == 'Semanal dividida' ? 'selected' : '' }}>
+                    Semanal dividida
+                </option>
+                <option value="Semanal em caixa" {{ old('formato_agenda') == 'Semanal em caixa' ? 'selected' : '' }}>
+                    Semanal "em caixa"
+                </option>
+                <option value="Semanal com horas" {{ old('formato_agenda') == 'Semanal com horas' ? 'selected' : '' }}>
+                    Semanal com horas
+                </option>
+                <option value="Unissexo" {{ old('formato_agenda') == 'Unissexo' ? 'selected' : '' }}>
+                    Unissexo
+                </option>
+            </select>
+
+            <a href="{{ asset('frontend/assets/pdf/modelos-agendas-26.pdf') }}"
+               target="_blank"
+               class="btn btn-outline-secondary btn-sm px-3">
+                Abrir PDF
+            </a>
         </div>
     </div>
 @endif
+
+
 
 {{-- Páginas Especiais --}}
 @if(in_array('paginas', $opcoesDisponiveis))
@@ -63,28 +79,28 @@
                 <input
                     type="checkbox"
                     name="paginas_especiais[]"
-                    value="Anotacoes"
-                    {{ in_array('Anotacoes', old('paginas_especiais', [])) ? 'checked' : '' }}
+                    value="Prestação de Serviços"
+                    {{ in_array('Prestação de Serviços', old('paginas_especiais', [])) ? 'checked' : '' }}
                 />
-                📌 Anotações
+                Prestação de Serviços
             </label>
             <label class="checkbox-label">
                 <input
                     type="checkbox"
                     name="paginas_especiais[]"
-                    value="Objetivos"
-                    {{ in_array('Objetivos', old('paginas_especiais', [])) ? 'checked' : '' }}
+                    value="As Minhas Notas"
+                    {{ in_array('As Minhas Notas', old('paginas_especiais', [])) ? 'checked' : '' }}
                 />
-                🎯 Objetivos
+                As Minhas Notas
             </label>
             <label class="checkbox-label">
                 <input
                     type="checkbox"
                     name="paginas_especiais[]"
-                    value="Habitos"
-                    {{ in_array('Habitos', old('paginas_especiais', [])) ? 'checked' : '' }}
+                    value="Assuntos a tratar"
+                    {{ in_array('Assuntos a tratar', old('paginas_especiais', [])) ? 'checked' : '' }}
                 />
-                ⭐ Hábitos
+                Assuntos a Tratar
             </label>
             <label class="checkbox-label">
                 <input
@@ -93,7 +109,7 @@
                     value="Financeiro"
                     {{ in_array('Financeiro', old('paginas_especiais', [])) ? 'checked' : '' }}
                 />
-                💰 Financeiro
+                Controlo Financeiro
             </label>
         </div>
     </div>

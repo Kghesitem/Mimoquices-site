@@ -50,9 +50,6 @@
                 autofocus
                 autocomplete="email"
             />
-            @error('email')
-            <span class="field-error">Email inválido ou não registado</span>
-            @enderror
         </div>
 
         <!-- Palavra-passe -->
@@ -67,9 +64,6 @@
                 required
                 autocomplete="current-password"
             />
-            @error('password')
-            <span class="field-error">Palavra-passe incorreta</span>
-            @enderror
         </div>
 
         <!-- Ações -->

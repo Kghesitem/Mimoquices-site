@@ -17,6 +17,7 @@ return [
     "uppercase" => "O campo deve estar em maiúsculas.",
 
     'current_password' => 'A palavra-passe actual está incorrecta.',
+    'in' => 'O campo :attribute selecionado é inválido.',
 
     'attributes' => [
         'name' => 'nome',

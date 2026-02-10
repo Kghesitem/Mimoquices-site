@@ -56,10 +56,10 @@
                             @foreach ($personalizacoes as $personalizacao)
                                 <tr>
                                     <td style="padding:10px; border:1px solid #e5e5e5; background-color:#fafafa; font-weight:600; width:45%;">
-                                        {{ $personalizacao->personalizacao_pedida }}
+                                        {{ str_replace('_', ' ', $personalizacao->personalizacao_pedida) }}
                                     </td>
                                     <td style="padding:10px; border:1px solid #e5e5e5;">
-                                        {{ $personalizacao->opcoes_selecionadas }}
+                                        {{ str_replace('_', ' ', $personalizacao->opcoes_selecionadas) }}
                                     </td>
                                 </tr>
                             @endforeach

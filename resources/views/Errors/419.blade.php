@@ -1,14 +1,8 @@
-<!DOCTYPE html>
-<html lang="pt">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sessão Expirada - Mimoquices</title>
-    <link rel="icon" type="image/png" style="border-radius: .5em;" href="{{ asset('frontend/assets/img/logo.png') }}">
-</head>
-<body>
-
 @include('partial/header')
+
+<head>
+    <title>Sessão Expirada - Mimoquices</title>
+</head>
 
 <main>
 <div class="auth-container">

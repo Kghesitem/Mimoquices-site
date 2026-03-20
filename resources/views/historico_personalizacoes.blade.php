@@ -1,16 +1,9 @@
-<!DOCTYPE html>
-<html lang="pt">
+@include('partial.header')
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Histórico - Mimoquices</title>
-    <link rel="icon" type="image/png" style="border-radius: .5em;" href="{{ asset('frontend/assets/img/logo.png') }}">
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/historico.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body class="bg-mimo-bg">
-
-@include('partial.header')
 
 <main class="historico-container">
     <div class="content-wrapper">
@@ -39,10 +32,13 @@
             <div class="pedido-group mb-3">
                 {{-- Cabeçalho do Grupo de Pedido --}}
                 <div class="pedido-info-header d-flex justify-content-between mb-1">
-                    <span class="pedido-data">Realizado em {{ $pedido->created_at->format('d/m/Y') }}</span>
+                    <span>Realizado em {{ $pedido->created_at->format('d/m/Y') }}</span>
+
+                    <span>{{ $pedido->estado }}</span>
+                </div>
 
                 @if($pedido->estado === 'não visto')
-                    <form action="{{ route('pedido.destroy', $pedido->id) }}" method="POST" style="display:inline-block; margin-left: 15px;">
+                    <form action="{{ route('pedido.destroy', $pedido->id) }}" method="POST" style="display:flex; margin-left: 15px; justify-content: center; margin-bottom: 15px;">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Tem a certeza que deseja apagar este pedido?');">
@@ -50,7 +46,6 @@
                         </button>
                     </form>
                 @endif
-                </div>
 
                 <div class="table-container">
                     <table class="mimo-table">
@@ -62,39 +57,59 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($itens as $item)
-                                <tr>
-                                    <td data-label="Produto">
-                                        <div class="produto-info">
-                                            <a href="{{ route('produto.show', $item->produto->url_completo) }}" class="produto-nome-link">
-                                                {{ $item->produto?->titulo ?? 'Produto indisponível' }}
-                                            </a>
-                                        </div>
-                                    </td>
-                                    
-                                    <td data-label="Personalização">
-                                        <div class="texto-personalizado">
-                                            {{ str_replace('_', ' ', $item->personalizacao_pedida) }}
-                                        </div>
-                                    </td>
+    @php
+        // Agrupa os itens por personalizacao_pedida
+        $itensAgrupados = $itens->groupBy('personalizacao_pedida');
+    @endphp
 
+    @foreach($itensAgrupados as $personalizacao_id => $grupoItens)
+        <tr>
+            {{-- Produto: podemos mostrar o primeiro item --}}
+            <td data-label="Produto">
+                <div class="produto-info">
+                    <a href="{{ route('produto.show', $grupoItens->first()->produto->url_completo) }}" class="produto-nome-link">
+                        {{ $grupoItens->first()->produto?->titulo ?? 'Produto indisponível' }}
+                    </a>
+                </div>
+            </td>
 
-                                    <td data-label="Opções">
-                                        <div class="tags-container">
-                                            @php 
-                                                $opcoes = is_array($item->opcoes_selecionadas) ? $item->opcoes_selecionadas : explode(',', $item->opcoes_selecionadas);
-                                            @endphp
-                                            
-                                            @foreach($opcoes as $opcao)
-                                                @if(trim($opcao) != "")
-                                                    <span class="tag-mimo">{{ trim($opcao) }}</span>
-                                                @endif
-                                            @endforeach
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
+            {{-- Personalização --}}
+            <td data-label="Personalização">
+                <div class="texto-personalizado">
+                    @php
+                        $personalizacao = $pesonalizacoes->firstWhere('id', $personalizacao_id);
+                    @endphp
+                    {{ $personalizacao ? $personalizacao->titulo : str_replace('_', ' ', $personalizacao_id) }}
+                </div>
+            </td>
+
+            {{-- Opções Selecionadas combinadas --}}
+            <td data-label="Opções">
+                <div class="tags-container">
+                    @php
+                        $todosOpcoes = [];
+                        foreach($grupoItens as $item) {
+                            $opcoes = is_array($item->opcoes_selecionadas) 
+                                        ? $item->opcoes_selecionadas 
+                                        : explode(',', $item->opcoes_selecionadas);
+                            $todosOpcoes = array_merge($todosOpcoes, $opcoes);
+                        }
+                        $todosOpcoes = array_filter($todosOpcoes, fn($o) => trim($o) !== '');
+                        $todosOpcoes = array_unique($todosOpcoes);
+                    @endphp
+
+                    @foreach($todosOpcoes as $opcao_id)
+                        @php
+                            $resposta = $selecionadas->firstWhere('id', trim($opcao_id));
+                            $texto = $resposta ? $resposta->resposta : $opcao_id;
+                        @endphp
+                        <span class="tag-mimo">{{ $texto }}</span>
+                    @endforeach
+                </div>
+            </td>
+        </tr>
+    @endforeach
+</tbody>
                     </table>
                 </div>
             </div>

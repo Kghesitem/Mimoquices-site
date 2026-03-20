@@ -1,4 +1,7 @@
 @include('partial/header')
+<head>
+    <title>Produtos - Mimoquices</title>
+</head>
 
 <div class="banner">
         <img class="banner" src="frontend/assets/img/BannerPapelaria.png" alt="">
@@ -28,6 +31,11 @@
 <div class="bg-white d-flex flex-column justify-content-center align-items-center py-5">
     <div class="container">
         <h1 class="mb-4">Produtos</h1>
+        @if($produtos->isEmpty())
+                <div class="text-center py-5" style="color: var(--color-muted); font-style: italic; width: 100%;">
+                    Nenhum produto encontrado.
+                </div>
+            @else
 
         <!-- LISTA DE PRODUTOS -->
         <div class="limite">
@@ -54,6 +62,7 @@
                     </div>
                 </a>
             @endforeach
+            @endif
         </div>
 
         <p id="semProdutos" class="text-center fw-bold mt-4" style="display:none;">

@@ -6,10 +6,14 @@ use App\Models\Produto;
 use App\Models\Tipo;
 use App\Models\Fotos;
 use App\Models\Personalizacao;
+use App\Models\todas_as_personalizacoes;
+use App\Models\associadas;
+Use App\Models\todas_as_respostas;
 use App\Models\Pedido;
 use App\Mail\PersonalizarMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class ProdutoController extends Controller
 {
@@ -27,11 +31,13 @@ class ProdutoController extends Controller
     public function welcome()
     {
         $produtos = Produto::orderBy('created_at', 'desc')->where('disponivel', 1)->take(8)->get();
+        $favoritos = Produto::where('disponivel',1)->where('favorito',1)->get();
         $tipos = Tipo::all();
 
         return view('welcome', [
             'produtos' => $produtos,
             'tipos' => $tipos,
+            'favoritos' => $favoritos
         ]);
     }
 
@@ -39,29 +45,44 @@ class ProdutoController extends Controller
     {
         $produto = Produto::where('url_completo', $url_completo)->where('disponivel', 1)->firstOrFail();
         $tipo    = Tipo::find($produto->tipo_prod);
+        $associadas = associadas::where('id_tipo', $tipo->id)->get();
+        if($produto->personalizar_opcoes == null)
+        {
+            $todas_personalizações = null;
+            $todas_respostas = null;
+        }
+        else
+        {
+            $todas_personalizações = todas_as_personalizacoes::wherein('id', json_decode($produto->personalizar_opcoes))->get();
+            $todas_respostas = todas_as_respostas::whereIn('id_personalizacao',$todas_personalizações->pluck('id'))->get();
+        }
+        
+        
         $fotos = Fotos::where('group_img', $produto->id)
         ->select('img_original', 'img_cod')
         ->get();
 
-
-        return view('produto.show', compact('produto', 'tipo', 'fotos'));
-
+        return view('produto.show', compact('produto', 'tipo', 'associadas','todas_personalizações', 'todas_respostas', 'fotos'));
     }
 
     public function create()
     {
+       
         $tipos = Tipo::all();
+        $todas_personalizações = todas_as_personalizacoes::with('tipos')->get();;
 
         return view('produto.criar', [
-            'tipos' => $tipos
+            'tipos' => $tipos,
+            'todas_personalizações' => $todas_personalizações
         ]);
+        
     }
     
     public function store(Request $request)
     {
         $produtos = Produto::all();
         // Para testes
-        // dd($request);
+        //  dd($request);
 
         $uploaded = $request->file('nome_original') ?: [];
 
@@ -92,7 +113,7 @@ class ProdutoController extends Controller
 
         
             $data['pode_personalizar'] = $request->input('pode_personalizar') ?? 'Não';
-    $data['personalizar_opcoes'] = $request->input('personalizar_opcoes') 
+        $data['personalizar_opcoes'] = $request->input('personalizar_opcoes') 
         ? json_encode($request->input('personalizar_opcoes')) 
         : null;
 
@@ -122,93 +143,189 @@ class ProdutoController extends Controller
         return redirect()->route('produto.index');
     }
 
-public function personalizarProduto(Request $request, $url_completo)
-{
-    // 1️⃣ Obter o produto
-    $produto = Produto::where('url_completo', $url_completo)->firstOrFail();
-    $opcoesDisponiveis = json_decode($produto->personalizar_opcoes ?? '[]', true);
-
-    // 2️⃣ Criar o pedido
-    $pedido = Pedido::create([
-        'id_user' => auth()->id(),
-        'estado' => 'não visto',
-    ]);
-
-    // 3️⃣ Preparar campos possíveis
-    $campos = [
-        'texto_capa',
-        'formato_agenda',
-        'acessorio',
-        'paginas_especiais',
-        'cor_argolas',
-        'tipo_de_chocolate',
-        'nome_embalagem'
-    ];
-
-    $rules = [];
-
-    if (in_array('texto_capa', $opcoesDisponiveis)) {
-        $rules['texto_capa'] = ['required', 'string', 'max:30'];
-    }
-
-    if (in_array('formato_agenda', $opcoesDisponiveis)) {
-        $rules['formato_agenda'] = ['required', 'in:Com horas,Com linhas sem horas,Sem horas,Semanal dividida,Semanal em caixa,Semanal com horas,Unissexo'];
-    }
-
-    if (in_array('acessorio', $opcoesDisponiveis)) {
-        $rules['acessorio'] = ['required', 'in:Metálico,Acrílico'];
-    }
-
-    if (in_array('paginas_especiais', $opcoesDisponiveis)) {
-        $rules['paginas_especiais'] = ['array'];
-    }
-
-    if (in_array('cor_argolas', $opcoesDisponiveis)) {
-        $rules['cor_argolas'] = ['required', 'in:Prateado,Dourado,Preto,Cobre'];
-    }
-
-    if (in_array('tipo_de_chocolate', $opcoesDisponiveis)) {
-        $rules['tipo_de_chocolate'] = ['required', 'in:Chocolate negro,Chocolate branco,Chocolate de leite'];
-    }
-
-    if (in_array('nome_embalagem', $opcoesDisponiveis)) {
-        $rules['nome_embalagem'] = ['required', 'string', 'max:30'];
-    }
-
-    $request->validate($rules);
-
-    // 5️⃣ Criar personalizações
-    $personalizacoes = [];
-
-    foreach ($campos as $campo) {
-        if (!$request->filled($campo)) continue;
-
-        $valor = $request->input($campo);
-        if (is_array($valor)) {
-            $valor = implode(', ', $valor);
-        }
-
-        $personalizacao = Personalizacao::create([
-            'personalizacao_pedida' => $campo,
-            'opcoes_selecionadas' => $valor,
-            'id_produto' => $produto->id,
-            'id_pedido' => $pedido->id,
+    public function personalizarProduto(Request $request, $url_completo)
+    {
+        // 1️⃣ Validar o request
+        $data = $request->validate([
+            'personalizacoes_opcoes' => ['required', 'array'],
+            'personalizacoes_opcoes.*' => ['nullable'],
         ]);
 
-        $personalizacoes[] = $personalizacao;
+        // 2️⃣ Obter o produto
+        $produto = Produto::where('url_completo', $url_completo)->firstOrFail();
+
+        // 3️⃣ Criar pedido
+        $pedido = Pedido::create([
+            'id_user' => auth()->id(),
+            'estado' => 'não visto',
+        ]);
+
+        // 4️⃣ Array para o email
+        $personalizacoesArray = [];
+
+        // 5️⃣ Criar UM ou VÁRIOS registos por personalização
+        foreach ($data['personalizacoes_opcoes'] as $idPersonalizacao => $opcaoSelecionada) {
+
+            // ❗ Se não foi escolhida nenhuma opção
+            if (empty($opcaoSelecionada)) {
+                return redirect()
+                    ->back()
+                    ->withInput()
+                    ->withErrors([
+                        'personalizacoes_opcoes.' . $idPersonalizacao =>
+                            'Tem de escolher uma opção para esta personalização.'
+                    ]);
+            }
+
+            // Caso seja múltipla escolha (array)
+            if (is_array($opcaoSelecionada)) {
+
+                foreach ($opcaoSelecionada as $opcao) {
+
+                    if (empty($opcao)) {
+                        continue; // segurança extra
+                    }
+
+                    Personalizacao::create([
+                        'id_pedido' => $pedido->id,
+                        'id_produto' => $produto->id,
+                        'personalizacao_pedida' => $idPersonalizacao,
+                        'opcoes_selecionadas' => $opcao,
+                    ]);
+
+                    $personalizacoesArray[] = [
+                        'personalizacao_pedida' => $idPersonalizacao,
+                        'opcoes_selecionadas' => $opcao,
+                    ];
+                }
+
+            }
+            // Caso seja apenas uma opção
+            else {
+
+                Personalizacao::create([
+                    'id_pedido' => $pedido->id,
+                    'id_produto' => $produto->id,
+                    'personalizacao_pedida' => $idPersonalizacao,
+                    'opcoes_selecionadas' => $opcaoSelecionada,
+                ]);
+
+                $personalizacoesArray[] = [
+                    'personalizacao_pedida' => $idPersonalizacao,
+                    'opcoes_selecionadas' => $opcaoSelecionada,
+                ];
+            }
+        }
+
+        // 6️⃣ Enviar email
+        Mail::to(auth()->user()->email)->queue(
+            new PersonalizarMail($produto, $personalizacoesArray)
+        );
+
+        // 7️⃣ Redirect final
+        return redirect()
+            ->route('produto.show', $url_completo)
+            ->with('success', 'Produto personalizado com sucesso!');
     }
 
-    // 6️⃣ Enviar email em background (queue)
-    Mail::to(auth()->user()->email)->queue(
-        new PersonalizarMail($produto, $personalizacoes)
-    );
+    public function visivel(Request $request, $id)
+    {
+        $request->validate([
+            'disponivel' => 'required|in:0,1',
+        ]);
 
-    // 7️⃣ Redirecionar de volta
-    return redirect()
-        ->route('produto.show', $url_completo)
-        ->with('success', 'Produto personalizado com sucesso!');
-}
+        $produto = Produto::findOrFail($id);
+        $produto->disponivel = $request->disponivel;
+        $produto->save();
 
+        return response()->json(['success' => true]);
+    }
+
+    public function favorito(Request $request, $id)
+    {
+        $request->validate([
+            'favorito' => 'required|in:0,1',
+        ]);
+
+        $produto = Produto::findOrFail($id);
+        $produto->favorito = $request->favorito;
+        $produto->save();
+
+        return response()->json(['success' => true]);
+    }
+
+    public function update(Produto $produto, Request $request)
+    {
+        $data = $request->validate([
+            'titulo'              => ['required'],
+            'descricao'           => ['required'],
+            'conteudo'            => ['nullable'],
+            'detalhes'            => ['nullable'],
+            'tipo_prod'           => ['required'],
+            'pode_personalizar'   => ['nullable'],
+            'personalizar_opcoes' => ['nullable', 'array'],
+            // Validação das novas imagens
+            'nome_original'       => ['nullable', 'array'],
+            'nome_original.*'     => ['image', 'mimes:jpeg,png,jpg,gif', 'max:5120'],
+            // Lista de caminhos para remover (enviados pelo JS)
+            'fotos_remover'       => ['nullable', 'array'],
+        ]);
+
+        // 1. Lógica para Personalização (Converter array para JSON se necessário)
+        if (isset($data['personalizar_opcoes'])) {
+            $data['personalizar_opcoes'] = json_encode($data['personalizar_opcoes']);
+        }
+
+        // 2. Atualizar os dados básicos do produto
+        $produto->update($data);
+
+        // 3. Remover as fotos que o utilizador apagou no front-end
+        if ($request->has('fotos_remover')) {
+            foreach ($request->fotos_remover as $path) {
+                // Apaga o ficheiro físico da pasta storage/app/public/
+                Storage::disk('public')->delete($path);
+                
+                // Apaga o registo na sua tabela de Fotos (ajuste o nome da relação se for diferente)
+                $produto->fotos()->where('img_cod', $path)->delete();
+            }
+        }
+
+        // 4. Guardar as NOVAS fotos
+        if ($request->hasFile('nome_original')) {
+            foreach ($request->file('nome_original') as $file) {
+                $nomeOriginal = $file->getClientOriginalName();
+                // Guarda na pasta 'produtos' dentro do disk 'public'
+                $caminho = $file->store('produtos', 'public');
+
+                // Criar registo na tabela de fotos relacionada
+                $produto->fotos()->create([
+                    'img_original' => $nomeOriginal,
+                    'img_cod'      => $caminho,
+                ]);
+            }
+        }
+
+        return redirect()->route('dashboard')->with('success', 'Produto atualizado com sucesso!');
+    }
+
+    public function edit(Produto $produto)
+    {
+        $tipos = Tipo::all();
+        $todas_personalizações = todas_as_personalizacoes::with('tipos')->get();
+        $fotos = Fotos::where('group_img', $produto->id)
+        ->select('img_original', 'img_cod')
+        ->get();
+
+        return view('produto.edit', ['produto' => $produto],compact('tipos', 'todas_personalizações','fotos'));
+    }
+
+    public function destroy($id)
+    {
+        $produto = Produto::findOrFail($id);
+        $produto->delete();
+
+        return redirect()->route('dashboard')->with('success', 'Produto eliminado com sucesso!');
+    }
 
 }
 ?>

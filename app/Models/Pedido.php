@@ -12,5 +12,17 @@ class Pedido extends Model
         'id_user',      
         'estado',
     ];
+    
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_user');
+    }
+
+    public function personalizacoes()
+    {
+        return $this->hasMany(Personalizacao::class, 'id_pedido');
+    }
+
 }
+
 

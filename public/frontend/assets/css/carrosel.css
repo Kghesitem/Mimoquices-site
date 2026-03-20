@@ -29,7 +29,7 @@ div.Produto{
     content: '→';
     border: none;
     background-color: var(--main_color);
-    font-family: Consolas;
+    font-family: "Poppins", Georgia, "Times New Roman", serif;
     font-size: 3rem;
     color: white;
     height: 60px;

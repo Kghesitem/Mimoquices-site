@@ -1,16 +1,9 @@
-<!DOCTYPE html>
-<html lang="pt">
+@include('partial/header')
 <head>
-    <meta charset="UTF-8">
-    <title>Perfil do Utilizador - Mimoquices</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('frontend/assets/css/style.css') }}">
+    <title>Perfil de Utilizador - Mimoquices</title>
 </head>
 <body class="bg-light">
-
-@include('partial/header')
-
+    
 <main class="profile-page py-5">
     <div class="container">
         <div class="profile-card">

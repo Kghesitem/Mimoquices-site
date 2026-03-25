@@ -32,5 +32,9 @@ return [
         'numbers' => 'A palavra-passe deve conter pelo menos um número.',
         'symbols' => 'A palavra-passe deve conter pelo menos um carácter especial.',
     ],
+    'file' => 'O/A :attribute tem de ser um ficheiro.',
+    'mimes' => 'O/A :attribute deve ser um ficheiro do tipo: :values.',
+    'string' => 'O/A :attribute tem de ser um texto.',
 
+    'image' => 'O/A :attribute deve conter uma imagem válida.'
 ];

@@ -17,29 +17,38 @@
                         <a class="social-links" href="https://www.instagram.com/mimoquices.mv/" target="_blank"><img src="{{ asset('frontend/assets/img/instagram.png')}}" alt=""></a>
                         <a class="social-links" href="https://www.facebook.com/mimoquicesmv/" target="_blank"><img src="{{ asset('frontend/assets/img/facebook.png')}}" alt=""></a>
                         <a class="social-links" href="javascript:void(0)" onclick="copiarEmail()">
-                            <img src="{{ asset('frontend/assets/img/email.png') }}" alt="Email">
-                        </a>
-                        <div id="toast-email" class="toast-email">
-                            Email copiado com sucesso
-                        </div>
-        
+                    <img src="{{ asset('frontend/assets/img/email.png') }}" alt="Email">
+                    </a>
+
+                    <!-- Toast customizado -->
+                    <div id="toast-email" class="toast-email">
+                        Email copiado com sucesso
+                    </div>
+            
                     </div>
                 </div>
             </div>
         </div>
 </footer>
+
 <script>
 function copiarEmail() {
-    const email = 'info@mimoquices.pt';
+    let email = "info@Mimoquices.com";
 
     navigator.clipboard.writeText(email).then(() => {
-        const toast = document.getElementById('toast-email');
-        toast.classList.add('active');
+
+        let toast = document.getElementById('toast-email');
+        toast.classList.add('show');
+
 
         setTimeout(() => {
-            toast.classList.remove('active');
-        }, 1000);
+            toast.classList.remove('show');
+        }, 3000);
+    }).catch(err => {
+        console.error('Erro ao copiar email: ', err);
     });
 }
 </script>
+
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

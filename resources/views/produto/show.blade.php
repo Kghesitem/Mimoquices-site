@@ -1,332 +1,11 @@
-<!DOCTYPE html>
-<html lang="pt">
+@include('partial/header')
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $produto->titulo }}- Mimoquices</title>    
-    <link rel="icon" type="image/png" style="border-radius: .5em;" href="{{ asset('frontend/assets/img/logo.png') }}">
+    <title>{{ $produto->titulo }}- Mimoquices</title>
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/carrosel.css') }}">
 </head>
-<body>
-
-@include('partial/header')
-
-<head>
-    
-
-    <style>
-        /* ================= ACCORDION ================= */
-        .accordion {
-            border-bottom: 1px solid #ccc;
-            padding: 10px 0;
-        }
-
-        .accordion summary {
-            cursor: pointer;
-            font-weight: 600;
-            list-style: none;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .accordion summary::-webkit-details-marker {
-            display: none;
-        }
-
-        .accordion-content {
-            margin-top: 10px;
-            color: #555;
-        }
-
-        /* ================= FORMULÁRIO DE PERSONALIZAÇÃO (ÚNICO) ================= */
-        .formulario-personalizacao {
-            background-color: #f9f9f9;
-            padding: 1.5rem;
-            border-radius: 0.75rem;
-            border: 1px solid rgba(200, 146, 134, 0.3);
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .form-group-personalizacao {
-            margin-bottom: 0;
-        }
-
-        .form-group-personalizacao label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: #0f1016;
-            font-weight: 500;
-        }
-
-        .form-control-personalizacao,
-        .form-select-personalizacao {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid rgba(200, 146, 134, 0.5);
-            border-radius: 0.5rem;
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
-            font-family: inherit;
-        }
-
-        .form-control-personalizacao:focus,
-        .form-select-personalizacao:focus {
-            outline: none;
-            border-color: #c89286;
-            box-shadow: 0 0 0 3px rgba(200, 146, 134, 0.1);
-        }
-
-        .texto-contador {
-            display: block;
-            margin-top: 0.35rem;
-            color: #999;
-            font-size: 0.85rem;
-        }
-
-        /* Radio / Checkbox */
-        .radio-group,
-        .checkbox-group {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-        }
-
-        .radio-label,
-        .checkbox-label {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            cursor: pointer;
-            font-weight: 400;
-            margin: 0;
-        }
-
-        .radio-label input[type="radio"],
-        .checkbox-label input[type="checkbox"] {
-            cursor: pointer;
-            accent-color: #c89286;
-            width: 18px;
-            height: 18px;
-        }
-
-        /* Seletor de Cores */
-        .cores-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
-            gap: 1rem;
-        }
-
-        .cor-opcao {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.5rem;
-            cursor: pointer;
-        }
-
-        .cor-opcao input[type="radio"] {
-            display: none;
-        }
-
-        .cor-botao {
-            width: 60px;
-            height: 60px;
-            border-radius: 0.5rem;
-            border: 3px solid #ddd;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .cor-opcao input[type="radio"]:checked + .cor-botao {
-            border-color: #c89286;
-            box-shadow: 0 0 0 3px rgba(200, 146, 134, 0.2);
-            transform: scale(1.05);
-        }
-
-        .cor-emoji {
-            font-size: 1.75rem;
-        }
-
-        .cor-nome {
-            font-size: 0.8rem;
-            color: #666;
-            text-align: center;
-            font-weight: 500;
-        }
-
-        /* Botões */
-        .btn-personalizar {
-            width: 100%;
-            padding: 0.85rem;
-            margin-top: 0.5rem;
-            background-color: #c89286;
-            color: white;
-            border: none;
-            border-radius: 0.5rem;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn-desativo {
-            width: 100%;
-            padding: 0.85rem;
-            margin-top: 0.5rem;
-            background-color: #4d4c4c63;
-            color: white;
-            border: none;
-            border-radius: 0.5rem;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: auto;
-        }
-
-        .btn-personalizar:hover {
-            background-color: #b87772;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(200, 146, 134, 0.3);
-        }
-
-        .btn-personalizar:active {
-            transform: translateY(0);
-        }
-
-        /* Alertas */
-        .alert-erros-personalizacao {
-            background-color: #f8d7da;
-            border: 1px solid #f5c6cb;
-            color: #721c24;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            margin-top: 1rem;
-        }
-
-        .alert-erros-personalizacao strong {
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-
-        .alert-erros-personalizacao ul {
-            margin: 0;
-            padding-left: 1.25rem;
-        }
-
-        .alert-erros-personalizacao li {
-            margin-bottom: 0.25rem;
-        }
-
-        .alert-sucesso-personalizacao {
-            background-color: #d4edda;
-            border: 1px solid #c3e6cb;
-            color: #155724;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            margin-top: 1rem;
-            font-weight: 500;
-        }
-
-        .sem-personalizacao {
-            background-color: #e2e3e5;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            text-align: center;
-            color: #383d41;
-            font-weight: 500;
-        }
-
-        /* ================= IMAGEM PRINCIPAL ================= */
-        .imagem-principal-container {
-            width: 500px;
-            height: 500px;
-            border-radius: 1.5rem;
-            margin: 0 auto;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .imagem-principal-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        /* ================= LAYOUT PRINCIPAL ================= */
-        .troca-colum {
-            display: flex;
-            flex-direction: row;
-            gap: 2rem;
-            justify-content: center;
-            align-items: flex-start;
-        }
-
-        .troca-colum > div {
-            flex: 0 0 500px;
-        }
-
-        /* ================= RESPONSIVO ================= */
-        @media (max-width: 1050px) {
-            .troca-colum {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .troca-colum > div {
-                flex: 0 0 auto;
-                width: 100%;
-            }
-
-            .imagem-principal-container {
-                width: clamp(280px, 90vw, 500px);
-                height: clamp(280px, 90vw, 500px);
-            }
-
-            .cores-grid {
-                grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
-                gap: 0.75rem;
-            }
-
-            .cor-botao {
-                width: 50px;
-                height: 50px;
-            }
-
-            .formulario-personalizacao {
-                padding: 1rem;
-            }
-        }
-
-        /* layout “lado a lado” do formulário em ecrãs grandes */
-        @media (min-width: 1050px) {
-            .formulario-personalizacao {
-                flex-wrap: wrap;
-                flex-direction: row;
-                align-items: flex-start;
-            }
-
-            .formulario-personalizacao .form-group-personalizacao {
-                flex: 1 1 220px;
-                min-width: 220px;
-                max-width: 300px;
-            }
-
-            .formulario-personalizacao .btn-personalizar,
-            .formulario-personalizacao .btn-desativo,
-            .formulario-personalizacao .alert-erros-personalizacao {
-                flex: 0 0 100%;
-            }
-        }
-    </style>
-</head>
+@php
+    $user = Auth::user();
+@endphp
 
 <body>
 
@@ -341,7 +20,7 @@
         <div class="troca-colum">
 
             <!-- IMAGEM -->
-            <div>
+            <div class="d-flex flex-column align-items-center">
                 <div class="imagem-principal-container">
                     <img id="imagem-principal"
                          src="{{ asset("storage/{$produto->nome_cod}") }}"
@@ -427,21 +106,67 @@
                                   id="meuFormulario">
                                 @csrf
 
-                                @includeWhen(
-                                    optional($tipo) && trim(strtolower(optional($tipo)->Categoria)) === 'papelaria',
-                                    'produto.partial.personalizacao-papelaria', 
-                                    ['opcoesDisponiveis' => $opcoesDisponiveis])
-                                
-                                @includeWhen(
-                                    optional($tipo) && trim(strtolower(optional($tipo)->Categoria)) === 'docinhos',
-                                    'produto.partial.personalizacao-docinhos',
-                                    ['opcoesDisponiveis' => $opcoesDisponiveis]
-                                )
+                                @foreach($todas_personalizações as $personalizacao)
+                                    <div class="mb-4">
+                                        <label><strong>{{ $personalizacao->titulo }}</strong></label>
+                                        @php
+                                            $respostas = $todas_respostas->where('id_personalizacao', $personalizacao->id);
+                                        @endphp
+
+                                        @if($personalizacao->tipo_de_input === "texto")
+                                            <input type="text"
+                                                name="personalizacoes_opcoes[{{ $personalizacao->id }}]"
+                                                class="form-control-personalizacao"
+                                                value="{{ old('personalizacoes_opcoes.' . $personalizacao->id) }}"
+                                                required
+                                                @if(!$user || is_null($user->email_verified_at))
+                                                    disabled
+                                                @endif
+                                                />
+
+                                        @elseif($personalizacao->tipo_de_input === "select")
+                                            <select name="personalizacoes_opcoes[{{ $personalizacao->id }}] " required
+                                                    class="form-select-personalizacao">
+                                                    <option value="">Selecione uma opção ...</option>
+                                                @foreach($respostas as $resposta)
+                                                    <option value="{{ $resposta->id }}"
+                                                        @if(!$user || is_null($user->email_verified_at))
+                                                            disabled
+                                                        @endif
+                                                        {{ old('personalizacoes_opcoes.' . $personalizacao->id) == $resposta->id ? 'selected' : '' }}>
+                                                        {{ $resposta->resposta }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+
+                                        @elseif($personalizacao->tipo_de_input === "checkbox")
+                                            <div class="checkbox-group">
+                                                @foreach($respostas as $resposta)
+                                                    <label class="d-block checkbox-label">
+                                                        <input type="checkbox" 
+                                                            name="personalizacoes_opcoes[{{ $personalizacao->id }}][]"
+                                                            value="{{ $resposta->id }}"
+                                                            @if(!$user || is_null($user->email_verified_at))
+                                                                disabled
+                                                            @endif
+                                                            {{ in_array($resposta->id, old('personalizacoes_opcoes.' . $personalizacao->id, [])) ? 'checked' : '' }}>
+                                                        {{ $resposta->resposta }}
+                                                    </label>
+                                                @endforeach
+                                            </div>
+                                        @endif
+
+                                        @if(!empty($personalizacao->PDF))
+                                            <a href="{{ asset('storage/' . $personalizacao->PDF) }}" 
+                                            target="_blank" 
+                                            class="btn btn-outline-secondary btn-sm px-3 mt-2">
+                                                Abrir PDF
+                                            </a>
+                                        @endif
+                                    </div>
+                                @endforeach
 
                                 {{-- Botão --}}
-                                @php
-                                    $user = Auth::user();
-                                @endphp
 
                                 @if($user && !is_null($user->email_verified_at))
                                     <button type="submit" class="btn-personalizar">
@@ -523,30 +248,6 @@
             });
         });
     });
-
-    // contador de caracteres "Texto da Capa"
-    const textoCapaInput = document.getElementById('texto_capa');
-    const nomeEmbalagemInput = document.getElementById('nome_embalagem');
-    if (textoCapaInput) {
-        const atualizarContador = () => {
-            const contador = document.getElementById('contador-capa');
-            if (contador) {
-                contador.textContent = textoCapaInput.value.length;
-            }
-        };
-        textoCapaInput.addEventListener('input', atualizarContador);
-        atualizarContador();
-    }
-    if(nomeEmbalagemInput) {
-        const atualizarContadorEmbalagem = () => {
-            const contadorEmbalagem = document.getElementById('contador-embalagem');
-            if (contadorEmbalagem) {
-                contadorEmbalagem.textContent = nomeEmbalagemInput.value.length;
-            }
-        };
-        nomeEmbalagemInput.addEventListener('input', atualizarContadorEmbalagem);
-        atualizarContadorEmbalagem();
-    }
 
     // impedir Enter de submeter o formulário
     const form = document.getElementById('meuFormulario');

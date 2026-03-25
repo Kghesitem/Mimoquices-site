@@ -1,4 +1,7 @@
 @include('partial.header')
+<head>
+    <title>Dashboard - Mimoquices</title>
+</head>
     <div class="py-12 dashboard-mimo">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             

@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mimoquices</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/style.css') }}">
     <link rel="icon" type="image/png" style="border-radius: .5em;" href="{{ asset('frontend/assets/img/logo.png')}}" size="32x32">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     
 </head>
 <body>
@@ -99,9 +99,11 @@
                     <img src="{{ asset('frontend/assets/img/email.png') }}" alt="Email">
                 </a>
 
+
                 <div id="toast-email" class="toast-email">
                     Email copiado com sucesso
                 </div>
+
 
             </div>
         </div>

@@ -11,7 +11,18 @@ class Tipo extends Model
 
     protected $table = 'tipo';
 
-    protected $fillable =[
+    protected $fillable = [
         'Categoria',
     ];
+
+    // Relação com personalizações
+    public function personalizacoes()
+    {
+        return $this->belongsToMany(
+            TodasAsPersonalizacoes::class,
+            'acossiadas_tipo', // tabela pivot
+            'id_tipo',               // FK deste model na pivot
+            'id_todas'               // FK do personalizacao
+        );
+    }
 }

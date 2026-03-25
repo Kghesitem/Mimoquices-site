@@ -1,8 +1,8 @@
-
 @include('partial.header')
 <head>
-    <title>Criar Produto - Mimoquices</title>
+    <title>Editar Produto - Mimoquices</title>
 </head>
+
 <a class="btn btn-outline-primary mt-4 text-decoration-none d-flex justify-content-center" href="{{ url('/dashboard') }}" style="width: 150px; margin: 0 auto;">
     ← Voltar
 </a>
@@ -11,7 +11,7 @@
     <main class="profile-page py-5">
     <div class="container">
     <div class="form-container">
-        <h1>➕ Criar Produtos</h1>
+        <h1>Editar Produto</h1>
 
         <!-- Erros -->
         @if($errors->any())
@@ -25,9 +25,9 @@
         </div>
         @endif
 
-        <form method="post" action="{{ route('produto.store') }}" enctype="multipart/form-data">
+        <form id="form-edit"method="post" action="{{ route('produto.update', ['produto' => $produto]) }}" enctype="multipart/form-data">
             @csrf
-            @method('post')
+            @method('put')
 
             <!-- Título -->
             <div class="form-group">
@@ -39,7 +39,7 @@
                     name="titulo" 
                     placeholder="Ex.: Caderno A5" 
                     required
-                    value="{{ old('titulo') }}"
+                    value="{{$produto->titulo}}"
                 />
             </div>
 
@@ -52,7 +52,7 @@
                     name="descricao" 
                     placeholder="Descreva o produto de forma detalhada..." 
                     required
-                >{{ old('descricao') }}</textarea>
+                >{{$produto->descricao}}</textarea>
             </div>
 
             <div class="form-group">
@@ -62,7 +62,7 @@
                     class="form-control" 
                     name="conteudo" 
                     placeholder="Conteudo do produto..."
-                >{{ old('conteudo') }}</textarea>
+                >{{$produto->conteudo}}</textarea>
             </div>
 
             <div class="form-group">
@@ -72,7 +72,7 @@
                     class="form-control" 
                     name="detalhes" 
                     placeholder="Detalhes do produto..."
-                >{{ old('detalhes') }}</textarea>
+                >{{$produto->detalhes}}</textarea>
             </div>
 
             <!-- Categoria -->
@@ -87,14 +87,14 @@
                 >
                     <option value="">Selecione uma categoria...</option>
                     @foreach($tipos as $tipo)
-                    <option value="{{ $tipo->id }}" {{ old('tipo_prod') == $tipo->id ? 'selected' : '' }}>
+                    <option value="{{ $tipo->id }}" {{ $produto->tipo_prod == $tipo->id ? 'selected' : '' }}>
                         {{ $tipo->Categoria }}
                     </option>
                     @endforeach
                 </select>
             </div>
 
-            <!-- Imagens -->
+            <!-- Input de imagens -->
             <div class="form-group">
                 <label for="images">Imagens do Produto</label>
                 <input 
@@ -105,11 +105,12 @@
                     accept="image/*" 
                     multiple 
                     onchange="previewImages(this)"
-                    required
                 />
                 <small class="text-muted">Pode selecionar várias imagens. Tamanho máximo: 5MB por imagem.</small>
-                <div class="preview" id="preview">
-                    <div class="preview-empty">Nenhuma imagem selecionada</div>
+               <div id="preview" class="preview">
+                    <div id="preview-existente"></div>
+                    <div id="preview-novo"></div>
+                    <div id="preview-empty" class="preview-empty">Nenhuma imagem selecionada</div>
                 </div>
             </div>
 
@@ -130,7 +131,9 @@
                                 name="pode_personalizar" 
                                 value="Sim"
                                 onchange="toggleOpcoes()"
-                                {{ old('pode_personalizar') == 'Sim' ? 'checked' : '' }}
+                                @if ($produto->pode_personalizar== 'Sim') 
+                                    {{ !old('pode_personalizar') ? 'checked' : '' }}
+                                @endif
                             />
                             Sim - permitir personalização
                         </label>
@@ -140,15 +143,18 @@
                                 name="pode_personalizar" 
                                 value="Não"
                                 onchange="toggleOpcoes()"
-                                {{ old('pode_personalizar') == 'Não' || !old('pode_personalizar') ? 'checked' : '' }}
+                                @if ($produto->pode_personalizar !== 'Sim') 
+                                    {{ !old('pode_personalizar') ? 'checked' : '' }}
+                                @endif
+                                
                             />
                             Não
                         </label>
                     </div>
                 </div>
-
+               
                 <!-- Opções de Personalização (aparecem se escolher Sim) -->
-                <div id="opcoes-personalizacao" {{ old('pode_personalizar') == 'Sim' ? 'class="visible"' : '' }}>
+                <div id="opcoes-personalizacao" {{ old('pode_personalizar') == 'Sim' ? 'class="visible"' : '' }}  @if ($produto->pode_personalizar == 'Sim')  class="visible" @endif >
                     <h6 style="color: var(--color1); margin-bottom: 1rem;">
                         ✅ Selecione as opções de personalização que os clientes poderão usar:
                     </h6>
@@ -163,7 +169,19 @@
                                         id="personalizacao_{{ $personalizacao->id }}" 
                                         name="personalizar_opcoes[]" 
                                         value="{{ $personalizacao->id }}"
+                                        
+                                        @if($produto->personalizar_opcoes == null)
+                                            
+                                        @else
                                         {{ in_array($personalizacao->id, old('personalizar_opcoes', [])) ? 'checked' : '' }}
+                                            @foreach (json_decode($produto->personalizar_opcoes) as $opcao)
+                                                @if ($opcao == $personalizacao->id)
+                                                    checked
+                                                @endif
+                                                
+                                            @endforeach
+                                        @endif
+                                        
                                     />
                                     <div class="opcao-descricao">
                                         <label for="personalizacao_{{ $personalizacao->id }}">
@@ -207,7 +225,7 @@
             const opcoes = document.querySelectorAll('.opcao-item');
 
             opcoes.forEach(opcao => {
-                const categorias = opcao.dataset.categorias.split(',');
+                const categorias = opcao.dataset.categorias.split(',').map(c => c.trim());
 
                 if (!categoriaSelecionada || categorias.includes(categoriaSelecionada)) {
                     opcao.style.display = 'flex';
@@ -240,40 +258,160 @@
             }
         }
 
-        /**
-         * Pré-visualiza as imagens selecionadas
-         */
-        function previewImages(input) {
-            const preview = document.getElementById('preview');
-            preview.innerHTML = ''; // limpa a pré-visualização
 
-            const files = input.files;
-            if (files.length === 0) {
-                preview.innerHTML = '<div class="preview-empty">Nenhuma imagem selecionada</div>';
-                return;
+
+    let ficheirosSelecionados = [];
+
+
+const estiloBotaoRemover = 'position: absolute; top: 5px; right: 5px; border: none; background: rgba(0,0,0,0.6); color: white; border-radius: 50%; cursor: pointer; width: 25px; height: 25px; display: flex; align-items: center; justify-content: center; font-size: 14px; line-height: 1; padding: 0;';
+
+    /**
+     * Carrega as imagens recentemente colocadas  
+     */
+    function previewImages(input) {
+        const containerNovo = document.getElementById('preview-novo');
+        containerNovo.innerHTML = ''; 
+        
+        const files = Array.from(input.files);
+        ficheirosSelecionados = files;
+
+        verificarSeVazio();
+
+        files.forEach((file, index) => {
+            if (file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const container = document.createElement('div');
+                    container.style.cssText = 'position: relative; display: inline-block; margin: 10px;';
+
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.style.cssText = 'width: 120px; height: 120px; object-fit: cover; border-radius: 10px; border: 2px solid #6c757d;';
+
+                    const btn = document.createElement('button');
+                    btn.innerHTML = '❌';
+                    btn.type = 'button'; // Evita submeter o form
+                    btn.style.cssText = estiloBotaoRemover;
+
+                    btn.onclick = function() {
+                        removerImagem(index);
+                    };
+
+                    container.appendChild(img);
+                    container.appendChild(btn);
+                    containerNovo.appendChild(container);
+                };
+                reader.readAsDataURL(file);
             }
-
-            for (let i = 0; i < files.length; i++) {
-                const file = files[i];
-
-                if (file.type.startsWith('image/')) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const img = document.createElement('img');
-                        img.src = e.target.result;
-                        img.alt = `Preview ${i + 1}`;
-                        preview.appendChild(img);
-                    }
-                    reader.readAsDataURL(file);
-                } else {
-                    console.warn(`Ficheiro ${file.name} não é uma imagem válida`);
-                }
-            }
-        }
-
-        // Inicializar o formulário ao carregar a página
-        document.addEventListener('DOMContentLoaded', function() {
-            verificaCategoria();
         });
+    }
+
+    /**
+     * Carregas as imagens que estão na base ded dados
+     */
+    function carregarImagensExistentes() {
+    const containerExistente = document.getElementById('preview-existente');
+    if (!containerExistente) return;
+    
+    containerExistente.innerHTML = ''; 
+
+    imagensExistentes.forEach((foto, index) => {
+        const container = document.createElement('div');
+        container.style.cssText = 'position: relative; display: inline-block; margin: 10px;';
+
+        const img = document.createElement('img');
+        img.src = foto.url;
+        // Adiciona o nome original como título (aparece ao passar o rato)
+        img.title = foto.nome; 
+        img.alt = foto.nome;
+        img.style.cssText = 'width: 120px; height: 120px; object-fit: cover; border-radius: 10px; border: 2px solid #ddd;';
+
+        const btn = document.createElement('button');
+        btn.innerHTML = '❌';
+        btn.type = 'button';
+        btn.style.cssText = estiloBotaoRemover; // Usa a constante de estilo que definimos antes
+
+        btn.onclick = function(e) {
+            e.preventDefault();
+            
+            // Cria o input hidden para o Laravel saber qual apagar
+            const inputDelete = document.createElement('input');
+            inputDelete.type = 'hidden';
+            inputDelete.name = 'fotos_remover[]';
+            inputDelete.value = foto.path; 
+            document.getElementById('form-edit').appendChild(inputDelete);
+
+            container.remove();
+            // Remove do array local para a função verificarSeVazio() funcionar
+            imagensExistentes.splice(index, 1);
+            verificarSeVazio();
+        };
+
+        container.appendChild(img);
+        container.appendChild(btn);
+        containerExistente.appendChild(container);
+    });
+    
+    verificarSeVazio();
+    }
+    
+    /**
+     * Se nenhuma imagem estivcer na base de dados ou foi carregada para o site ele mostra que está vazio 
+     */
+    function verificarSeVazio() {
+        const emptyMsg = document.getElementById('preview-empty');
+        const temExistentes = imagensExistentes.length > 0;
+        const temNovas = ficheirosSelecionados.length > 0;
+
+        if (temExistentes || temNovas) {
+            emptyMsg.style.display = 'none';
+        } else {
+            emptyMsg.style.display = 'block';
+        }
+    }
+
+    /**
+     * faz o botão remove remover do preview
+     */
+    function removerImagem(index) {
+        ficheirosSelecionados.splice(index, 1);
+
+        const input = document.querySelector('input[type="file"]');
+        const dataTransfer = new DataTransfer();
+
+        ficheirosSelecionados.forEach(file => {
+            dataTransfer.items.add(file);
+        });
+
+        input.files = dataTransfer.files;
+
+        previewImages(input);
+    }
+
+    /**
+     * foreach para ir buscar todos as fotos que estão na base de dados 
+     */
+    @if(isset($fotos))
+        const imagensExistentes = [
+            @foreach($fotos as $foto)
+            {
+                nome:'{{ $foto ->img_original}}',
+                url: '{{ asset('storage/' . $foto->img_cod) }}',
+                path: '{{ $foto->img_cod }}'
+            },
+            @endforeach
+        ];
+    @else
+        const imagensExistentes = [];
+    @endif
+
+    /**
+     * Carrega as funcões verificar e carregar no load da página
+     */
+
+    document.addEventListener('DOMContentLoaded', () => {
+        verificaCategoria();
+        carregarImagensExistentes();
+    });
     </script>
 

@@ -20,34 +20,147 @@ return new class extends Migration
             $table->foreign('group_img', 'fk_produto_fotos')->references('id')->on('produto')->onDelete('cascade')->onUpdate('cascade');
         });
         DB::table('fotos_produto')->insert([
-            ['id' => 12, 'group_img' => 2, 'img_original' => 'IMG_8139.JPEG', 'img_cod' => 'uploads/849db6843197792d7254da00751b8819.jpg', 'created_at' => '2026-01-24 21:32:41', 'updated_at' => '2026-01-24 21:32:41'],
-            ['id' => 13, 'group_img' => 2, 'img_original' => 'IMG_8137.JPEG', 'img_cod' => 'uploads/79103422965c723a0d27f4da5d84d706.jpg', 'created_at' => '2026-01-24 21:32:41', 'updated_at' => '2026-01-24 21:32:41'],
-            ['id' => 14, 'group_img' => 2, 'img_original' => 'IMG_8133.JPEG', 'img_cod' => 'uploads/51c7277b6fb2fb2f05665046ac4f1fed.jpg', 'created_at' => '2026-01-24 21:32:41', 'updated_at' => '2026-01-24 21:32:41'],
-            ['id' => 15, 'group_img' => 2, 'img_original' => 'IMG_8128.JPEG', 'img_cod' => 'uploads/7484417b000b95c2ddb3f82c50a136ca.jpg', 'created_at' => '2026-01-24 21:32:41', 'updated_at' => '2026-01-24 21:32:41'],
-            ['id' => 16, 'group_img' => 2, 'img_original' => 'IMG_8123.JPEG', 'img_cod' => 'uploads/247ec8332bbfc003040640457cfff729.jpg', 'created_at' => '2026-01-24 21:32:41', 'updated_at' => '2026-01-24 21:32:41'],
-            ['id' => 17, 'group_img' => 2, 'img_original' => 'IMG_8120.JPEG', 'img_cod' => 'uploads/a3ad02643aafe19c216aac0ee7bd27df.jpg', 'created_at' => '2026-01-24 21:32:41', 'updated_at' => '2026-01-24 21:32:41'],
-            ['id' => 18, 'group_img' => 2, 'img_original' => 'IMG_8117.JPEG', 'img_cod' => 'uploads/0199c38ef537a9c30419e035e631669f.jpg', 'created_at' => '2026-01-24 21:32:41', 'updated_at' => '2026-01-24 21:32:41'],
-            ['id' => 19, 'group_img' => 2, 'img_original' => 'IMG_8114.JPEG', 'img_cod' => 'uploads/526537de6a5de83221ee3f1246a00242.jpg', 'created_at' => '2026-01-24 21:32:41', 'updated_at' => '2026-01-24 21:32:41'],
-            ['id' => 20, 'group_img' => 2, 'img_original' => 'IMG_8112.JPEG', 'img_cod' => 'uploads/d94bf184cddc0ae4054690a8155412e1.jpg', 'created_at' => '2026-01-24 21:32:41', 'updated_at' => '2026-01-24 21:32:41'],
-            ['id' => 21, 'group_img' => 2, 'img_original' => 'IMG_8110.JPEG', 'img_cod' => 'uploads/ef78a738f21ce99e08bf7b9fd3af3541.jpg', 'created_at' => '2026-01-24 21:32:41', 'updated_at' => '2026-01-24 21:32:41'],
-            ['id' => 22, 'group_img' => 2, 'img_original' => 'IMG_8108.JPEG', 'img_cod' => 'uploads/cba275638805a13803aeede79b146a1e.jpg', 'created_at' => '2026-01-24 21:32:41', 'updated_at' => '2026-01-24 21:32:41'],
-            ['id' => 23, 'group_img' => 2, 'img_original' => 'IMG_7546.JPEG', 'img_cod' => 'uploads/f596f040ed245daebf64f4471289584c.jpg', 'created_at' => '2026-01-24 21:32:41', 'updated_at' => '2026-01-24 21:32:41'],
-            ['id' => 24, 'group_img' => 1, 'img_original' => 'IMG_8078.JPEG', 'img_cod' => 'uploads/b139b99d429b37a390b3138896527318.jpg', 'created_at' => '2026-01-24 21:44:15', 'updated_at' => '2026-01-24 21:44:15'],
-            ['id' => 25, 'group_img' => 1, 'img_original' => 'IMG_8182.JPEG', 'img_cod' => 'uploads/d6fed71a2eb74723c803617e7168686f.jpg', 'created_at' => '2026-01-24 21:44:15', 'updated_at' => '2026-01-24 21:44:15'],
-            ['id' => 26, 'group_img' => 1, 'img_original' => 'IMG_8177.JPEG', 'img_cod' => 'uploads/453a9a690f2df0c656a8a152acc28745.jpg', 'created_at' => '2026-01-24 21:44:15', 'updated_at' => '2026-01-24 21:44:15'],
-            ['id' => 27, 'group_img' => 1, 'img_original' => 'IMG_8175.JPEG', 'img_cod' => 'uploads/4112c98da7ef5aaad1e5bc79954272ea.jpg', 'created_at' => '2026-01-24 21:44:15', 'updated_at' => '2026-01-24 21:44:15'],
-            ['id' => 28, 'group_img' => 1, 'img_original' => 'IMG_8103.JPEG', 'img_cod' => 'uploads/fc7b822d1705fd6b51b6a8a3c1b033b3.jpg', 'created_at' => '2026-01-24 21:44:15', 'updated_at' => '2026-01-24 21:44:15'],
-            ['id' => 29, 'group_img' => 1, 'img_original' => 'IMG_8100.JPEG', 'img_cod' => 'uploads/cc9c6bd0e0cc3d2ceb6e4abc68d556ee.jpg', 'created_at' => '2026-01-24 21:44:15', 'updated_at' => '2026-01-24 21:44:15'],
-            ['id' => 30, 'group_img' => 1, 'img_original' => 'IMG_8099.JPEG', 'img_cod' => 'uploads/03860c30d851dbd86a9292382a85bac8.jpg', 'created_at' => '2026-01-24 21:44:15', 'updated_at' => '2026-01-24 21:44:15'],
-            ['id' => 31, 'group_img' => 1, 'img_original' => 'IMG_8098.JPEG', 'img_cod' => 'uploads/23caa38da4b12beea7931af586cf49cf.jpg', 'created_at' => '2026-01-24 21:44:16', 'updated_at' => '2026-01-24 21:44:16'],
-            ['id' => 32, 'group_img' => 1, 'img_original' => 'IMG_8095.JPEG', 'img_cod' => 'uploads/4de7cc7f018d32f0a0d813ab6ecbf671.jpg', 'created_at' => '2026-01-24 21:44:16', 'updated_at' => '2026-01-24 21:44:16'],
-            ['id' => 33, 'group_img' => 1, 'img_original' => 'IMG_8092.JPEG', 'img_cod' => 'uploads/eb3fdd60051eb802c520a0b1b04c5a50.jpg', 'created_at' => '2026-01-24 21:44:16', 'updated_at' => '2026-01-24 21:44:16'],
-            ['id' => 34, 'group_img' => 1, 'img_original' => 'IMG_8090.JPEG', 'img_cod' => 'uploads/8cb54b179a27a5c5d1423d0abb77bc94.jpg', 'created_at' => '2026-01-24 21:44:16', 'updated_at' => '2026-01-24 21:44:16'],
-            ['id' => 35, 'group_img' => 1, 'img_original' => 'IMG_8088.JPEG', 'img_cod' => 'uploads/d5b332ed993a0c5092fc148cf4e858cb.jpg', 'created_at' => '2026-01-24 21:44:16', 'updated_at' => '2026-01-24 21:44:16'],
-            ['id' => 36, 'group_img' => 1, 'img_original' => 'IMG_8086.JPEG', 'img_cod' => 'uploads/8d4e46184d6da5b3a3930604a8644061.jpg', 'created_at' => '2026-01-24 21:44:16', 'updated_at' => '2026-01-24 21:44:16'],
-        
-
-        ]);
+    [
+        'group_img' => 1,
+        'img_original' => 'IMG_8078.JPEG',
+        'img_cod' => 'uploads/de15db6d8eb798394deeb3bdb08ffdf4.jpg',
+        'created_at' => now(),
+        'updated_at' => now()
+    ],
+    [
+        'group_img' => 1,
+        'img_original' => 'IMG_8080.JPEG',
+        'img_cod' => 'uploads/d2c23f47ec1e1d5874ff5caba7c377ad.jpg',
+        'created_at' => now(),
+        'updated_at' => now()
+    ],
+    [
+        'group_img' => 1,
+        'img_original' => 'IMG_8082.JPEG',
+        'img_cod' => 'uploads/3fd1c39bbc53a3080b777b781e55fcb3.jpg',
+        'created_at' => now(),
+        'updated_at' => now()
+    ],
+    [
+        'group_img' => 1,
+        'img_original' => 'IMG_8088.JPEG',
+        'img_cod' => 'uploads/124ce2da7a888ddc47144e75ce512c10.jpg',
+        'created_at' => now(),
+        'updated_at' => now()
+    ],
+    [
+        'group_img' => 1,
+        'img_original' => 'IMG_8090.JPEG',
+        'img_cod' => 'uploads/1d09e66e7eb7fed9aef0446ae47789a4.jpg',
+        'created_at' => now(),
+        'updated_at' => now()
+    ],
+    [
+        'group_img' => 1,
+        'img_original' => 'IMG_8095.JPEG',
+        'img_cod' => 'uploads/d06a107656d2c54204c393db73043650.jpg',
+        'created_at' => now(),
+        'updated_at' => now()
+    ],
+    [
+        'group_img' => 1,
+        'img_original' => 'IMG_8099.JPEG',
+        'img_cod' => 'uploads/04ff47956bf821c135a721a37d1bf3c3.jpg',
+        'created_at' => now(),
+        'updated_at' => now()
+    ],
+    [
+        'group_img' => 1,
+        'img_original' => 'IMG_8100.JPEG',
+        'img_cod' => 'uploads/c322b3a4ec34ef7092c4b0dc61279278.jpg',
+        'created_at' => now(),
+        'updated_at' => now()
+    ],
+    [
+        'group_img' => 1,
+        'img_original' => 'IMG_8103.JPEG',
+        'img_cod' => 'uploads/2cfb9b7f8874fd4feb61411baa56f916.jpg',
+        'created_at' => now(),
+        'updated_at' => now()
+    ],
+    [
+        'group_img' => 1,
+        'img_original' => 'IMG_8175.JPEG',
+        'img_cod' => 'uploads/d2fef56a2bc3866d21717f17122da91f.jpg',
+        'created_at' => now(),
+        'updated_at' => now()
+    ],
+    [
+        'group_img' => 1,
+        'img_original' => 'IMG_8177.JPEG',
+        'img_cod' => 'uploads/e1af21f33c983c82163855f0a7f935ed.jpg',
+        'created_at' => now(),
+        'updated_at' => now()
+    ],
+    [
+        'group_img' => 1,
+        'img_original' => 'IMG_8182.JPEG',
+        'img_cod' => 'uploads/69f71a4fc20d34b3df7febe1795f7ca5.jpg',
+        'created_at' => now(),
+        'updated_at' => now()
+    ],
+    [
+        'group_img' => 2,
+        'img_original' => 'IMG_8139.JPEG',
+        'img_cod' => 'uploads/16d24ba4673f7b2695540b8ffae8e3c3.jpg',
+        'created_at' => now(),
+        'updated_at' => now()
+    ],
+    [
+        'group_img' => 2,
+        'img_original' => 'IMG_8137.JPEG',
+        'img_cod' => 'uploads/ddf9789bb05cfdf0e1142966a47e4db0.jpg',
+        'created_at' => now(),
+        'updated_at' => now()
+    ],
+    [
+        'group_img' => 2,
+        'img_original' => 'IMG_8133.JPEG',
+        'img_cod' => 'uploads/0e415a4eb8fd09fd962f1638a3248769.jpg',
+        'created_at' => now(),
+        'updated_at' => now()
+    ],
+    [
+        'group_img' => 2,
+        'img_original' => 'IMG_8128.JPEG',
+        'img_cod' => 'uploads/a9396dc1f362d925035cfa8ad8c17dce.jpg',
+        'created_at' => now(),
+        'updated_at' => now()
+    ],
+    [
+        'group_img' => 2,
+        'img_original' => 'IMG_8123.JPEG',
+        'img_cod' => 'uploads/8ca4f6bad4adbe945d5875c56a421312.jpg',
+        'created_at' => now(),
+        'updated_at' => now()
+    ],
+    [
+        'group_img' => 2,
+        'img_original' => 'IMG_8110.JPEG',
+        'img_cod' => 'uploads/757a9987a9738e940860d1c8e7cf797b.jpg',
+        'created_at' => now(),
+        'updated_at' => now()
+    ],
+    [
+        'group_img' => 2,
+        'img_original' => 'IMG_8108.JPEG',
+        'img_cod' => 'uploads/f32604aeb31582c96a13dd729d08b849.jpg',
+        'created_at' => now(),
+        'updated_at' => now()
+    ],
+    [
+        'group_img' => 2,
+        'img_original' => 'IMG_7546.JPEG',
+        'img_cod' => 'uploads/a361343146ebe6cc9fc9fa1f9dd7d413.jpg',
+        'created_at' => now(),
+        'updated_at' => now()
+    ]
+]);
 
     }
 

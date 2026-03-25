@@ -82,4 +82,9 @@ class User extends Authenticatable implements MustVerifyEmail // Implementação
         return $this->hasMany(Personalizacao::class);
     }
 
+    public function pedidos()
+    {
+        return $this->hasMany(Pedido::class, 'id_user');
+    }
+
 }

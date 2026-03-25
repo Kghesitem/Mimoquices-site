@@ -18,6 +18,8 @@ class Produto extends Model
         'descricao',
         'conteudo',
         'detalhes',
+        'disponivel',
+        'favorito',
         'url_completo',
         'tipo_prod',
         'nome_original',
@@ -35,4 +37,7 @@ class Produto extends Model
     {
         return $this->hasMany(Personalizacao::class);
     }
+    public function fotos() {
+    return $this->hasMany(Fotos::class, 'group_img');
+}
 }

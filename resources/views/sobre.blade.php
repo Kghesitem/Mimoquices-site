@@ -1,6 +1,7 @@
 @include('partial/header')
 <head>
     <link rel="stylesheet" href="frontend/assets/css/carrosel.css">
+    <title>Sobre - Mimoquices</title>
 </head>
 
     <div class="bg-white d-flex flex-column justify-content-center align-items-center py-5">
@@ -49,9 +50,17 @@
 
             <div class="cartao max cartao-sobre animacao-home" style="border:solid 0px red;">
                 <div class="container max">
+                    <h2>Docinhos</h2>
+                    <p class="sobre">Delicadamente preparados e cheios de encanto! Docinhos únicos, feitos para adoçar cada momento com um toque especial.</p>
+                    <a class="butao-sobre" href="{{ route('produto.index') }}?tipo=2">Ver opções</a>
+                </div>
+            </div>
+
+            <div class="cartao max cartao-sobre animacao-home" style="border:solid 0px red;">
+                <div class="container max">
                     <h2>Lembraças</h2>
                     <p class="sobre">Lembraças para casamentos e batizados pensadas para eternizar e agradercer seus convidados</p>
-                    <a class="butao-sobre" href="{{ route('produto.index') }}?tipo=2">Ver opções</a>
+                    <a class="butao-sobre" href="{{ route('produto.index') }}">Ver opções</a>
                 </div>
             </div>
 

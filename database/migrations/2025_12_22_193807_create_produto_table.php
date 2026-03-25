@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('tipo_prod');
             $table->string('nome_original');
             $table->boolean('disponivel')->default(true);
+            $table->boolean('favorito')->default(false);
             $table->string('nome_cod');
             $table->string('pode_personalizar')->default('Não');
             $table->longText('personalizar_opcoes')->nullable();
@@ -38,13 +39,15 @@ return new class extends Migration
                 'detalhes' => "Capa dura em cartão\r\nPáginas interiores impressas, em alta qualidade, em papel de 90gr\r\n12 separadores mensais em papel fotográfico\r\nArgolas metálicas\r\nElástico preso com ilhós",
                 'url_completo' => 'Agenda A5-1',
                 'tipo_prod' => 1,
-                'nome_original' => '1.JPEG',
+                'nome_original' => '1-main.JPEG',
                 'disponivel' => 1,
-                'nome_cod' => 'uploads/d1d1989cdce8ecbbd0b85ad5f2c1b3bd.jpg',
+                'favorito' => 0,
+                'nome_cod' => 'uploads/00dd7a8c9f7136761b4d0007a89521dd.jpg',
+                'pode_personalizar' => 'Sim',
+                'personalizar_opcoes' =>json_encode(["1","2","3","4","5"]),
                 'created_at' => now(),
                 'updated_at' => now(),
-                'pode_personalizar' => 'Sim',
-                'personalizar_opcoes' => json_encode(['formato','paginas','texto_capa','acessorio','cor_argolas']),
+                
             ],
             [
                 'titulo' => 'Agenda A6',
@@ -55,11 +58,13 @@ return new class extends Migration
                 'tipo_prod' => 1,
                 'nome_original' => 'main.JPEG',
                 'disponivel' => 1,
-                'nome_cod' => 'uploads/73ab718e772278cbe98ba5164f07f1e7.jpg',
+                'favorito' => 0,
+                'nome_cod' => 'uploads/77a761372e41e490df2b1e724cc38e01.jpg',
+                'pode_personalizar' => 'Sim',
+                'personalizar_opcoes' => json_encode(["1","2","3","4","5"]),
                 'created_at' => now(),
                 'updated_at' => now(),
-                'pode_personalizar' => 'Sim',
-                'personalizar_opcoes' => json_encode(['formato','paginas','texto_capa','acessorio','cor_argolas']),
+                
             ],
             [
                 'titulo' => 'Chocolate',
@@ -70,11 +75,13 @@ return new class extends Migration
                 'tipo_prod' => 2, 
                 'nome_original' => 'Chocolate.jpg',
                 'disponivel' => 1,
-                'nome_cod' => 'uploads/24e94ee60e22b5723d95d0a65ba8d46c.jpg',
+                'favorito' => 0,
+                'nome_cod' => 'uploads/c423277cdef8fcf67e54d0936b0afc23.jpg',
+                'pode_personalizar' => 'Sim',
+                'personalizar_opcoes' => json_encode(["6","7"]),
                 'created_at' => now(),
                 'updated_at' => now(),
-                'pode_personalizar' => 'Sim',
-                'personalizar_opcoes' => json_encode(['tipo_de_chocolate','embalagem']),
+                
             ]
         ]);
     }

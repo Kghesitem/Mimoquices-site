@@ -29,7 +29,7 @@ div.Produto{
     content: '→';
     border: none;
     background-color: var(--main_color);
-    font-family: Consolas;
+    font-family: "Poppins", Georgia, "Times New Roman", serif;
     font-size: 3rem;
     color: white;
     height: 60px;
@@ -106,6 +106,10 @@ div.Produto{
     .carrosel {
         gap: 1em;
         max-width: 100%;
+    }
+    .carrosel::scroll-button(left),
+    .carrosel::scroll-button(right){
+        display: none;
     }
 
     .carrosel > .produtos-produto,

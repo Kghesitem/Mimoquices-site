@@ -72,10 +72,9 @@
                             Em forma de texto
                         </option>
                         <option value="select">
-                            Pode-se apenas seleciona apenas um escolha 
-                        </option>
+                            Seleciona apenas uma opção entre várias possíveis
                         <option value="checkbox">
-                            Pode-se selecionar mais de uma escolha 
+                            Seleciona uma ou mais opções entre várias possíveis 
                         </option>
                     </select>
                 </div>

@@ -8,6 +8,43 @@
         </button>
     </div>
 
+
+    <div class="card mb-2 border-0 shadow-sm" style="border-radius: 1.5rem; max-width: 73%; margin: 0 auto 2rem;">
+        <div class="card-body p-3 d-flex flex-wrap gap-3 align-items-center" style="background-color: white; border-radius: 1.5rem; border: 1px solid var(--color-border);">
+            
+            <div class="flex-grow-1">
+                <div class="input-group">
+                    <span class="input-group-text bg-white border-end-0" style="border-radius: 1rem 0 0 1rem; border-color: var(--color-border);">
+                        <i class="bi bi-search" style="color: var(--main_color);"></i>
+                    </span>
+                    <input type="text" id="pesquisa" class="form-control border-start-0 ps-0" placeholder="Pesquisar produto..." style="border-radius: 0 1rem 1rem 0; border-color: var(--color-border); box-shadow: none;">
+                </div>
+            </div>
+
+            <select id="filtroTipos" class="form-select w-auto" style="border-radius: 1rem; border-color: var(--color-border); appearance: none; -webkit-appearance: none; -moz-appearance: none; background-image: none; padding-right: 0.5rem;">">
+                <option value="">Todas as Categorias</option>
+                @foreach($tipos as $tipo)
+                    <option value="{{ $tipo->id }}">{{ $tipo->Categoria }}</option>
+                @endforeach
+            </select>
+            <select id="visibilidades" class="form-select w-auto" style="border-radius: 1rem; border-color: var(--color-border); appearance: none; -webkit-appearance: none; -moz-appearance: none; background-image: none; padding-right: 0.5rem;">">
+                <option value="">Todas as Visibilidades</option>
+                <option value="1">Visível</option>
+                <option value="0">Oculto</option>
+            </select>
+            <select id="favoritos" class="form-select w-auto" style="border-radius: 1rem; border-color: var(--color-border); appearance: none; -webkit-appearance: none; -moz-appearance: none; background-image: none; padding-right: 0.5rem;">">
+                <option value="">Favoritos e não favoritos</option>
+                <option value="1">Favoritos</option>
+                <option value="0">Não Favoritos</option>
+            </select>
+
+        </div>
+    </div>
+</div>
+
+
+
+
 <div id="tableView" class="profile-card container-fluid p-0 mb-4" style="display: none; background-color: white; border: 2px solid var(--main_color); overflow: hidden;">
     <div class="table-responsive">
         <table class="table table-hover m-0" style="font-family: inherit;">
@@ -23,13 +60,18 @@
                 </tr>
             </thead>
             <tbody>
+                    <tr id="noResultsTable" style="display: none;">
+                        <td colspan="7" class="text-center py-5" style="color: var(--color-muted); font-style: italic;">
+                            🔍 Nenhum produto corresponde aos filtros.
+                        </td>
+                    </tr>
                 @if($produtos->isEmpty())
                     <tr>
                     <td colspan="6" class="text-center py-4" data-produto-id="{{ $produto->id }}" style="color: var(--color-muted); font-style: italic;">Nenhum produto encontrado.</td>
                     </tr>
                 @endif
                 @foreach ($produtos as $produto)
-                <tr class="align-middle" style="border-bottom: 1px solid var(--color-border);">
+                <tr class="align-middle item-produto" data-visivel="{{ $produto->disponivel }}" data-tipo="{{ $produto->tipo_prod }}" style="border-bottom: 1px solid var(--color-border);">
                     <td class="ps-4 font-weight-700">
                         <div class="form-check">
                             <input 
@@ -102,13 +144,17 @@
 
 
 <div id="cardView" class="container-fluid px-0" style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center;">
+        <div id="noResultsCard" class="text-center py-5 w-100" style="display: none; color: var(--color-muted); font-style: italic;">
+            🔍 Nenhum produto corresponde aos filtros.
+        </div>    
+
     @if($produtos->isEmpty())
         <div class="text-center py-5" style="color: var(--color-muted); font-style: italic; width: 100%;">
             Nenhum produto encontrado.
         </div>
     @endif
     @foreach ($produtos as $produto)
-        <div class="dash-card" style="flex: 0 1 280px; min-width: 250px; background-color: white; border: 1px solid var(--color-border); display: flex; flex-direction: column; padding: 1.5rem; border-radius: 1.5rem;">
+        <div class="dash-card item-produto" data-visivel="{{ $produto->disponivel }}" data-tipo="{{ $produto->tipo_prod }}" style="flex: 0 1 280px; min-width: 250px; background-color: white; border: 1px solid var(--color-border); display: flex; flex-direction: column; padding: 1.5rem; border-radius: 1.5rem;">
             
             <div class="d-flex justify-content-between align-items-start mb-2">
                 <div style="max-width: 80%;">
@@ -184,38 +230,96 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
-$(document).ready(function() {
-    const toggleBtn = $('#toggleViewBtn');
-    const tableView = $('#tableView');
-    const cardView = $('#cardView');
 
+    $(document).ready(function() {
+    const pesquisa = document.getElementById('pesquisa');
+    const filtroTipos = document.getElementById('filtroTipos');
+    const visivel = document.getElementById('visibilidades');
+    const favoritos = document.getElementById('favoritos');
 
-    tableView.show();
-    cardView.hide();
-    toggleBtn.html('<i class="bi bi-grid-3x3-gap"></i> Ver em Cards');
+    function filtrarProdutos() {
+        const texto = pesquisa.value.toLowerCase().trim();
+        const tipoId = filtroTipos.value;
+        const visivelId = visivel.value;
+        const favoritoId = favoritos.value;
+        let encontrouAlgo = false;
 
-    toggleBtn.on('click', function() {
-        // Verificamos se a tabela está visível no momento do clique
-        const isShowingTable = tableView.is(':visible');
+        const itens = document.querySelectorAll('.item-produto');
 
-        if (isShowingTable) {
-            // AÇÃO: Mudar para CARDS
-            tableView.hide();
-            cardView.fadeIn().css('display', 'flex'); // Flex para manter o layout dos cards
-            $(this).html('<i class="bi bi-table"></i> Ver em Tabela');
+        itens.forEach(item => {
+            const titulo = item.querySelector('h3, td:nth-child(2)')?.textContent.toLowerCase() || "";
+            const itemTipo = item.getAttribute('data-tipo');
+            
+            const selectVisivel = item.querySelector('.formato_agenda');
+            const itemVisivel = selectVisivel ? selectVisivel.value : "0";
+            
+            const itemFavorito = item.querySelector('.favorito')?.checked ? "1" : "0";
+
+            const matchTexto = titulo.includes(texto);
+            const matchTipo = tipoId === "" || itemTipo === tipoId;
+            const matchVisivel = visivelId === "" || itemVisivel === visivelId;
+            const matchFavorito = favoritoId === "" || itemFavorito === favoritoId;
+
+            if (matchTexto && matchTipo && matchVisivel && matchFavorito) {
+                item.style.setProperty('display', '', 'important');
+                encontrouAlgo = true;
+            } else {
+                item.style.setProperty('display', 'none', 'important');
+            }
+        });
+
+        const msgTabela = document.getElementById('noResultsTable');
+        const msgCard = document.getElementById('noResultsCard');
+
+        if (encontrouAlgo) {
+            if(msgTabela) msgTabela.style.display = 'none';
+            if(msgCard) msgCard.style.display = 'none';
         } else {
-            // AÇÃO: Mudar para TABELA
-            cardView.hide();
-            tableView.fadeIn();
-
-
-            $(this).html('<i class="bi bi-grid-3x3-gap"></i> Ver em Cards');
+            // Só mostra a mensagem se houver uma busca ativa ou filtro
+            // para não confundir com a lista vazia original do banco de dados
+            if(msgTabela) msgTabela.style.display = 'table-row';
+            if(msgCard) msgCard.style.display = 'block';
         }
-    });
-});
+    }
 
-$(document).on('change', '.formato_agenda', function() {
+        pesquisa.addEventListener('input', filtrarProdutos);
+        filtroTipos.addEventListener('change', filtrarProdutos);
+        visivel.addEventListener('change', filtrarProdutos);
+        favoritos.addEventListener('change', filtrarProdutos);
+    });
+
+
+    $(document).ready(function() {
+        const toggleBtn = $('#toggleViewBtn');
+        const tableView = $('#tableView');
+        const cardView = $('#cardView');
+
+
+        tableView.show();
+        cardView.hide();
+        toggleBtn.html('<i class="bi bi-grid-3x3-gap"></i> Ver em Cards');
+
+        toggleBtn.on('click', function() {
+            // Verificamos se a tabela está visível no momento do clique
+            const isShowingTable = tableView.is(':visible');
+
+            if (isShowingTable) {
+                tableView.hide();
+                cardView.fadeIn().css('display', 'flex'); 
+                $(this).html('<i class="bi bi-table"></i> Ver em Tabela');
+            } else {
+                cardView.hide();
+                tableView.fadeIn();
+
+
+                $(this).html('<i class="bi bi-grid-3x3-gap"></i> Ver em Cards');
+            }
+        });
+    });
+
+    $(document).on('change', '.formato_agenda', function() {
         const $select = $(this);
         const produtoId = $select.data('produto-id');
         const novoStatus = $select.val();

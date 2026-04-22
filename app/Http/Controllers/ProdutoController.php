@@ -145,25 +145,25 @@ class ProdutoController extends Controller
 
     public function personalizarProduto(Request $request, $url_completo)
     {
-        // 1️⃣ Validar o request
+        // Validar o request
         $data = $request->validate([
             'personalizacoes_opcoes' => ['required', 'array'],
             'personalizacoes_opcoes.*' => ['nullable'],
         ]);
 
-        // 2️⃣ Obter o produto
+        //  Obter o produto
         $produto = Produto::where('url_completo', $url_completo)->firstOrFail();
 
-        // 3️⃣ Criar pedido
+        //  Criar pedido
         $pedido = Pedido::create([
             'id_user' => auth()->id(),
             'estado' => 'não visto',
         ]);
 
-        // 4️⃣ Array para o email
+        //  Array para o email
         $personalizacoesArray = [];
 
-        // 5️⃣ Criar UM ou VÁRIOS registos por personalização
+        // Criar UM ou VÁRIOS registos por personalização
         foreach ($data['personalizacoes_opcoes'] as $idPersonalizacao => $opcaoSelecionada) {
 
             // ❗ Se não foi escolhida nenhuma opção
@@ -217,12 +217,21 @@ class ProdutoController extends Controller
             }
         }
 
-        // 6️⃣ Enviar email
-        Mail::to(auth()->user()->email)->queue(
-            new PersonalizarMail($produto, $personalizacoesArray)
+        $pesonalizacoes = \App\Models\todas_as_personalizacoes::select('id', 'titulo')->get();
+        $selecionadas = \App\Models\todas_as_respostas::select('id', 'resposta')->get();
+        
+        // Buscamos os itens que acabaste de criar, já com o relacionamento do produto carregado
+        $itensDoPedido = \App\Models\Personalizacao::where('id_pedido', $pedido->id)
+            ->with('produto')
+            ->get();
+
+        // Enviar email (agora com os 4 argumentos que a classe espera)
+
+        Mail::to(auth()->user()->email)->send(
+            new PersonalizarMail($pedido, $itensDoPedido, $pesonalizacoes, $selecionadas)
         );
 
-        // 7️⃣ Redirect final
+        //  Redirect final
         return redirect()
             ->route('produto.show', $url_completo)
             ->with('success', 'Produto personalizado com sucesso!');
@@ -294,8 +303,8 @@ class ProdutoController extends Controller
         if ($request->hasFile('nome_original')) {
             foreach ($request->file('nome_original') as $file) {
                 $nomeOriginal = $file->getClientOriginalName();
-                // Guarda na pasta 'produtos' dentro do disk 'public'
-                $caminho = $file->store('produtos', 'public');
+                // Guarda na pasta 'uploads' dentro da pasta 'public'
+                $caminho = $file->store('uploads', 'public');
 
                 // Criar registo na tabela de fotos relacionada
                 $produto->fotos()->create([

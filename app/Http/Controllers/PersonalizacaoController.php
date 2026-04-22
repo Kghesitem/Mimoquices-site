@@ -25,7 +25,7 @@ class PersonalizacaoController extends Controller
         ->latest()
         ->get();
 
-        return view('historico_personalizacoes', compact('historico', 'selecionadas', 'pesonalizacoes'));
+        return view('produto.categoria.personalizacoes.historico_personalizacoes', compact('historico', 'selecionadas', 'pesonalizacoes'));
     }
     public function destroy($id)
     {
@@ -160,7 +160,19 @@ class PersonalizacaoController extends Controller
     {
 
 
-    return view('produto.categoria.personalizacoes.show');
+        $pedido = Pedido::findOrFail($id);
+        $historico = Personalizacao::with('pedido','produto')
+        ->where('id_pedido', $id)
+        ->get();
+
+        if ($pedido->estado == 'não visto') {
+            $pedido->update(['estado' => 'visto']);
+        }
+
+        $pesonalizacoes = todas_as_personalizacoes::select('id', 'titulo')->get();
+        $selecionadas = todas_as_respostas::select('id', 'resposta')->get();
+
+        return view('produto.categoria.personalizacoes.show', compact('pedido','historico', 'selecionadas', 'pesonalizacoes'));
         
     }
     

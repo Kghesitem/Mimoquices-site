@@ -107,12 +107,12 @@ class CategoriaController extends Controller
         $produtos = Produto::where('tipo_prod', $categoria->id)->get();
 
         if($produtos->count() > 0) {
+
             return redirect()->route('dashboard')
-                ->with('error', 'Não é possível apagar esta categoria, pois existem produtos associados a ela.');
+                ->withErrors(['categoria' => 'Não é possível apagar esta categoria, pois existem produtos associados a ela.']);
         }
 
         $categoria->delete();
-
 
         return redirect()->route('dashboard')
             ->with('success', 'Categoria deletada com sucesso!');

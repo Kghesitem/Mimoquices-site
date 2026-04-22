@@ -11,26 +11,22 @@ class PersonalizarMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
-    public $produto;
-    public $personalizacoes;
+    public $pedido;
+    public $itens;
+    public $pesonalizacoes;
+    public $selecionadas;
 
-    /**
-     * @param mixed $produto
-     * @param array $personalizacoes
-     */
-    public function __construct($produto, array $personalizacoes)
+    public function __construct($pedido, $itens, $pesonalizacoes, $selecionadas)
     {
-        $this->produto = $produto;
-        $this->personalizacoes = $personalizacoes;
+        $this->pedido = $pedido;
+        $this->itens = $itens;
+        $this->pesonalizacoes = $pesonalizacoes;
+        $this->selecionadas = $selecionadas;
     }
 
     public function build()
     {
-        return $this->subject('Confirmação da personalização do seu produto')
-                    ->view('emails.personalizacoes')
-                    ->with([
-                        'produto' => $this->produto,
-                        'personalizacoes' => $this->personalizacoes,
-                    ]);
+        return $this->subject('Confirmação de Personalização')
+                    ->view('emails.personalizacoes');
     }
 }

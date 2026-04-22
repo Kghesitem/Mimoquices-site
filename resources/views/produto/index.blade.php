@@ -3,29 +3,39 @@
     <title>Produtos - Mimoquices</title>
 </head>
 
-<div class="banner">
+    <div class="banner">
         <img class="banner" src="frontend/assets/img/BannerPapelaria.png" alt="">
     </div>
-<div class="centrador">
-    <div class="filtro">
-        <!-- SELECT PARA FILTRO -->
-        <select id="filtroTipos" class="form-select d-inline-block w-auto">
-            <option value="">Todos</option>
-            @foreach($tipos as $tipo)
-                <option value="{{$tipo->id}}">{{$tipo->Categoria}}</option>
-            @endforeach
-        </select>
 
-        <label class="ms-3">Pesquisa:</label>
-        <input type="text" placeholder="Caderno" id="pesquisa" class="form-control d-inline-block w-auto ms-2">
+    <div class="centrador">
+        <div class="filtro">
 
-        <label class="ms-3">Ordenar:</label>
-        <select id="ordenar" class="form-select d-inline-block w-auto ms-2">
-            <option value="nome_asc">Nome A→Z</option>
-            <option value="nome_desc">Nome Z→A</option>
-        </select>
+            <label class="ms-3">Pesquisa:</label>
+            <input type="text" placeholder="Caderno" id="pesquisa" class="form-control d-inline-block w-auto ms-2">
+
+            <!-- SELECT PARA FILTRO -->
+             <label class="ms-3">Categoria:</label>
+            <select id="filtroTipos" class="form-select d-inline-block w-auto">
+                <option value="">Todos</option>
+                @foreach($tipos as $tipo)
+                    <option value="{{$tipo->id}}">{{$tipo->Categoria}}</option>
+                @endforeach
+            </select>
+
+            <label class="ms-3">Ordenar:</label>
+            <select id="ordenar" class="form-select d-inline-block w-auto ms-2">
+                <option value="nome_asc">Nome A→Z</option>
+                <option value="nome_desc">Nome Z→A</option>
+            </select>
+
+             <label class="ms-3">Favoritos:</label>
+            <select id="favoritos" class="form-select d-inline-block w-auto ms-2">
+                <option value="">Favoritos e não favoritos</option>
+                <option value="1">Favoritos</option>
+                <option value="0">Não Favoritos</option>
+            </select>
+        </div>
     </div>
-</div>
 
 
 <div class="bg-white d-flex flex-column justify-content-center align-items-center py-5">
@@ -42,7 +52,7 @@
             @foreach($produtos as $produto)
                 <a href="/produtos/{{$produto->url_completo}}" 
                    class="produtos-produto animacao-aparecer text-decoration-none" 
-                   data-tipo="{{ $produto->tipo_prod }}">
+                   data-tipo="{{ $produto->tipo_prod }}" data-favorito="{{ $produto->favorito }}">
                     <div>
                         <img class="produto-img" 
                              src="{{asset("Storage/{$produto->nome_cod}")}}" 
@@ -78,6 +88,7 @@ document.addEventListener('DOMContentLoaded', function(){
     const filtroTipos = document.getElementById('filtroTipos');
     const pesquisa = document.getElementById('pesquisa');
     const ordenar = document.getElementById('ordenar');
+    const favoritos = document.getElementById('favoritos');
     const produtosContainer = document.querySelector('.limite');
     const produtos = Array.from(document.querySelectorAll('.produtos-produto'));
     const semProdutos = document.getElementById('semProdutos');
@@ -88,17 +99,25 @@ document.addEventListener('DOMContentLoaded', function(){
 
     function atualizarProdutos(){
         if (!produtos.length) return;
+
         const tipo = filtroTipos ? filtroTipos.value : '';
         const texto = pesquisa ? pesquisa.value.trim().toLowerCase() : '';
+        const favValue = favoritos ? favoritos.value : '';
+        
         let encontrou = false;
 
         produtos.forEach(prod => {
             const tituloEl = prod.querySelector('h3');
             const titulo = tituloEl ? tituloEl.textContent.trim().toLowerCase() : '';
+            
             const matchTipo = (tipo === '' || prod.dataset.tipo === tipo);
+            
             const matchTexto = (texto === '' || titulo.includes(texto));
-            prod.style.display = (matchTipo && matchTexto) ? '' : 'none';
-            if (matchTipo && matchTexto) encontrou = true;
+            
+            const matchFavorito = (favValue === '' || prod.dataset.favorito === favValue);
+            
+            prod.style.display = (matchTipo && matchTexto && matchFavorito) ? '' : 'none';
+            if (matchTipo && matchTexto && matchFavorito) encontrou = true;
         });
 
         if (semProdutos) semProdutos.style.display = encontrou ? 'none' : 'block';
@@ -119,6 +138,7 @@ document.addEventListener('DOMContentLoaded', function(){
     if (filtroTipos) filtroTipos.addEventListener('change', atualizarProdutos);
     if (pesquisa) pesquisa.addEventListener('input', atualizarProdutos);
     if (ordenar) ordenar.addEventListener('change', atualizarProdutos);
+    if (favoritos) favoritos.addEventListener('change', atualizarProdutos);
 
     atualizarProdutos();
 });

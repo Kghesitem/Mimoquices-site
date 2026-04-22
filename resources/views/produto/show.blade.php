@@ -3,6 +3,9 @@
     <title>{{ $produto->titulo }}- Mimoquices</title>
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/carrosel.css') }}">
 </head>
+@php
+    $user = Auth::user();
+@endphp
 
 <body>
 
@@ -116,6 +119,9 @@
                                                 class="form-control-personalizacao"
                                                 value="{{ old('personalizacoes_opcoes.' . $personalizacao->id) }}"
                                                 required
+                                                @if(!$user || is_null($user->email_verified_at))
+                                                    disabled
+                                                @endif
                                                 />
 
                                         @elseif($personalizacao->tipo_de_input === "select")
@@ -124,6 +130,9 @@
                                                     <option value="">Selecione uma opção ...</option>
                                                 @foreach($respostas as $resposta)
                                                     <option value="{{ $resposta->id }}"
+                                                        @if(!$user || is_null($user->email_verified_at))
+                                                            disabled
+                                                        @endif
                                                         {{ old('personalizacoes_opcoes.' . $personalizacao->id) == $resposta->id ? 'selected' : '' }}>
                                                         {{ $resposta->resposta }}
                                                     </option>
@@ -137,6 +146,9 @@
                                                         <input type="checkbox" 
                                                             name="personalizacoes_opcoes[{{ $personalizacao->id }}][]"
                                                             value="{{ $resposta->id }}"
+                                                            @if(!$user || is_null($user->email_verified_at))
+                                                                disabled
+                                                            @endif
                                                             {{ in_array($resposta->id, old('personalizacoes_opcoes.' . $personalizacao->id, [])) ? 'checked' : '' }}>
                                                         {{ $resposta->resposta }}
                                                     </label>
@@ -155,9 +167,6 @@
                                 @endforeach
 
                                 {{-- Botão --}}
-                                @php
-                                    $user = Auth::user();
-                                @endphp
 
                                 @if($user && !is_null($user->email_verified_at))
                                     <button type="submit" class="btn-personalizar">

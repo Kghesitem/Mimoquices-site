@@ -4,7 +4,7 @@
     @if ($errors->any())
     <div style="padding: 0 2rem; padding-top: 1.5rem;">
         <div class="error-container">
-            <strong>⚠️ Erro ao iniciar sessão:</strong>
+            <strong>⚠️ Erro nas categorias</strong>
             <ul>
                 @foreach ($errors->all() as $error)
                 <li>{{ $error }}</li>
@@ -14,7 +14,7 @@
     </div>
     @endif
     
-    <div class="opcoes-grid" id="gridPersonalizacoes" style="display: flex; flex-direction: row; gap: 2rem;">
+    <div class="opcoes-grid" id="gridPersonalizacoes" style="display: flex; flex-direction: row; gap: 2rem; margin-top: 3rem">
         @foreach($tipos as $tipo)     
             <div class="opcao-item" style="max-width: 25%;">
                 <div class="opcao-descricao">

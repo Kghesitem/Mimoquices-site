@@ -54,7 +54,7 @@
         </div>
         <div class="bg-white d-flex flex-column justify-content-center align-items-center py-5">
     <div class="container">
-        <h1 class="mb-4">Produtos Principais</h1>
+        <h1 class="mb-4">Produtos Favoritos</h1>
         @if($favoritos->isEmpty())
                 <div class="text-center py-5" style="color: var(--color-muted); font-style: italic; width: 100%;">
                     Nenhum produto favorito encontrado.

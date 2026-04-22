@@ -70,7 +70,7 @@
                             {{-- Botão Eliminar --}}
                             <form action="{{ route('pedido.delete', $pedido->id) }}" 
                                 method="POST" 
-                                onsubmit="return confirm('Tem certeza que deseja eliminar este produto?')"
+                                onsubmit="return confirm('Tem certeza que deseja eliminar este pedido?')"
                                 ">
                                 @csrf
                                 @method('DELETE')
@@ -130,8 +130,7 @@
                     </div>
                 </div>
                 <div class="d-flex gap-2 flex-column">
-                    <!--{{-- {{ route('produtos.edit', $produto->id) }} --}}-->
-                     <a href="" class="btn-personalizar w-100 d-block text-center text-decoration-none" style="background-color: var(--main_color); font-size: 0.9rem;">
+                     <a href="{{ route('pedido.show', $pedido->id) }}" class="btn-personalizar w-100 d-block text-center text-decoration-none" style="background-color: var(--main_color); font-size: 0.9rem;">
                                     Ver Conteúdo
                             </a>
                     {{-- {{ route('pedido.destroy', $pedido->id) }} --}}

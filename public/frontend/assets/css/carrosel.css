@@ -107,6 +107,10 @@ div.Produto{
         gap: 1em;
         max-width: 100%;
     }
+    .carrosel::scroll-button(left),
+    .carrosel::scroll-button(right){
+        display: none;
+    }
 
     .carrosel > .produtos-produto,
     .carrosel > .cartao-sobre,

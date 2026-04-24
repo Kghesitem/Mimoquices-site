@@ -3,10 +3,9 @@
     <title>Editar Produto - Mimoquices</title>
 </head>
 
-<a class="btn btn-outline-primary mt-4 text-decoration-none d-flex justify-content-center" href="{{ url('/dashboard') }}" style="width: 150px; margin: 0 auto;">
-    ← Voltar
-</a>
-
+<a class="btn botao-voltar mt-4 text-decoration-none d-flex justify-content-center" href="{{ url('/dashboard') }}">
+        ← Voltar
+    </a>
 <body>
     <main class="profile-page py-5">
     <div class="container">
@@ -269,42 +268,42 @@ const estiloBotaoRemover = 'position: absolute; top: 5px; right: 5px; border: no
      * Carrega as imagens recentemente colocadas  
      */
     function previewImages(input) {
-        const containerNovo = document.getElementById('preview-novo');
-        containerNovo.innerHTML = ''; 
-        
-        const files = Array.from(input.files);
-        ficheirosSelecionados = files;
+    const containerNovo = document.getElementById('preview-novo');
+    containerNovo.innerHTML = ''; 
+    
+    const files = Array.from(input.files);
+    ficheirosSelecionados = files;
 
-        verificarSeVazio();
+    verificarSeVazio();
 
-        files.forEach((file, index) => {
-            if (file.type.startsWith('image/')) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const container = document.createElement('div');
-                    container.style.cssText = 'position: relative; display: inline-block; margin: 10px;';
+    files.forEach((file, index) => {
+        if (file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const container = document.createElement('div');
+                container.className = 'img-container'; // Usa a classe CSS
 
-                    const img = document.createElement('img');
-                    img.src = e.target.result;
-                    img.style.cssText = 'width: 120px; height: 120px; object-fit: cover; border-radius: 10px; border: 2px solid #6c757d;';
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.style.cssText = 'width: 120px; height: 120px; object-fit: cover; border-radius: 10px; border: 2px solid #6c757d;';
 
-                    const btn = document.createElement('button');
-                    btn.innerHTML = '❌';
-                    btn.type = 'button'; // Evita submeter o form
-                    btn.style.cssText = estiloBotaoRemover;
+                const btn = document.createElement('button');
+                btn.innerHTML = '❌';
+                btn.type = 'button';
+                btn.className = 'btn-remover-foto'; // Usa a classe CSS
 
-                    btn.onclick = function() {
-                        removerImagem(index);
-                    };
-
-                    container.appendChild(img);
-                    container.appendChild(btn);
-                    containerNovo.appendChild(container);
+                btn.onclick = function() {
+                    removerImagem(index);
                 };
-                reader.readAsDataURL(file);
-            }
-        });
-    }
+
+                container.appendChild(img);
+                container.appendChild(btn);
+                containerNovo.appendChild(container);
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+}
 
     /**
      * Carregas as imagens que estão na base ded dados
@@ -317,11 +316,10 @@ const estiloBotaoRemover = 'position: absolute; top: 5px; right: 5px; border: no
 
     imagensExistentes.forEach((foto, index) => {
         const container = document.createElement('div');
-        container.style.cssText = 'position: relative; display: inline-block; margin: 10px;';
+        container.className = 'img-container'; // Usa a classe CSS
 
         const img = document.createElement('img');
         img.src = foto.url;
-        // Adiciona o nome original como título (aparece ao passar o rato)
         img.title = foto.nome; 
         img.alt = foto.nome;
         img.style.cssText = 'width: 120px; height: 120px; object-fit: cover; border-radius: 10px; border: 2px solid #ddd;';
@@ -329,12 +327,10 @@ const estiloBotaoRemover = 'position: absolute; top: 5px; right: 5px; border: no
         const btn = document.createElement('button');
         btn.innerHTML = '❌';
         btn.type = 'button';
-        btn.style.cssText = estiloBotaoRemover; // Usa a constante de estilo que definimos antes
+        btn.className = 'btn-remover-foto'; // Usa a classe CSS
 
         btn.onclick = function(e) {
             e.preventDefault();
-            
-            // Cria o input hidden para o Laravel saber qual apagar
             const inputDelete = document.createElement('input');
             inputDelete.type = 'hidden';
             inputDelete.name = 'fotos_remover[]';
@@ -342,7 +338,6 @@ const estiloBotaoRemover = 'position: absolute; top: 5px; right: 5px; border: no
             document.getElementById('form-edit').appendChild(inputDelete);
 
             container.remove();
-            // Remove do array local para a função verificarSeVazio() funcionar
             imagensExistentes.splice(index, 1);
             verificarSeVazio();
         };
@@ -353,7 +348,7 @@ const estiloBotaoRemover = 'position: absolute; top: 5px; right: 5px; border: no
     });
     
     verificarSeVazio();
-    }
+}
     
     /**
      * Se nenhuma imagem estivcer na base de dados ou foi carregada para o site ele mostra que está vazio 

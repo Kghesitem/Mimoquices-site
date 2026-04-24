@@ -15,6 +15,17 @@
     padding: 0;
     box-sizing: border-box;
 }
+.botao-voltar{
+    border-color:var(--main_color);
+    
+    color: var(--main_color);
+    width: 150px;
+    margin: 0 auto;
+}
+.botao-voltar:hover{
+    background-color: var(--main_color);
+    color: var( --color1);
+}
 
 html {
     font-family: "Poppins", Georgia, "Times New Roman", serif;
@@ -1271,6 +1282,36 @@ main {
     margin-right: 8px;
     box-shadow: 0 0 8px #4ade80;
 }
+.img-container {
+        position: relative; 
+        display: inline-block; 
+        margin: 10px;
+    }
+
+    /* O botão começa escondido (display: none) */
+    .btn-remover-foto {
+        position: absolute; 
+        top: 5px; 
+        right: 5px; 
+        border: none; 
+        background: rgba(0,0,0,0.6); 
+        color: white; 
+        border-radius: 50%; 
+        cursor: pointer; 
+        width: 25px; 
+        height: 25px; 
+        display: none; /* <--- Escondido por padrão */
+        align-items: center; 
+        justify-content: center; 
+        font-size: 14px; 
+        line-height: 1; 
+        padding: 0;
+    }
+
+    /* Quando passar o rato no container, mostra o botão */
+    .img-container:hover .btn-remover-foto {
+        display: flex;
+    }
 
 /*------------------------------------ Media Queries ------------------------------------*/
 @media (max-width: 1240px) {

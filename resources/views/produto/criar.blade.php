@@ -3,9 +3,9 @@
 <head>
     <title>Criar Produto - Mimoquices</title>
 </head>
-<a class="btn btn-outline-primary mt-4 text-decoration-none d-flex justify-content-center" href="{{ url('/dashboard') }}" style="width: 150px; margin: 0 auto;">
-    ← Voltar
-</a>
+<a class="btn botao-voltar mt-4 text-decoration-none d-flex justify-content-center" href="{{ url('/dashboard') }}">
+        ← Voltar
+    </a>
 
 <body>
     <main class="profile-page py-5">

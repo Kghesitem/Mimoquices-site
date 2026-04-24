@@ -9,9 +9,9 @@
 <body>
 
 @include('partial/header')
-<a class="btn btn-outline-primary mt-4 text-decoration-none d-flex justify-content-center" href="{{ route('tabelaPedidos') }}" style="width: 150px; margin: 0 auto;">
-    ← Voltar
-</a>
+<a class="btn botao-voltar mt-4 text-decoration-none d-flex justify-content-center" href="{{ url('/dashboard') }}">
+        ← Voltar
+    </a>
 <main>
     
 <div class="auth-container" style="max-width:80%">

@@ -2,7 +2,7 @@
 <div class="dashboard-mimo" style="padding: 2rem;">
     
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; max-width: 1200px; margin: 0 auto 2rem;">
-        <h1 style="color: var(--color1); margin: 0;">📦 Gestão de Produtos</h1>
+        <h1 style="color: var(--color1); margin: 0;"><x-heroicon-c-shopping-bag style=" width: 3rem; height: 3rem; color:var(--main_color);"/> Gestão de Produtos</h1>
         <button id="toggleViewBtn" class="tab-button active">
             <i class="bi bi-grid-3x3-gap"></i> Ver em Cards
         </button>
@@ -105,8 +105,8 @@
                     </td>
                     <td class="text-center">
                         <select class="form-select-personalizacao formato_agenda py-1 px-2" data-produto-id="{{ $produto->id }}" style="width: auto; display: inline-block;">
-                            <option value="0" {{ $produto->disponivel == 0 ? 'selected' : '' }}>🔴 Não Visível</option>
-                            <option value="1" {{ $produto->disponivel == 1 ? 'selected' : '' }}>🟢 Visível</option>
+                            <option value="0" {{ $produto->disponivel == 0 ? 'selected' : '' }}>Não Visível</option>
+                            <option value="1" {{ $produto->disponivel == 1 ? 'selected' : '' }}> Visível</option>
                         </select>
                     </td>
                     <td class="text-center text-muted" style="font-size: 0.95rem;"> {{ $produto->created_at->format('d/m/Y H:i') }}</td>
@@ -118,7 +118,7 @@
                             <a href="{{ route('produto.edit', ['produto' => $produto]) }}" 
                             class="tab-button text-center" 
                             style="padding: 6px 12px; font-size: 0.85rem; text-decoration: none; width: 100%; display: block;">
-                                ✏️ Editar
+                                <x-heroicon-s-pencil  style=" width: 1rem; height: 1rem; color:black"/> Editar
                             </a>
 
                             {{-- Botão Eliminar --}}
@@ -131,7 +131,7 @@
                                 <button type="submit" 
                                         class="tab-button" 
                                         style="padding: 6px 12px; font-size: 0.85rem; border-color: var(--color-error); color: var(--color-error); background: transparent; width: 100%; cursor: pointer;">
-                                    🗑️ Eliminar
+                                    <x-heroicon-c-trash  style=" width: 1rem; height: 1rem; color:red"/> Eliminar
                                 </button>
                             </form>
                         </td>                 
@@ -195,8 +195,8 @@
             <div class="form-group-personalizacao mb-3">
                 <label class="small fw-bold mb-1" style="display: block;">Estado de Exibição</label>
                 <select class="form-select-personalizacao formato_agenda py-1" data-produto-id="{{ $produto->id }}">
-                    <option value="0" {{ $produto->disponivel == 0 ? 'selected' : '' }}>🔴 Não Visível</option>
-                    <option value="1" {{ $produto->disponivel == 1 ? 'selected' : '' }}>🟢 Visível</option>
+                    <option value="0" {{ $produto->disponivel == 0 ? 'selected' : '' }}> Não Visível</option>
+                    <option value="1" {{ $produto->disponivel == 1 ? 'selected' : '' }}> Visível</option>
                 </select>
             </div>
 

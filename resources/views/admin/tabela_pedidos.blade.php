@@ -10,7 +10,7 @@
 <div class="dashboard-mimo" style="padding: 2rem;">
     
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; max-width: 1200px; margin: 0 auto 2rem;">
-        <h1 style="color: var(--color1); margin: 0;">📦 Gestão de Pedidos</h1>
+        <h1 style="color: var(--color1); margin: 0;"><x-heroicon-c-shopping-bag style=" width: 3rem; height: 3rem; color:var(--main_color);"/> Gestão de Pedidos</h1>
         <button id="toggleViewBtn" class="tab-button active">
             <i class="bi bi-grid-3x3-gap"></i> Ver em Cards
         </button>
@@ -49,10 +49,10 @@
                     </td>
                     <td class="text-center">
                         <select class="form-select-personalizacao formato_agenda py-1 px-2" data-pedido-id="{{ $pedido->id }}" style="width: auto; display: inline-block;">
-                            <option value="não visto" {{ $pedido->estado == 'não visto' ? 'selected' : '' }}>🔴 Não visto</option>
-                            <option value="visto" {{ $pedido->estado == 'visto' ? 'selected' : '' }}>🟡 Visto</option>
-                            <option value="a trabalhar" {{ $pedido->estado == 'a trabalhar' ? 'selected' : '' }}>🟢 A Trabalhar</option>
-                            <option value="concluido" {{ $pedido->estado == 'concluido' ? 'selected' : '' }}>🔵 Concluído</option>
+                            <option value="não visto" {{ $pedido->estado == 'não visto' ? 'selected' : '' }}> Não visto</option>
+                            <option value="visto" {{ $pedido->estado == 'visto' ? 'selected' : '' }}> Visto</option>
+                            <option value="a trabalhar" {{ $pedido->estado == 'a trabalhar' ? 'selected' : '' }}> A Trabalhar</option>
+                            <option value="concluido" {{ $pedido->estado == 'concluido' ? 'selected' : '' }}> Concluído</option>
                         </select>
                     </td>
                     <td class="text-center text-muted" style="font-size: 0.95rem;"> {{ $pedido->created_at->format('d/m/Y H:i') }}</td>
@@ -64,7 +64,7 @@
                             <a href="{{ route('pedido.show', $pedido->id) }}">
                                 <button class="tab-button text-center" 
                                         style="padding: 6px 12px; font-size: 0.85rem; border-color: var(--main_color); color: var(--main_color); background: transparent; width: 100%; cursor: pointer;">
-                                    👁️ Ver
+                                    <x-heroicon-s-eye style="width: 1rem; height: 1rem; color:var(--main_color);"/> Ver
                                 </button>
                             </a>
                             {{-- Botão Eliminar --}}
@@ -77,7 +77,7 @@
                                 <button type="submit" 
                                         class="tab-button" 
                                         style="padding: 6px 12px; font-size: 0.85rem; border-color: var(--color-error); color: var(--color-error); background: transparent; width: 100%; cursor: pointer;">
-                                    🗑️ Eliminar
+                                    <x-heroicon-c-trash  style=" width: 1rem; height: 1rem; color:red"/> Eliminar
                                 </button>
                             </form>
                             
@@ -113,7 +113,7 @@
             <div class="form-group-personalizacao mb-3">
                 <label class="small fw-bold mb-1" style="display: block;">Estado do Pedido</label>
                 <select class="form-select-personalizacao formato_agenda py-1" data-pedido-id="{{ $pedido->id }}">
-                    <option value="não visto" {{ $pedido->estado == 'não visto' ? 'selected' : '' }}>🔴 Não visto</option>
+                    <option value="não visto" {{ $pedido->estado == 'não visto' ? 'selected' : '' }}> Não visto</option>
                     <option value="visto" {{ $pedido->estado == 'visto' ? 'selected' : '' }}>🟡 Visto</option>
                     <option value="a trabalhar" {{ $pedido->estado == 'a trabalhar' ? 'selected' : '' }}>🟢 A Trabalhar</option>
                     <option value="concluido" {{ $pedido->estado == 'concluido' ? 'selected' : '' }}>🔵 Concluído</option>

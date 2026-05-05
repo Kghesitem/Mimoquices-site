@@ -15,20 +15,20 @@
                 <div class="d-flex flex-column justify-content-center flex-md-row gap-3 max"style="width:65%">
                     
                     {{-- Card: Perfil --}}
-                    <a href="{{ route('produto.criar') }}" class="dash-card-admin" style="flex: 3;">
-                        <div class="dash-icon">🏷️</div>
+                    <a href="{{ route('produto.criar') }}" class="dash-card-admin" style="flex: 1;">
+                        <div class="dash-icon"><x-heroicon-s-tag style="width: 3rem; height: 3rem; color:var(--main_color);" /></div>
                         <h3>Adicionar Produto</h3>
                         <p>Cria um novo produto</p>
                         <span class="dash-link">Adicionar Produto →</span>
                     </a>
-                    <a href="{{ route('categoria.criar') }}" class="dash-card-admin"style="flex: 2;">
-                        <div class="dash-icon">📂</div>
+                    <a href="{{ route('categoria.criar') }}" class="dash-card-admin"style="flex: 1;">
+                        <div class="dash-icon"><x-heroicon-m-folder-plus style="width: 3rem; height: 3rem; color:var(--main_color);" /></div>
                         <h3>Adicionar Categoria</h3>
                         <p>Cria uma nova Categoria</p>
                         <span class="dash-link">Adicionar Categoria →</span>
                     </a>
-                    <a href="{{ route('tabelaPedidos') }}" class="dash-card-admin"style="flex: 3;">
-                        <div class="dash-icon">📜</div>
+                    <a href="{{ route('tabelaPedidos') }}" class="dash-card-admin"style="flex: 1;">
+                        <div class="dash-icon"><x-heroicon-c-clipboard-document-list style=" width: 3rem; height: 3rem; color:var(--main_color);" /></div>
                         <h3>Lista de Pedidos</h3>
                         <p>Visualiza todos os pedidos</p>
                         <span class="dash-link">Ver Pedidos →</span>

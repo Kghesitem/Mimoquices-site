@@ -1,5 +1,5 @@
 <div class="dash-card-admin" style="padding: 2rem; max-width: 65%; margin: 2rem auto; background-color: #ffffff; border-radius: 1.5rem;">
-    <h1> 🗂️ Gestão de Categorias</h1>
+    <h1> <x-heroicon-m-folder-open style=" width: 3rem; height: 3rem; color:var(--main_color);" />Gestão de Categorias</h1>
 
     @if ($errors->any())
     <div style="padding: 0 2rem; padding-top: 1.5rem;">
@@ -22,13 +22,13 @@
                         {{ $tipo->Categoria }}
                     </label>
                     <a href="{{ route('categoria.edit', ['id' => $tipo->id]) }}" class="btn btn-sm btn-outline-primary" title="Editar categoria" style="margin-top: 0.5rem;">
-                        ✏️ Editar
+                        <x-heroicon-s-pencil  style=" width: 1rem; height: 1rem; color:blue"/> Editar
                     </a>
                     <form action="{{ route('categoria.destroy', ['id' => $tipo->id]) }}" method="POST" style="display: inline;">
                         @csrf
                         @method('DELETE')
                         <button class="btn btn-sm btn-outline-danger" title="Excluir categoria" style="margin-top: 0.5rem;" onclick="if(confirm('Tem certeza que deseja excluir esta categoria?'))">
-                            🗑️ Excluir
+                            <x-heroicon-c-trash  style=" width: 1rem; height: 1rem; color:red"/> Excluir
                         </button>
                     </form>
                 </div>

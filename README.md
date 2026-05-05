@@ -56,6 +56,10 @@ Configurar o Ambiente:
 
     php artisan storage:link
 
+10-Adicionar icons 
+
+    composer require blade-ui-kit/blade-heroicons
+
 💻 Execução
 Para iniciar o servidor de desenvolvimento abra o cmd e coloque:
 

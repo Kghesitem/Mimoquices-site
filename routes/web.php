@@ -7,6 +7,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\PersonalizacaoController;
+use App\Http\Controllers\FavoritoController;
 use App\Http\Middleware\AdminMiddleware;
 
 Route::get('/', function () {
@@ -41,10 +42,12 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    Route::post('/favoritos/toggle', [ProdutoController::class, 'toggle'])->name('favorito.toggle');
+
     Route::get('/produtos/{produto}/editar', [ProdutoController::class, 'edit'])->name('produto.edit');
     Route::put('/produtos/{produto}/update', [ProdutoController::class, 'update'])->name('produto.update');
     Route::post('/produto/{id}/visivel', [ProdutoController::class, 'visivel'])->name('produto.visivel');
-    Route::post('/produto/{id}/favorito', [ProdutoController::class, 'favorito'])->name('produto.favorito');
+    Route::post('/produto/{id}/destaque', [ProdutoController::class, 'destaque'])->name('produto.destaque');
     Route::delete('/produto/{id}', [ProdutoController::class, 'destroy'])->name('produto.destroy');
     
     Route::post('/pedido/{id}/atualizar', [PersonalizacaoController::class, 'atualizar'])->name('pedido.atualizar');

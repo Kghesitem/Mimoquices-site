@@ -32,10 +32,10 @@
                 <option value="1">Visível</option>
                 <option value="0">Oculto</option>
             </select>
-            <select id="favoritos" class="form-select w-auto" style="border-radius: 1rem; border-color: var(--color-border); appearance: none; -webkit-appearance: none; -moz-appearance: none; background-image: none; padding-right: 0.5rem;">">
-                <option value="">Favoritos e não favoritos</option>
-                <option value="1">Favoritos</option>
-                <option value="0">Não Favoritos</option>
+            <select id="destaques" class="form-select w-auto" style="border-radius: 1rem; border-color: var(--color-border); appearance: none; -webkit-appearance: none; -moz-appearance: none; background-image: none; padding-right: 0.5rem;">">
+                <option value="">destaques e não destaques</option>
+                <option value="1">destaques</option>
+                <option value="0">Não destaques</option>
             </select>
 
         </div>
@@ -50,7 +50,7 @@
         <table class="table table-hover m-0" style="font-family: inherit;">
             <thead style="background-color: var(--main_color_light);">
                 <tr style="border-bottom: 2px solid var(--main_color);">
-                    <th class="ps-4 py-3" style="color: var(--color1); font-weight: 700;">Favorito</th>
+                    <th class="ps-4 py-3" style="color: var(--color1); font-weight: 700;">destaque</th>
                     <th class="ps-4 py-3" style="color: var(--color1); font-weight: 700;">Produto</th>
                     <th class="py-3" style="color: var(--color1); font-weight: 700;">Categoria</th>
                     <th class="py-3 text-center" style="color: var(--color1); font-weight: 700;">Visibilidade</th>
@@ -76,17 +76,17 @@
                         <div class="form-check">
                             <input 
                                 type="checkbox"
-                                name="favorito"
-                                class="form-check-input d-none favorito"
+                                name="destaque"
+                                class="form-check-input d-none destaque"
                                 
-                                id="favorito-table-{{ $produto->id }}"
+                                id="destaque-table-{{ $produto->id }}"
                                 data-produto-id="{{ $produto->id }}"
-                                @if($produto->favorito === 1) checked @endif
+                                @if($produto->destaque === 1) checked @endif
                             >
 
-                            <label for="favorito-table-{{ $produto->id }}" class="cursor-pointer">
+                            <label for="destaque-table-{{ $produto->id }}" class="cursor-pointer">
                                 <i class="bi 
-                                    @if($produto->favorito === 1) bi-star-fill text-warning 
+                                    @if($produto->destaque === 1) bi-star-fill text-warning 
                                     @else bi-star text-secondary 
                                     @endif
                                     estrela-icon"
@@ -162,16 +162,16 @@
 
                         <input 
                             type="checkbox"
-                            name="favorito"
-                            class="form-check-input d-none favorito"
-                            id="favorito-card-{{ $produto->id }}"
+                            name="destaque"
+                            class="form-check-input d-none destaque"
+                            id="destaque-card-{{ $produto->id }}"
                             data-produto-id="{{ $produto->id }}"
-                            @if($produto->favorito === 1) checked @endif
+                            @if($produto->destaque === 1) checked @endif
                         >
 
-                        <label for="favorito-card-{{ $produto->id }}" class="cursor-pointer">
+                        <label for="destaque-card-{{ $produto->id }}" class="cursor-pointer">
                             <i class="bi 
-                                @if($produto->favorito === 1) bi-star-fill text-warning 
+                                @if($produto->destaque === 1) bi-star-fill text-warning 
                                 @else bi-star text-secondary 
                                 @endif
                                 estrela-icon"
@@ -237,13 +237,13 @@
     const pesquisa = document.getElementById('pesquisa');
     const filtroTipos = document.getElementById('filtroTipos');
     const visivel = document.getElementById('visibilidades');
-    const favoritos = document.getElementById('favoritos');
+    const destaques = document.getElementById('destaques');
 
     function filtrarProdutos() {
         const texto = pesquisa.value.toLowerCase().trim();
         const tipoId = filtroTipos.value;
         const visivelId = visivel.value;
-        const favoritoId = favoritos.value;
+        const destaqueId = destaques.value;
         let encontrouAlgo = false;
 
         const itens = document.querySelectorAll('.item-produto');
@@ -255,14 +255,14 @@
             const selectVisivel = item.querySelector('.formato_agenda');
             const itemVisivel = selectVisivel ? selectVisivel.value : "0";
             
-            const itemFavorito = item.querySelector('.favorito')?.checked ? "1" : "0";
+            const itemdestaque = item.querySelector('.destaque')?.checked ? "1" : "0";
 
             const matchTexto = titulo.includes(texto);
             const matchTipo = tipoId === "" || itemTipo === tipoId;
             const matchVisivel = visivelId === "" || itemVisivel === visivelId;
-            const matchFavorito = favoritoId === "" || itemFavorito === favoritoId;
+            const matchdestaque = destaqueId === "" || itemdestaque === destaqueId;
 
-            if (matchTexto && matchTipo && matchVisivel && matchFavorito) {
+            if (matchTexto && matchTipo && matchVisivel && matchdestaque) {
                 item.style.setProperty('display', '', 'important');
                 encontrouAlgo = true;
             } else {
@@ -287,7 +287,7 @@
         pesquisa.addEventListener('input', filtrarProdutos);
         filtroTipos.addEventListener('change', filtrarProdutos);
         visivel.addEventListener('change', filtrarProdutos);
-        favoritos.addEventListener('change', filtrarProdutos);
+        destaques.addEventListener('change', filtrarProdutos);
     });
 
 
@@ -356,7 +356,7 @@
         });
     });
 
-    $(document).on('change', '.favorito', function() {
+    $(document).on('change', '.destaque', function() {
         const $check = $(this);
         const produtoId = $check.data('produto-id');
         const novoStatus = $check.is(':checked') ? 1 : 0;
@@ -373,14 +373,14 @@
         }
 
         $.ajax({
-            url: '/produto/' + produtoId + '/favorito',
+            url: '/produto/' + produtoId + '/destaque',
             type: 'POST',
             data: {
                 _token: '{{ csrf_token() }}',
-                favorito: novoStatus
+                destaque: novoStatus
             },
             success: function(response) {
-                $(`.favorito[data-produto-id="${produtoId}"]`).each(function() {
+                $(`.destaque[data-produto-id="${produtoId}"]`).each(function() {
                     const icon = $(this).next('label').find('i');
 
                     if (novoStatus === 1) {

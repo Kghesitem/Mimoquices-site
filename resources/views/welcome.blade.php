@@ -54,33 +54,33 @@
         </div>
         <div class="bg-white d-flex flex-column justify-content-center align-items-center py-5">
     <div class="container">
-        <h1 class="mb-4">Produtos Favoritos</h1>
-        @if($favoritos->isEmpty())
+        <h1 class="mb-4">Produtos destaques</h1>
+        @if($destaques->isEmpty())
                 <div class="text-center py-5" style="color: var(--color-muted); font-style: italic; width: 100%;">
-                    Nenhum produto favorito encontrado.
+                    Nenhum produto destaque encontrado.
                 </div>
             
             @else
 
         <!-- LISTA DE PRODUTOS -->
         <div class="limite">
-            @foreach($favoritos as $favorito)
-                <a href="/produtos/{{$favorito->url_completo}}" 
+            @foreach($destaques as $destaque)
+                <a href="/produtos/{{$destaque->url_completo}}" 
                    class="produtos-produto animacao-aparecer text-decoration-none" 
-                   data-tipo="{{ $favorito->tipo_prod }}">
+                   data-tipo="{{ $destaque->tipo_prod }}">
                     <div>
                         <img class="produto-img" 
-                             src="{{asset("Storage/{$favorito->nome_cod}")}}" 
-                             alt="{{$favorito->nome_original}}">
+                             src="{{asset("Storage/{$destaque->nome_cod}")}}" 
+                             alt="{{$destaque->nome_original}}">
                     </div>
 
                     <div>
-                        <h3>{{$favorito->titulo}}</h3> 
+                        <h3>{{$destaque->titulo}}</h3> 
                     </div>
 
                     <div>
                         @foreach ($tipos as $tipo)
-                            @if ($favorito->tipo_prod == $tipo->id)
+                            @if ($destaque->tipo_prod == $tipo->id)
                                 {{$tipo->Categoria}}
                             @endif
                         @endforeach

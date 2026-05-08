@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('tipo_prod');
             $table->string('nome_original');
             $table->boolean('disponivel')->default(true);
-            $table->boolean('favorito')->default(false);
+            $table->boolean('destaque')->default(false);
             $table->string('nome_cod');
             $table->string('pode_personalizar')->default('Não');
             $table->longText('personalizar_opcoes')->nullable();
@@ -41,7 +41,7 @@ return new class extends Migration
                 'tipo_prod' => 1,
                 'nome_original' => '1-main.JPEG',
                 'disponivel' => 1,
-                'favorito' => 0,
+                'destaque' => 0,
                 'nome_cod' => 'uploads/00dd7a8c9f7136761b4d0007a89521dd.jpg',
                 'pode_personalizar' => 'Sim',
                 'personalizar_opcoes' =>json_encode(["1","2","3","4","5"]),
@@ -58,7 +58,7 @@ return new class extends Migration
                 'tipo_prod' => 1,
                 'nome_original' => 'main.JPEG',
                 'disponivel' => 1,
-                'favorito' => 0,
+                'destaque' => 0,
                 'nome_cod' => 'uploads/77a761372e41e490df2b1e724cc38e01.jpg',
                 'pode_personalizar' => 'Sim',
                 'personalizar_opcoes' => json_encode(["1","2","3","4","5"]),
@@ -75,7 +75,7 @@ return new class extends Migration
                 'tipo_prod' => 2, 
                 'nome_original' => 'Chocolate.jpg',
                 'disponivel' => 1,
-                'favorito' => 0,
+                'destaque' => 0,
                 'nome_cod' => 'uploads/c423277cdef8fcf67e54d0936b0afc23.jpg',
                 'pode_personalizar' => 'Sim',
                 'personalizar_opcoes' => json_encode(["6","7"]),

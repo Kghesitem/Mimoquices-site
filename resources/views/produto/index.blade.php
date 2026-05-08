@@ -1,6 +1,7 @@
 @include('partial/header')
 <head>
     <title>Produtos - Mimoquices</title>
+<meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
     <div class="banner">
@@ -28,11 +29,11 @@
                 <option value="nome_desc">Nome Z→A</option>
             </select>
 
-             <label class="ms-3">Favoritos:</label>
-            <select id="favoritos" class="form-select d-inline-block w-auto ms-2">
-                <option value="">Favoritos e não favoritos</option>
-                <option value="1">Favoritos</option>
-                <option value="0">Não Favoritos</option>
+             <label class="ms-3">destaques:</label>
+            <select id="destaques" class="form-select d-inline-block w-auto ms-2">
+                <option value="">destaques e não destaques</option>
+                <option value="1">destaques</option>
+                <option value="0">Não destaques</option>
             </select>
         </div>
     </div>
@@ -52,7 +53,11 @@
             @foreach($produtos as $produto)
                 <a href="/produtos/{{$produto->url_completo}}" 
                    class="produtos-produto animacao-aparecer text-decoration-none" 
-                   data-tipo="{{ $produto->tipo_prod }}" data-favorito="{{ $produto->favorito }}">
+                   data-tipo="{{ $produto->tipo_prod }}" data-destaque="{{ $produto->destaque }}" data-produto-id="{{ $produto->id }}">
+                   <x-heroicon-c-heart 
+                        class="favorite-btn {{ in_array($produto->id, $favoritos) ? 'active' : '' }}" 
+                        aria-label="Favoritar"
+                    />
                     <div>
                         <img class="produto-img" 
                              src="{{asset("Storage/{$produto->nome_cod}")}}" 
@@ -84,11 +89,12 @@
 @include('partial/footer')
 
 <script>
+
 document.addEventListener('DOMContentLoaded', function(){
     const filtroTipos = document.getElementById('filtroTipos');
     const pesquisa = document.getElementById('pesquisa');
     const ordenar = document.getElementById('ordenar');
-    const favoritos = document.getElementById('favoritos');
+    const destaques = document.getElementById('destaques');
     const produtosContainer = document.querySelector('.limite');
     const produtos = Array.from(document.querySelectorAll('.produtos-produto'));
     const semProdutos = document.getElementById('semProdutos');
@@ -102,7 +108,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
         const tipo = filtroTipos ? filtroTipos.value : '';
         const texto = pesquisa ? pesquisa.value.trim().toLowerCase() : '';
-        const favValue = favoritos ? favoritos.value : '';
+        const favValue = destaques ? destaques.value : '';
         
         let encontrou = false;
 
@@ -114,10 +120,10 @@ document.addEventListener('DOMContentLoaded', function(){
             
             const matchTexto = (texto === '' || titulo.includes(texto));
             
-            const matchFavorito = (favValue === '' || prod.dataset.favorito === favValue);
+            const matchdestaque = (favValue === '' || prod.dataset.destaque === favValue);
             
-            prod.style.display = (matchTipo && matchTexto && matchFavorito) ? '' : 'none';
-            if (matchTipo && matchTexto && matchFavorito) encontrou = true;
+            prod.style.display = (matchTipo && matchTexto && matchdestaque) ? '' : 'none';
+            if (matchTipo && matchTexto && matchdestaque) encontrou = true;
         });
 
         if (semProdutos) semProdutos.style.display = encontrou ? 'none' : 'block';
@@ -138,10 +144,11 @@ document.addEventListener('DOMContentLoaded', function(){
     if (filtroTipos) filtroTipos.addEventListener('change', atualizarProdutos);
     if (pesquisa) pesquisa.addEventListener('input', atualizarProdutos);
     if (ordenar) ordenar.addEventListener('change', atualizarProdutos);
-    if (favoritos) favoritos.addEventListener('change', atualizarProdutos);
+    if (destaques) destaques.addEventListener('change', atualizarProdutos);
 
     atualizarProdutos();
 });
 </script>
+<script src="{{ asset('frontend/assets/javascript/favoritos.js') }}"></script>
 </body>
 </html>

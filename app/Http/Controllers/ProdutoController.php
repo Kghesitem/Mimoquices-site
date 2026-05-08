@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use App\Models\Produto;
 use App\Models\Tipo;
 use App\Models\Fotos;
+use App\Models\favoritos;
 use App\Models\Personalizacao;
 use App\Models\todas_as_personalizacoes;
 use App\Models\associadas;
@@ -14,32 +15,81 @@ use App\Mail\PersonalizarMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class ProdutoController extends Controller
 {
     public function index()
     {
-        $produtos = Produto::all()->where('disponivel', 1);
+        // Filtragem feita diretamente na BD para melhor performance
+        $produtos = Produto::where('disponivel', 1)->get();
         $tipos = Tipo::all();
+        
+        // Verifica favoritos apenas se o utilizador estiver logado
+        $favoritos = Auth::check() 
+            ? favoritos::where('id_user', Auth::id())->pluck('id_produto')->toArray() 
+            : [];
 
         return view('produto.index', [
-            'produtos' => $produtos,
-            'tipos' => $tipos,
-        ]);
-    }
-
-    public function welcome()
-    {
-        $produtos = Produto::orderBy('created_at', 'desc')->where('disponivel', 1)->take(8)->get();
-        $favoritos = Produto::where('disponivel',1)->where('favorito',1)->get();
-        $tipos = Tipo::all();
-
-        return view('welcome', [
             'produtos' => $produtos,
             'tipos' => $tipos,
             'favoritos' => $favoritos
         ]);
     }
+
+    public function welcome()
+    {
+        $produtos = Produto::orderBy('created_at', 'desc')
+            ->where('disponivel', 1)
+            ->take(8)
+            ->get();
+
+        $destaques = Produto::where('disponivel', 1)
+            ->where('destaque', 1)
+            ->get();
+
+        $tipos = Tipo::all();
+
+        $favoritos = Auth::check() 
+            ? favoritos::where('id_user', Auth::id())->pluck('id_produto')->toArray() 
+            : [];
+
+        return view('welcome', [
+            'produtos' => $produtos,
+            'tipos' => $tipos,
+            'destaques' => $destaques,
+            'favoritos' => $favoritos
+        ]);
+    }
+
+    public function toggle(Request $request)
+    {
+        if (!Auth::check()) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        $id_produto = $request->input('id_produto');
+        $id_user = Auth::id();
+
+        // Procura se o favorito já existe para este utilizador
+        $favorito = favoritos::where('id_user', $id_user)
+                            ->where('id_produto', $id_produto)
+                            ->first();
+
+        if ($favorito) {
+            // Se já existe, remove (Unfavorite)
+            $favorito->delete();
+            return response()->json(['status' => 'removed']);
+        } else {
+            // Se não existe, cria (Favorite)
+            favoritos::create([
+                'id_user' => $id_user,
+                'id_produto' => $id_produto
+            ]);
+            return response()->json(['status' => 'added']);
+        }
+    }
+
 
     public function show($url_completo)
     {
@@ -250,6 +300,18 @@ class ProdutoController extends Controller
         return response()->json(['success' => true]);
     }
 
+    public function destaque(Request $request, $id)
+    {
+        $request->validate([
+            'destaque' => 'required|in:0,1',
+        ]);
+
+        $produto = Produto::findOrFail($id);
+        $produto->destaque = $request->destaque;
+        $produto->save();
+
+        return response()->json(['success' => true]);
+    }
     public function favorito(Request $request, $id)
     {
         $request->validate([

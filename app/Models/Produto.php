@@ -19,7 +19,7 @@ class Produto extends Model
         'conteudo',
         'detalhes',
         'disponivel',
-        'favorito',
+        'destaque',
         'url_completo',
         'tipo_prod',
         'nome_original',

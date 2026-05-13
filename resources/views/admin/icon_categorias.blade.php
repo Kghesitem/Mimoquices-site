@@ -4,7 +4,7 @@
     @if ($errors->any())
     <div style="padding: 0 2rem; padding-top: 1.5rem;">
         <div class="error-container">
-            <strong>⚠️ Erro nas categorias</strong>
+            <strong><x-heroicon-s-exclamation-triangle /> Erro nas categorias</strong>
             <ul>
                 @foreach ($errors->all() as $error)
                 <li>{{ $error }}</li>

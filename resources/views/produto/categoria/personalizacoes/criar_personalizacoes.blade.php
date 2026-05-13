@@ -12,7 +12,7 @@
     <div class="container">
         
         <div class="form-container">
-            <h1>➕ Criar Personalizações</h1>
+            <h1><x-heroicon-c-plus style=" width: 4.5rem; height: 4.5rem; color:var(--main_color);" /> Criar Personalizações</h1>
 
             @if($errors->any())
             <div class="alert-errors">
@@ -111,7 +111,7 @@
                     </div>
 
                 </div>
-                <button type="submit" class="btn-submit">💾 Guardar Personalização</button>
+                <button type="submit" class="btn-submit"><x-heroicon-c-bookmark style="1.5rem; height: 1.5rem;"/> Guardar Personalização</button>
             </form>
         </div>
     </div>

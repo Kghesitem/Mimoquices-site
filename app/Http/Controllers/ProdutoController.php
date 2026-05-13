@@ -216,7 +216,6 @@ class ProdutoController extends Controller
         // Criar UM ou VÁRIOS registos por personalização
         foreach ($data['personalizacoes_opcoes'] as $idPersonalizacao => $opcaoSelecionada) {
 
-            // ❗ Se não foi escolhida nenhuma opção
             if (empty($opcaoSelecionada)) {
                 return redirect()
                     ->back()
@@ -312,17 +311,19 @@ class ProdutoController extends Controller
 
         return response()->json(['success' => true]);
     }
-    public function favorito(Request $request, $id)
+    public function favoritos(Request $request)
     {
-        $request->validate([
-            'favorito' => 'required|in:0,1',
+        $idsFavoritos = favoritos::where('id_user', Auth::id())->pluck('id_produto')->toArray();
+        $produtos = Produto::whereIn('id', $idsFavoritos)->where('disponivel', 1)->get();
+
+        $tipos = Tipo::all();
+        $favoritos = $idsFavoritos;
+
+        return view('produto.favoritos_cliente', [
+            'produtos' => $produtos,
+            'tipos' => $tipos,
+            'favoritos' => $favoritos
         ]);
-
-        $produto = Produto::findOrFail($id);
-        $produto->favorito = $request->favorito;
-        $produto->save();
-
-        return response()->json(['success' => true]);
     }
 
     public function update(Produto $produto, Request $request)

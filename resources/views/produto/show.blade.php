@@ -10,9 +10,19 @@
 <body>
 
 @if (session('success'))
-    <div class="alert-sucesso-personalizacao" style="margin: 1.5rem auto; max-width: 500px; text-align: center;">
-        ✅ {{ session('success') }}
-    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'success',
+                title: "{{ session('success') }}",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true
+            });
+        });
+    </script>
 @endif
 
 <div class="bg-white d-flex justify-content-center py-5">

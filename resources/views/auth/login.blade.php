@@ -14,7 +14,7 @@
 <div class="auth-container">
     <!-- CABEÇALHO DO FORMULÁRIO -->
     <div class="auth-header">
-        <h1>🔐 Iniciar Sessão</h1>
+        <h1><x-heroicon-s-user style="width: 2rem; height: 2rem;"/> Iniciar Sessão</h1>
         <p>Bem-vindo de volta! Inicie sessão para continuar</p>
     </div>
 
@@ -22,7 +22,7 @@
     @if ($errors->any())
     <div style="padding: 0 2rem; padding-top: 1.5rem;">
         <div class="error-container">
-            <strong>⚠️ Erro ao iniciar sessão:</strong>
+            <strong><x-heroicon-s-exclamation-triangle /> Erro ao iniciar sessão:</strong>
             <ul>
                 @foreach ($errors->all() as $error)
                 <li>{{ $error }}</li>
@@ -38,7 +38,7 @@
 
         <!-- Email -->
         <div class="form-group">
-            <label for="email" class="form-label">📧 Endereço de Email</label>
+            <label for="email" class="form-label"><x-heroicon-c-envelope style="color: var(--main_color); width: 1.25rem; height: 1.25rem;"/> Endereço de Email</label>
             <input 
                 type="email" 
                 id="email" 
@@ -54,7 +54,7 @@
 
         <!-- Palavra-passe -->
         <div class="form-group">
-            <label for="password" class="form-label">🔒 Palavra-passe</label>
+            <label for="password" class="form-label"><x-heroicon-s-lock-closed style="color: var(--main_color); width: 1.25rem; height: 1.25rem;"/> Palavra-passe</label>
             <input 
                 type="password" 
                 id="password" 

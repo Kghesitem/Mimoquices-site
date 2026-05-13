@@ -11,7 +11,7 @@
     <main class="profile-page py-5">
     <div class="container">
     <div class="form-container">
-        <h1>➕ Criar Produtos</h1>
+        <h1><x-heroicon-c-plus style=" width: 4.5rem; height: 4.5rem; color:var(--main_color);" /> Criar Produtos</h1>
 
         <!-- Erros -->
         @if($errors->any())
@@ -180,7 +180,7 @@
             </div>
 
             <!-- Botão Submit -->
-            <button type="submit" class="btn-submit">💾 Guardar Produto</button>
+            <button type="submit" class="btn-submit"><x-heroicon-c-bookmark style="1.5rem; height: 1.5rem;"/> Guardar Produto</button>
         </form>
     </div>
 </body>

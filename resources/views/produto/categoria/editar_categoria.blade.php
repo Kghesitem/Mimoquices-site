@@ -11,7 +11,7 @@
     <div class="container">
         
         <div class="form-container">
-            <h1>📂 Editar Categoria</h1>
+            <h1><x-heroicon-m-folder-open style=" width: 3rem; height: 3rem; color:var(--main_color);" /> Editar Categoria</h1>
 
             @if($errors->any())
             <div class="alert-errors">
@@ -52,7 +52,7 @@
         </div>
         <a href="{{ route('personalizacao.criar') }}">
             <button type="button" class="btn btn-sm btn-outline-primary" title="Adicionar personalização" style="margin-top: -1.5rem;">
-                ➕
+                <x-heroicon-c-plus style=" width: 1.5rem; height: 1.5rem; color:var(--main_color);" />
             </button>
         </a>               
     </div>
@@ -83,7 +83,7 @@
             @endforeach
         </div>
 </div>  
-    <button type="submit" class="btn-submit" id="btnGuardar">💾 Guardar Categoria</button>
+    <button type="submit" class="btn-submit" id="btnGuardar"><x-heroicon-c-bookmark style="1.5rem; height: 1.5rem;"/> Guardar Categoria</button>
         </form>
 
         </div>

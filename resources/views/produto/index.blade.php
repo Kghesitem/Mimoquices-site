@@ -1,7 +1,6 @@
 @include('partial/header')
 <head>
     <title>Produtos - Mimoquices</title>
-<meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
     <div class="banner">
@@ -27,13 +26,6 @@
             <select id="ordenar" class="form-select d-inline-block w-auto ms-2">
                 <option value="nome_asc">Nome A→Z</option>
                 <option value="nome_desc">Nome Z→A</option>
-            </select>
-
-             <label class="ms-3">destaques:</label>
-            <select id="destaques" class="form-select d-inline-block w-auto ms-2">
-                <option value="">destaques e não destaques</option>
-                <option value="1">destaques</option>
-                <option value="0">Não destaques</option>
             </select>
         </div>
     </div>
@@ -90,64 +82,60 @@
 
 <script>
 
-document.addEventListener('DOMContentLoaded', function(){
-    const filtroTipos = document.getElementById('filtroTipos');
-    const pesquisa = document.getElementById('pesquisa');
-    const ordenar = document.getElementById('ordenar');
-    const destaques = document.getElementById('destaques');
-    const produtosContainer = document.querySelector('.limite');
-    const produtos = Array.from(document.querySelectorAll('.produtos-produto'));
-    const semProdutos = document.getElementById('semProdutos');
+    document.addEventListener('DOMContentLoaded', function(){
+        const filtroTipos = document.getElementById('filtroTipos');
+        const pesquisa = document.getElementById('pesquisa');
+        const ordenar = document.getElementById('ordenar');
+        const produtosContainer = document.querySelector('.limite');
+        const produtos = Array.from(document.querySelectorAll('.produtos-produto'));
+        const semProdutos = document.getElementById('semProdutos');
 
-    const params = new URLSearchParams(window.location.search);
-    const tipoParam = params.get('tipo');
-    if (tipoParam && filtroTipos) filtroTipos.value = tipoParam;
+        const params = new URLSearchParams(window.location.search);
+        const tipoParam = params.get('tipo');
+        if (tipoParam && filtroTipos) filtroTipos.value = tipoParam;
 
-    function atualizarProdutos(){
-        if (!produtos.length) return;
+        function atualizarProdutos(){
+            if (!produtos.length) return;
 
-        const tipo = filtroTipos ? filtroTipos.value : '';
-        const texto = pesquisa ? pesquisa.value.trim().toLowerCase() : '';
-        const favValue = destaques ? destaques.value : '';
-        
-        let encontrou = false;
-
-        produtos.forEach(prod => {
-            const tituloEl = prod.querySelector('h3');
-            const titulo = tituloEl ? tituloEl.textContent.trim().toLowerCase() : '';
+            const tipo = filtroTipos ? filtroTipos.value : '';
+            const texto = pesquisa ? pesquisa.value.trim().toLowerCase() : '';
             
-            const matchTipo = (tipo === '' || prod.dataset.tipo === tipo);
-            
-            const matchTexto = (texto === '' || titulo.includes(texto));
-            
-            const matchdestaque = (favValue === '' || prod.dataset.destaque === favValue);
-            
-            prod.style.display = (matchTipo && matchTexto && matchdestaque) ? '' : 'none';
-            if (matchTipo && matchTexto && matchdestaque) encontrou = true;
-        });
+            let encontrou = false;
 
-        if (semProdutos) semProdutos.style.display = encontrou ? 'none' : 'block';
-
-        // Ordenar apenas os visíveis
-        if (ordenar && produtosContainer) {
-            const ord = ordenar.value;
-            const visiveis = produtos.filter(p => p.style.display !== 'none');
-            visiveis.sort((a,b) => {
-                const A = (a.querySelector('h3')?.textContent || '').toLowerCase();
-                const B = (b.querySelector('h3')?.textContent || '').toLowerCase();
-                return ord === 'nome_asc' ? A.localeCompare(B) : B.localeCompare(A);
+            produtos.forEach(prod => {
+                const tituloEl = prod.querySelector('h3');
+                const titulo = tituloEl ? tituloEl.textContent.trim().toLowerCase() : '';
+                
+                const matchTipo = (tipo === '' || prod.dataset.tipo === tipo);
+                
+                const matchTexto = (texto === '' || titulo.includes(texto));
+                
+                prod.style.display = (matchTipo && matchTexto) ? '' : 'none';
+                if (matchTipo && matchTexto) encontrou = true;
             });
-            visiveis.forEach(p => produtosContainer.appendChild(p));
+
+            if (semProdutos) semProdutos.style.display = encontrou ? 'none' : 'block';
+
+            // Ordenar apenas os visíveis
+            if (ordenar && produtosContainer) {
+                const ord = ordenar.value;
+                const visiveis = produtos.filter(p => p.style.display !== 'none');
+                visiveis.sort((a,b) => {
+                    const A = (a.querySelector('h3')?.textContent || '').toLowerCase();
+                    const B = (b.querySelector('h3')?.textContent || '').toLowerCase();
+                    return ord === 'nome_asc' ? A.localeCompare(B) : B.localeCompare(A);
+                });
+                visiveis.forEach(p => produtosContainer.appendChild(p));
+            }
         }
-    }
 
-    if (filtroTipos) filtroTipos.addEventListener('change', atualizarProdutos);
-    if (pesquisa) pesquisa.addEventListener('input', atualizarProdutos);
-    if (ordenar) ordenar.addEventListener('change', atualizarProdutos);
-    if (destaques) destaques.addEventListener('change', atualizarProdutos);
+        if (filtroTipos) filtroTipos.addEventListener('change', atualizarProdutos);
+        if (pesquisa) pesquisa.addEventListener('input', atualizarProdutos);
+        if (ordenar) ordenar.addEventListener('change', atualizarProdutos);
+        if (destaques) destaques.addEventListener('change', atualizarProdutos);
 
-    atualizarProdutos();
-});
+        atualizarProdutos();
+    });
 </script>
 <script src="{{ asset('frontend/assets/javascript/favoritos.js') }}"></script>
 </body>

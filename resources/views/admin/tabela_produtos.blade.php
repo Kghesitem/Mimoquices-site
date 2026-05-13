@@ -3,12 +3,17 @@
     
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; max-width: 1200px; margin: 0 auto 2rem;">
         <h1 style="color: var(--color1); margin: 0;"><x-heroicon-c-shopping-bag style=" width: 3rem; height: 3rem; color:var(--main_color);"/> Gestão de Produtos</h1>
-        <button id="toggleViewBtn" class="tab-button active">
-            <i class="bi bi-grid-3x3-gap"></i> Ver em Cards
-        </button>
     </div>
 
+    {{-- Gráfico de Favoritos --}}
+        @include('admin.grafico_favoritos')
 
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; max-width: 1200px; margin: 0 auto 2rem;">
+            <h4 style="color: var(--color1); margin: 0;"><x-heroicon-o-numbered-list style=" width: 3rem; height: 3rem; color:var(--main_color);"/> Lista de Produtos</h4>
+            <button id="toggleViewBtn" class="tab-button active">
+                <i class="bi bi-grid-3x3-gap"></i> Ver em Cards
+            </button>
+    </div>
     <div class="card mb-2 border-0 shadow-sm" style="border-radius: 1.5rem; max-width: 73%; margin: 0 auto 2rem;">
         <div class="card-body p-3 d-flex flex-wrap gap-3 align-items-center" style="background-color: white; border-radius: 1.5rem; border: 1px solid var(--color-border);">
             
@@ -62,7 +67,7 @@
             <tbody>
                     <tr id="noResultsTable" style="display: none;">
                         <td colspan="7" class="text-center py-5" style="color: var(--color-muted); font-style: italic;">
-                            🔍 Nenhum produto corresponde aos filtros.
+                            <x-heroicon-s-magnifying-glass style="width: 2rem; height: 2rem;"/> Nenhum produto corresponde aos filtros.
                         </td>
                     </tr>
                 @if($produtos->isEmpty())
@@ -145,7 +150,7 @@
 
 <div id="cardView" class="container-fluid px-0" style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center;">
         <div id="noResultsCard" class="text-center py-5 w-100" style="display: none; color: var(--color-muted); font-style: italic;">
-            🔍 Nenhum produto corresponde aos filtros.
+            <x-heroicon-s-magnifying-glass style="width: 2rem; height: 2rem;"/> Nenhum produto corresponde aos filtros.
         </div>    
 
     @if($produtos->isEmpty())
@@ -167,6 +172,7 @@
                             id="destaque-card-{{ $produto->id }}"
                             data-produto-id="{{ $produto->id }}"
                             @if($produto->destaque === 1) checked @endif
+                            onclick="SweetAlert_destaque()"
                         >
 
                         <label for="destaque-card-{{ $produto->id }}" class="cursor-pointer">
@@ -178,9 +184,6 @@
                                 style="cursor: pointer;"
                             ></i>
                         </label>
-
-
-
 
                     <h3><a href="/produtos/{{$produto->url_completo}}"style="color: var(--main_color); font-size: 1.1rem; margin: 0; font-family: Georgia, serif; text-decoration:none" >{{ $produto->titulo }}</a></h3>
                     <small class="text-muted" style="font-family: 'Poppins', sans-serif;">
@@ -230,6 +233,28 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script> 
+
+function SweetAlert_destaque()
+{
+    Swal.fire({
+        icon: 'success',
+        title: 'Destaque atualizado!',
+        text: 'O destaque do produto foi atualizado com sucesso.',
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    });
+}
+
+</script>
+
 
 <script>
 

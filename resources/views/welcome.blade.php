@@ -54,10 +54,10 @@
         </div>
         <div class="bg-white d-flex flex-column justify-content-center align-items-center py-5">
     <div class="container">
-        <h1 class="mb-4">Produtos destaques</h1>
+        <h1 class="mb-4">Produtos em Destaque:</h1>
         @if($destaques->isEmpty())
                 <div class="text-center py-5" style="color: var(--color-muted); font-style: italic; width: 100%;">
-                    Nenhum produto destaque encontrado.
+                    Nenhum produto em destaque encontrado.
                 </div>
             
             @else

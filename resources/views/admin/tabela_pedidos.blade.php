@@ -114,9 +114,9 @@
                 <label class="small fw-bold mb-1" style="display: block;">Estado do Pedido</label>
                 <select class="form-select-personalizacao formato_agenda py-1" data-pedido-id="{{ $pedido->id }}">
                     <option value="não visto" {{ $pedido->estado == 'não visto' ? 'selected' : '' }}> Não visto</option>
-                    <option value="visto" {{ $pedido->estado == 'visto' ? 'selected' : '' }}>🟡 Visto</option>
-                    <option value="a trabalhar" {{ $pedido->estado == 'a trabalhar' ? 'selected' : '' }}>🟢 A Trabalhar</option>
-                    <option value="concluido" {{ $pedido->estado == 'concluido' ? 'selected' : '' }}>🔵 Concluído</option>
+                    <option value="visto" {{ $pedido->estado == 'visto' ? 'selected' : '' }}> Visto</option>
+                    <option value="a trabalhar" {{ $pedido->estado == 'a trabalhar' ? 'selected' : '' }}> A Trabalhar</option>
+                    <option value="concluido" {{ $pedido->estado == 'concluido' ? 'selected' : '' }}> Concluído</option>
                 </select>
             </div>
 

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/style.css') }}">
     <link rel="icon" type="image/png" style="border-radius: .5em;" href="{{ asset('frontend/assets/img/logo.png')}}" size="32x32">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
@@ -48,6 +49,12 @@
             
     @if (Route::has('login'))
     @auth
+            @if (Route::currentRouteName() == 'favoritos')
+                <a class="paginas active" href="{{ route('favoritos') }}">Favoritos</a>
+            @else
+                <a class="paginas" href="{{ route('favoritos') }}">Favoritos</a>
+            @endif
+
         
         <div class="paginas dropdown">
             <a
@@ -94,17 +101,9 @@
             <div class="social-links-container">
                 <a class="social-links" href="https://www.instagram.com/mimoquices.mv/" target="_blank"><img src="{{ asset('frontend/assets/img/instagram.png')}}" alt=""></a>
                 <a class="social-links" href="https://www.facebook.com/mimoquicesmv/" target="_blank"><img src="{{ asset('frontend/assets/img/facebook.png')}}" alt=""></a>
-                
-
                 <a class="social-links" href="javascript:void(0)" onclick="copiarEmail()">
                     <img src="{{ asset('frontend/assets/img/email.png') }}" alt="Email">
                 </a>
-
-
-                <div id="toast-email" class="toast-email">
-                    Email copiado com sucesso
-                </div>
-
 
             </div>
         </div>

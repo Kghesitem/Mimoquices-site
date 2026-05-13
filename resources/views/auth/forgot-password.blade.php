@@ -22,7 +22,7 @@
             <!-- Erros genéricos -->
             @if ($errors->any())
                 <div class="error-container">
-                    <strong>⚠️ Foram encontrados erros:</strong>
+                    <strong><x-heroicon-s-exclamation-triangle /> Foram encontrados erros:</strong>
                     <ul>
                         @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>

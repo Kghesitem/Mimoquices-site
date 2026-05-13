@@ -204,7 +204,7 @@
             </div>
 
             <!-- Botão Submit -->
-            <button type="submit" class="btn-submit">💾 Guardar Produto</button>
+            <button type="submit" class="btn-submit"><x-heroicon-c-bookmark style="1.5rem; height: 1.5rem;"/> Guardar Produto</button>
         </form>
     </div>
 </body>

@@ -17,8 +17,8 @@
                         <a class="social-links" href="https://www.instagram.com/mimoquices.mv/" target="_blank"><img src="{{ asset('frontend/assets/img/instagram.png')}}" alt=""></a>
                         <a class="social-links" href="https://www.facebook.com/mimoquicesmv/" target="_blank"><img src="{{ asset('frontend/assets/img/facebook.png')}}" alt=""></a>
                         <a class="social-links" href="javascript:void(0)" onclick="copiarEmail()">
-                    <img src="{{ asset('frontend/assets/img/email.png') }}" alt="Email">
-                    </a>
+                            <img src="{{ asset('frontend/assets/img/email.png') }}" alt="Email">
+                        </a>
 
                     <!-- Toast customizado -->
                     <div id="toast-email" class="toast-email">
@@ -33,19 +33,30 @@
 
 <script>
 function copiarEmail() {
-    let email = "info@Mimoquices.com";
+    const email = "info@Mimoquices.com";
 
     navigator.clipboard.writeText(email).then(() => {
-
-        let toast = document.getElementById('toast-email');
-        toast.classList.add('show');
-
-
-        setTimeout(() => {
-            toast.classList.remove('show');
-        }, 3000);
+        Swal.fire({
+            icon: 'success',
+            title: 'Copiado!',
+            text: 'Email copiado com sucesso',
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        });
     }).catch(err => {
         console.error('Erro ao copiar email: ', err);
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Não foi possível copiar o email.',
+        });
     });
 }
 </script>

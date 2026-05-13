@@ -15,7 +15,7 @@
 <div class="auth-container">
     <!-- CABEÇALHO DO FORMULÁRIO -->
     <div class="auth-header">
-        <h1>✨ Criar Conta</h1>
+        <h1><x-heroicon-s-user-plus style="width: 2rem; height: 2rem;"/> Criar Conta</h1>
         <p>Junte-se a nós! Complete o registo</p>
     </div>
 
@@ -23,7 +23,7 @@
     @if ($errors->any())
     <div style="padding: 0 2rem; padding-top: 1.5rem;">
         <div class="error-container">
-            <strong>⚠️ Erro ao criar conta:</strong>
+            <strong><x-heroicon-s-exclamation-triangle /> Erro ao criar conta:</strong>
             <ul>
                 @foreach ($errors->all() as $error)
                 <li>{{ $error }}</li>
@@ -39,7 +39,7 @@
 
         <!-- Nome de Utilizador -->
         <div class="form-group">
-            <label for="name" class="form-label">👤 Nome de Utilizador</label>
+            <label for="name" class="form-label"><x-heroicon-c-user-circle style="color: var(--main_color); width: 1.25rem; height: 1.25rem;"/> Nome de Utilizador</label>
             <input 
                 type="text" 
                 id="name" 
@@ -55,7 +55,7 @@
 
         <!-- Email -->
         <div class="form-group">
-            <label for="email" class="form-label">📧 Endereço de Email</label>
+            <label for="email" class="form-label"><x-heroicon-c-envelope style=" color: var(--main_color); width: 1.25rem; height: 1.25rem;"/> Endereço de Email</label>
             <input 
                 type="email" 
                 id="email" 
@@ -70,7 +70,7 @@
 
         <!-- Palavra-passe -->
         <div class="form-group">
-            <label for="password" class="form-label">🔒 Palavra-passe</label>
+            <label for="password" class="form-label"><x-heroicon-s-lock-closed style="color: var(--main_color); width: 1.25rem; height: 1.25rem;"/> Palavra-passe</label>
             <input 
                 type="password" 
                 id="password" 
@@ -92,7 +92,7 @@
 
         <!-- Confirmar Palavra-passe -->
         <div class="form-group">
-            <label for="password_confirmation" class="form-label">🔐 Confirmar Palavra-passe</label>
+            <label for="password_confirmation" class="form-label"><x-heroicon-s-lock-closed style="width: 1.25rem; height: 1.25rem; color: var(--main_color);"/> Confirmar Palavra-passe</label>
             <input 
                 type="password" 
                 id="password_confirmation" 
@@ -150,7 +150,7 @@
         } else if (strength === 3) {
             strengthBar.classList.add('medium');
             strengthText.classList.add('show');
-            strengthText.textContent = '⚠️ Média - Melhore adicionando mais caracteres especiais';
+            strengthText.textContent = '<x-heroicon-s-exclamation-triangle /> Média - Melhore adicionando mais caracteres especiais';
             strengthText.style.color = '#ffc107';
         } else {
             strengthBar.classList.add('strong');

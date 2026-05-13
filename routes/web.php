@@ -43,6 +43,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::post('/favoritos/toggle', [ProdutoController::class, 'toggle'])->name('favorito.toggle');
+    Route::get('/favoritos', [ProdutoController::class, 'favoritos'])->name('favoritos');
 
     Route::get('/produtos/{produto}/editar', [ProdutoController::class, 'edit'])->name('produto.edit');
     Route::put('/produtos/{produto}/update', [ProdutoController::class, 'update'])->name('produto.update');
@@ -60,6 +61,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/categoria/{id}', [CategoriaController::class, 'destroy'])->name('categoria.destroy');
 
     Route::delete('/personalizacao/apagar', [PersonalizacaoController::class, 'destroyPersonalizacao'])->name('personalizacao.destroy');
+    Route::get('/grafico-favoritos', [FavoritoController::class, 'grafico'])->name('grafico.favoritos');
 
     Route::get('/historico-personalizacoes', [PersonalizacaoController::class, 'index'])->name('historico');
 });

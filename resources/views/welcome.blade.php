@@ -62,7 +62,7 @@
             
             @else
 
-        <!-- LISTA DE PRODUTOS -->
+        {{-- LISTA DE PRODUTOS --}}
         <div class="limite">
             @foreach($destaques as $destaque)
                 <a href="/produtos/{{$destaque->url_completo}}" 

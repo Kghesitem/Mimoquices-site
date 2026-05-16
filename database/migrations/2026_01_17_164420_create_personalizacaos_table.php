@@ -23,10 +23,6 @@ return new class extends Migration
         });
     }
 
-    public function produto()
-    {
-        return $this->belongsTo(Produto::class, 'id_produto');
-    }
     public function down(): void
     {
         Schema::dropIfExists('personalizacaos');

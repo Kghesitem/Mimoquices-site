@@ -13,7 +13,7 @@
             <label class="ms-3">Pesquisa:</label>
             <input type="text" placeholder="Caderno" id="pesquisa" class="form-control d-inline-block w-auto ms-2">
 
-            <!-- SELECT PARA FILTRO -->
+            {{-- SELECT PARA FILTRO --}}
              <label class="ms-3">Categoria:</label>
             <select id="filtroTipos" class="form-select d-inline-block w-auto">
                 <option value="">Todos</option>
@@ -40,7 +40,7 @@
                 </div>
             @else
 
-        <!-- LISTA DE PRODUTOS -->
+        {{-- LISTA DE PRODUTOS --}}
         <div class="limite">
             @foreach($produtos as $produto)
                 <a href="/produtos/{{$produto->url_completo}}" 
@@ -80,63 +80,85 @@
 
 @include('partial/footer')
 
-<script>
+    <script>
 
-    document.addEventListener('DOMContentLoaded', function(){
-        const filtroTipos = document.getElementById('filtroTipos');
-        const pesquisa = document.getElementById('pesquisa');
-        const ordenar = document.getElementById('ordenar');
-        const produtosContainer = document.querySelector('.limite');
-        const produtos = Array.from(document.querySelectorAll('.produtos-produto'));
-        const semProdutos = document.getElementById('semProdutos');
+        document.addEventListener('DOMContentLoaded', function(){
+            const filtroTipos = document.getElementById('filtroTipos');
+            const pesquisa = document.getElementById('pesquisa');
+            const ordenar = document.getElementById('ordenar');
+            const produtosContainer = document.querySelector('.limite');
+            const produtos = Array.from(document.querySelectorAll('.produtos-produto'));
+            const semProdutos = document.getElementById('semProdutos');
 
-        const params = new URLSearchParams(window.location.search);
-        const tipoParam = params.get('tipo');
-        if (tipoParam && filtroTipos) filtroTipos.value = tipoParam;
+            const params = new URLSearchParams(window.location.search);
+            const tipoParam = params.get('tipo');
+            if (tipoParam && filtroTipos) filtroTipos.value = tipoParam;
 
-        function atualizarProdutos(){
-            if (!produtos.length) return;
+            function atualizarProdutos(){
+                if (!produtos.length) return;
 
-            const tipo = filtroTipos ? filtroTipos.value : '';
-            const texto = pesquisa ? pesquisa.value.trim().toLowerCase() : '';
-            
-            let encontrou = false;
-
-            produtos.forEach(prod => {
-                const tituloEl = prod.querySelector('h3');
-                const titulo = tituloEl ? tituloEl.textContent.trim().toLowerCase() : '';
+                const tipo = filtroTipos ? filtroTipos.value : '';
+                const texto = pesquisa ? pesquisa.value.trim().toLowerCase() : '';
                 
-                const matchTipo = (tipo === '' || prod.dataset.tipo === tipo);
-                
-                const matchTexto = (texto === '' || titulo.includes(texto));
-                
-                prod.style.display = (matchTipo && matchTexto) ? '' : 'none';
-                if (matchTipo && matchTexto) encontrou = true;
-            });
+                let encontrou = false;
 
-            if (semProdutos) semProdutos.style.display = encontrou ? 'none' : 'block';
-
-            // Ordenar apenas os visíveis
-            if (ordenar && produtosContainer) {
-                const ord = ordenar.value;
-                const visiveis = produtos.filter(p => p.style.display !== 'none');
-                visiveis.sort((a,b) => {
-                    const A = (a.querySelector('h3')?.textContent || '').toLowerCase();
-                    const B = (b.querySelector('h3')?.textContent || '').toLowerCase();
-                    return ord === 'nome_asc' ? A.localeCompare(B) : B.localeCompare(A);
+                produtos.forEach(prod => {
+                    const tituloEl = prod.querySelector('h3');
+                    const titulo = tituloEl ? tituloEl.textContent.trim().toLowerCase() : '';
+                    
+                    const matchTipo = (tipo === '' || prod.dataset.tipo === tipo);
+                    
+                    const matchTexto = (texto === '' || titulo.includes(texto));
+                    
+                    prod.style.display = (matchTipo && matchTexto) ? '' : 'none';
+                    if (matchTipo && matchTexto) encontrou = true;
                 });
-                visiveis.forEach(p => produtosContainer.appendChild(p));
+
+                if (semProdutos) semProdutos.style.display = encontrou ? 'none' : 'block';
+
+                // Ordenar apenas os visíveis
+                if (ordenar && produtosContainer) {
+                    const ord = ordenar.value;
+                    const visiveis = produtos.filter(p => p.style.display !== 'none');
+                    visiveis.sort((a,b) => {
+                        const A = (a.querySelector('h3')?.textContent || '').toLowerCase();
+                        const B = (b.querySelector('h3')?.textContent || '').toLowerCase();
+                        return ord === 'nome_asc' ? A.localeCompare(B) : B.localeCompare(A);
+                    });
+                    visiveis.forEach(p => produtosContainer.appendChild(p));
+                }
             }
-        }
 
-        if (filtroTipos) filtroTipos.addEventListener('change', atualizarProdutos);
-        if (pesquisa) pesquisa.addEventListener('input', atualizarProdutos);
-        if (ordenar) ordenar.addEventListener('change', atualizarProdutos);
-        if (destaques) destaques.addEventListener('change', atualizarProdutos);
+            if (filtroTipos) filtroTipos.addEventListener('change', atualizarProdutos);
+            if (pesquisa) pesquisa.addEventListener('input', atualizarProdutos);
+            if (ordenar) ordenar.addEventListener('change', atualizarProdutos);
+            if (destaques) destaques.addEventListener('change', atualizarProdutos);
 
-        atualizarProdutos();
-    });
-</script>
-<script src="{{ asset('frontend/assets/javascript/favoritos.js') }}"></script>
+            atualizarProdutos();
+        });
+    </script>
+    <script src="{{ asset('frontend/assets/js/favoritos.js') }}"></script>
+
+    <!-- No final do seu layout, antes de </body> -->
+@if(session('success'))
+    <script>
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        });
+
+        Toast.fire({
+            icon: 'success',
+            title: "{{ session('success') }}"
+        });
+    </script>
+@endif
 </body>
 </html>

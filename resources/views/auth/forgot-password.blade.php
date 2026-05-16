@@ -2,13 +2,13 @@
 
     <main>
     <div class="auth-container">
-        <!-- header -->
+        {{-- header --}}
         <div class="auth-header">
             <h1>🔐 Recuperar Palavra‑passe</h1>
         </div>
 
         <div style="padding: 1.1rem 1.5rem 0;">
-            <!-- explicação (texto pedido) -->
+            {{-- explicação (texto pedido) --}}
             <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
                 {{ __('Esqueceu sua senha? Não há problema. 
                     Basta nos informar seu endereço de e-mail e 
@@ -16,23 +16,27 @@
                     de senha que permitirá que você escolha uma nova.') }}
             </div>
 
-            <!-- Session Status -->
+            {{-- Session Status --}}
             <x-auth-session-status class="mb-4" :status="session('status')" />
 
-            <!-- Erros genéricos -->
+            {{-- Erros genéricos --}}
             @if ($errors->any())
-                <div class="error-container">
-                    <strong><x-heroicon-s-exclamation-triangle /> Foram encontrados erros:</strong>
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        Swal.fire({
+                            title: 'Erro!',
+                                
+                            html: "{!! implode('<br>', array_map('e', $errors->all())) !!}",
+                            icon: 'error',
+                            confirmButtonColor: '#dc3545',
+                            confirmButtonText: 'OK'
+                        });
+                    });
+                </script>
             @endif
         </div>
 
-        <!-- form -->
+        {{-- form --}}
         <form method="POST" action="{{ route('password.email') }}" class="auth-form" style="padding-top:0;">
             @csrf
 

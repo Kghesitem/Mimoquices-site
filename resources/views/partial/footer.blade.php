@@ -20,7 +20,7 @@
                             <img src="{{ asset('frontend/assets/img/email.png') }}" alt="Email">
                         </a>
 
-                    <!-- Toast customizado -->
+                    {{-- Toast customizado --}}
                     <div id="toast-email" class="toast-email">
                         Email copiado com sucesso
                     </div>

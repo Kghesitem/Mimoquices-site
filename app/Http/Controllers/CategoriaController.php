@@ -16,7 +16,7 @@ class CategoriaController extends Controller
         $tipo    = Tipo::all();
         $todas_personalizações = todas_as_personalizacoes::all();
         
-        return view('produto.categoria.criar_categoria', compact( 'tipo', 'todas_personalizações'));
+        return view('categoria.criar_categoria', compact( 'tipo', 'todas_personalizações'));
     }
     public function store(Request $request)
     {
@@ -35,7 +35,7 @@ class CategoriaController extends Controller
             $associada->save();
         }
 
-        return redirect()->route('produto.criar')->with('success', 'Categoria criada com sucesso!');
+        return redirect()->route('dashboard')->with('success', 'Categoria criada com sucesso!');
     }
     public function edit (Tipo $categoria, $id)
     {
@@ -43,7 +43,7 @@ class CategoriaController extends Controller
         $todas_personalizações = todas_as_personalizacoes::all();
         $associados = associadas::where('id_tipo', $categoria->id)->get();
 
-        return view('produto.categoria.editar_categoria', compact('categoria', 'todas_personalizações', 'associados'));
+        return view('categoria.editar_categoria', compact('categoria', 'todas_personalizações', 'associados'));
     }
     public function update(Request $request, $id)
     {

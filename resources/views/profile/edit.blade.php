@@ -48,7 +48,7 @@
                 {{-- ELIMINAR CONTA --}}
                 <details class="accordion-profile danger-zone">
                     <summary>
-                        <span class="summary-title"><i class="icon"><x-heroicon-s-exclamation-triangle /></i> Zona de Perigo</span>
+                        <span class="summary-title"><i class="icon"><x-heroicon-s-exclamation-triangle style="width:4rem; heigth:4rem"/></i> Zona de Perigo</span>
                         <span class="arrow">▾</span>
                     </summary>
                     <div class="accordion-content">

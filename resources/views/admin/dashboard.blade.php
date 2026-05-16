@@ -36,12 +36,46 @@
                 </div>
             </div>
             
+            
             {{-- Seção de Categorias --}}
             @include('admin.icon_categorias')
 
+            {{-- Seção de graficos --}}
+            @include('admin.grafico_favoritos')
+
             {{-- Card: Personalizações --}}
-                    @include('admin.tabela_produtos')
+            @include('admin.tabela_produtos')
         </div>
     </div>
 @include('partial.footer')
 
+
+@if(session('success'))
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        Swal.fire({
+            title: 'Sucesso!',
+            toast: true,
+            position: 'top-end',
+            text: "{{ session('success') }}",
+            icon: 'success',
+            timer: 3000,
+            showConfirmButton: false,
+        });
+    });
+</script>
+@endif
+
+@if ($errors->any())
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                title: 'Erro!',
+                html: "{!! implode('<br>', array_map('e', $errors->all())) !!}",
+                icon: 'error',
+                confirmButtonColor: '#dc3545',
+                confirmButtonText: 'OK'
+            });
+        });
+    </script>
+@endif

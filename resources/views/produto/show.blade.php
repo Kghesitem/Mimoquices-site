@@ -29,7 +29,7 @@
     <div class="container">
         <div class="troca-colum">
 
-            <!-- IMAGEM -->
+            {{-- IMAGEM --}}
             <div class="d-flex flex-column align-items-center">
                 <div class="imagem-principal-container">
                     <img id="imagem-principal"
@@ -43,7 +43,7 @@
                 </a>
             </div>
 
-            <!-- TEXTO + FORMULÁRIO -->
+            {{-- TEXTO + FORMULÁRIO --}}
             <div>
                 <h1 class="mb-3">{{ $produto->titulo }}</h1>
 
@@ -51,7 +51,7 @@
                     <p class="fs-5">{!! nl2br(e($produto->descricao)) !!}</p>
                 </div>
 
-                <!-- ACCORDION - CONTEÚDO -->
+                {{-- ACCORDION - CONTEÚDO --}}
                 @if($produto->conteudo)
                     <details class="accordion">
                         <summary>
@@ -71,7 +71,7 @@
                     </details>
                 @endif
 
-                <!-- ACCORDION - DETALHES -->
+                {{-- ACCORDION - DETALHES --}}
                 @if($produto->detalhes)
                     <details class="accordion">
                         <summary>
@@ -194,14 +194,18 @@
 
 
                                 @if ($errors->any())
-                                    <div class="alert-erros-personalizacao">
-                                        <strong>Erros encontrados:</strong>
-                                        <ul>
-                                            @foreach ($errors->all() as $error)
-                                                <li>{{ $error }}</li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
+                                    <script>
+                                        document.addEventListener('DOMContentLoaded', function() {
+                                            Swal.fire({
+                                                title: 'Erro!',
+                                                 
+                                                html: "{!! implode('<br>', array_map('e', $errors->all())) !!}",
+                                                icon: 'error',
+                                                confirmButtonColor: '#dc3545',
+                                                confirmButtonText: 'OK'
+                                            });
+                                        });
+                                    </script>
                                 @endif
 
                             </form>
@@ -218,7 +222,7 @@
     </div>
 </div>
 
-<!-- CARROSSEL DE FOTOS -->
+{{-- CARROSSEL DE FOTOS --}}
 @if($fotos && $fotos->count() > 0)
     <div class="bg-white d-flex flex-column justify-content-center align-items-center py-5">
         <div class="container">

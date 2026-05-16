@@ -25,4 +25,9 @@ class Tipo extends Model
             'id_todas'               // FK do personalizacao
         );
     }
+
+    public function produtos()
+    {
+        return $this->hasMany(Produto::class, 'tipo_prod', 'id');
+    }
 }

@@ -13,31 +13,33 @@
 
 <main>
 <div class="auth-container">
-    <!-- CABEÇALHO DO FORMULÁRIO -->
+    {{-- CABEÇALHO DO FORMULÁRIO --}}
     <div class="auth-header">
         <h1><x-heroicon-s-user-plus style="width: 2rem; height: 2rem;"/> Criar Conta</h1>
         <p>Junte-se a nós! Complete o registo</p>
     </div>
 
-    <!-- ERROS (se existirem) -->
+    {{-- ERROS (se existirem) --}}
     @if ($errors->any())
-    <div style="padding: 0 2rem; padding-top: 1.5rem;">
-        <div class="error-container">
-            <strong><x-heroicon-s-exclamation-triangle /> Erro ao criar conta:</strong>
-            <ul>
-                @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: 'Erro!',
+                     
+                    html: "{!! implode('<br>', array_map('e', $errors->all())) !!}",
+                    icon: 'error',
+                    confirmButtonColor: '#dc3545',
+                    confirmButtonText: 'OK'
+                });
+            });
+        </script>
     @endif
 
-    <!-- FORMULÁRIO DE REGISTO -->
+    {{-- FORMULÁRIO DE REGISTO --}}
     <form method="POST" action="{{ route('register') }}" class="auth-form">
         @csrf
 
-        <!-- Nome de Utilizador -->
+        {{-- Nome de Utilizador --}}
         <div class="form-group">
             <label for="name" class="form-label"><x-heroicon-c-user-circle style="color: var(--main_color); width: 1.25rem; height: 1.25rem;"/> Nome de Utilizador</label>
             <input 
@@ -53,7 +55,7 @@
             />
         </div>
 
-        <!-- Email -->
+        {{-- Email --}}
         <div class="form-group">
             <label for="email" class="form-label"><x-heroicon-c-envelope style=" color: var(--main_color); width: 1.25rem; height: 1.25rem;"/> Endereço de Email</label>
             <input 
@@ -68,7 +70,7 @@
             />
         </div>
 
-        <!-- Palavra-passe -->
+        {{-- Palavra-passe --}}
         <div class="form-group">
             <label for="password" class="form-label"><x-heroicon-s-lock-closed style="color: var(--main_color); width: 1.25rem; height: 1.25rem;"/> Palavra-passe</label>
             <input 
@@ -90,7 +92,7 @@
             <span class="helper-text">Mínimo 8 caracteres</span>
         </div>
 
-        <!-- Confirmar Palavra-passe -->
+        {{-- Confirmar Palavra-passe --}}
         <div class="form-group">
             <label for="password_confirmation" class="form-label"><x-heroicon-s-lock-closed style="width: 1.25rem; height: 1.25rem; color: var(--main_color);"/> Confirmar Palavra-passe</label>
             <input 
@@ -104,7 +106,7 @@
             />
         </div>
 
-        <!-- Botão Submit -->
+        {{-- Botão Submit --}}
         <button type="submit"class="btn-submit"
         onclick="this.disabled=true; this.form.submit();">
             Criar Conta
@@ -112,7 +114,7 @@
 
     </form>
 
-    <!-- RODAPÉ - LINK PARA LOGIN -->
+    {{-- RODAPÉ - LINK PARA LOGIN --}}
     <div class="auth-footer">
         <p>Já tem conta?</p>
         <a href="{{ route('login') }}">Inicie sessão aqui →</a>
@@ -150,7 +152,7 @@
         } else if (strength === 3) {
             strengthBar.classList.add('medium');
             strengthText.classList.add('show');
-            strengthText.textContent = '<x-heroicon-s-exclamation-triangle /> Média - Melhore adicionando mais caracteres especiais';
+            strengthText.textContent = '<x-heroicon-s-exclamation-triangle style="width:4rem; heigth:4rem"/> Média - Melhore adicionando mais caracteres especiais';
             strengthText.style.color = '#ffc107';
         } else {
             strengthBar.classList.add('strong');

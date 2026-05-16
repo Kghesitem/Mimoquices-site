@@ -12,31 +12,33 @@
 
 <main>
 <div class="auth-container">
-    <!-- CABEÇALHO DO FORMULÁRIO -->
+    {{-- CABEÇALHO DO FORMULÁRIO --}}
     <div class="auth-header">
         <h1><x-heroicon-s-user style="width: 2rem; height: 2rem;"/> Iniciar Sessão</h1>
         <p>Bem-vindo de volta! Inicie sessão para continuar</p>
     </div>
 
-    <!-- ERROS (se existirem) -->
+    {{-- ERROS (se existirem) --}}
     @if ($errors->any())
-    <div style="padding: 0 2rem; padding-top: 1.5rem;">
-        <div class="error-container">
-            <strong><x-heroicon-s-exclamation-triangle /> Erro ao iniciar sessão:</strong>
-            <ul>
-                @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                title: 'Erro!',
+                 
+                html: "{!! implode('<br>', array_map('e', $errors->all())) !!}",
+                icon: 'error',
+                confirmButtonColor: '#dc3545',
+                confirmButtonText: 'OK'
+            });
+        });
+    </script>
     @endif
 
-    <!-- FORMULÁRIO DE LOGIN -->
+    {{-- FORMULÁRIO DE LOGIN --}}
     <form method="POST" action="{{ route('login') }}" class="auth-form">
         @csrf
 
-        <!-- Email -->
+        {{-- Email --}}
         <div class="form-group">
             <label for="email" class="form-label"><x-heroicon-c-envelope style="color: var(--main_color); width: 1.25rem; height: 1.25rem;"/> Endereço de Email</label>
             <input 
@@ -52,7 +54,7 @@
             />
         </div>
 
-        <!-- Palavra-passe -->
+        {{-- Palavra-passe --}}
         <div class="form-group">
             <label for="password" class="form-label"><x-heroicon-s-lock-closed style="color: var(--main_color); width: 1.25rem; height: 1.25rem;"/> Palavra-passe</label>
             <input 
@@ -66,7 +68,7 @@
             />
         </div>
 
-        <!-- Ações -->
+        {{-- Ações --}}
         <div class="form-actions">
             @if (Route::has('password.request'))
             <a href="{{ route('password.request') }}" class="forgot-password-link">
@@ -75,14 +77,14 @@
             @endif
         </div>
 
-        <!-- Botão Submit -->
+        {{-- Botão Submit --}}
         <button type="submit" class="btn-submit"
         onclick="this.disabled=true; this.form.submit();">
             Iniciar Sessão
         </button>
     </form>
 
-    <!-- RODAPÉ - LINK PARA REGISTO -->
+    {{-- RODAPÉ - LINK PARA REGISTO --}}
     <div class="auth-footer">
         <p>Ainda não tem conta?</p>
         <a href="{{ route('register') }}">Crie uma conta agora →</a>

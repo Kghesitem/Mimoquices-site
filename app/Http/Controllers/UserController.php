@@ -14,40 +14,46 @@ class UserController extends Controller
 {
     public function Dashboard()
     {
+        // Se for um utilizador comum, vai para a view normal
         if (Auth::check() && Auth::user()->user_type === 'user') {
             return view('dashboard');
         }
 
+        // Se for administrador, carrega as métricas do painel de produtos
         if (Auth::check() && Auth::user()->user_type === 'admin') {
+            
+            // 1. Dados gerais para as listagens
             $produtos = Produto::all();
             $tipos = Tipo::all();
 
-            // Dados do Gráfico de Favoritos (Redondo)
+            // 2. Gráfico 1: Top Produtos Favoritados (Mantido original)
             $favoritos = Favoritos::select('id_produto', DB::raw('count(*) as total'))
                 ->with('produto')->groupBy('id_produto')->orderBy('total', 'desc')->take(15)->get();
 
-            // Dados do Gráfico de Pedidos (Barras)
-            $pedidosData = Personalizacao::select('id_produto', DB::raw('count(DISTINCT id_pedido) as total'))
-            ->with('produto')->groupBy('id_produto')->orderBy('total', 'desc')->take(15)->get();
-
-            
             $labels = $favoritos->map(fn($f) => $f->produto->titulo ?? 'Desconhecido');
             $valores = $favoritos->pluck('total');
 
-            $labelsPedidos = $pedidosData->map(fn($p) => $p->produto->titulo ?? 'Desconhecido');
-            $valoresPedidos = $pedidosData->pluck('total');
 
+            // 3. NOVO - Gráfico 2: Distribuição de Produtos por Categoria (Substituiu a query antiga)
+            // Carrega os tipos e conta automaticamente quantos produtos pertencem a cada um
+            $produtosPorTipo = Tipo::withCount('produtos')->get();
+
+            // Alimenta as variáveis que o gráfico Donut vai usar (Corrigido para 'Categoria')
+            $labelsTipos = $produtosPorTipo->pluck('Categoria'); 
+            $valoresTipos = $produtosPorTipo->pluck('produtos_count');
+
+
+            // 4. Retorno para a view com os novos dados incluídos
             return view('admin.dashboard', [
                 'produtos' => $produtos,
                 'tipos' => $tipos,
                 'labels' => $labels,
                 'valores' => $valores,
-                'labelsPedidos' => $labelsPedidos,
-                'valoresPedidos' => $valoresPedidos,
+                'labelsTipos' => $labelsTipos, // Passado para a view
+                'valoresTipos' => $valoresTipos, // Passado para a view
             ]);
         }
 
         return redirect('/');
     }
-    
 }

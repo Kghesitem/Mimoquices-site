@@ -8,6 +8,8 @@
     --color-border: rgba(200, 146, 134, 0.3);
     --color-error: #dc3545;
     --color-success: #28a745;
+    --main_color_light: #f9f1ef;
+    --background: #fdfaf9;
 }
 
 * {
@@ -30,7 +32,7 @@
 html {
     font-family: "Poppins", Georgia, "Times New Roman", serif;
     font-size: 12pt;
-    background-color: var(--textcolor);
+    background-color: var(--background);
 }
 
 /* Uso global; pode ser sobreposto por componentes específicos */
@@ -40,7 +42,7 @@ body {
     width: 100%;
     justify-content: flex-start;
     font-family: "Poppins", Georgia, "Times New Roman", serif;
-    background-color: #f8f9fa;
+    background-color: var(--background);
 }
 
 /* ================= ACCORDION ================= */
@@ -1218,14 +1220,8 @@ main {
     filter: brightness(0.9);
 }
 
-/* Definição da cor principal se não estiver no CSS global */
-:root {
-    --main_color: #c89286; /* O tom rosa/pastel da Mimoquices */
-    --main_color_light: #f9f1ef;
-}
-
 .dashboard-mimo {
-    background-color: #fdfaf9;
+    background-color: var(--background);
 }
 
 .welcome-banner h1 {
@@ -1499,15 +1495,6 @@ main {
         min-height: calc(100vh - 250px);
         padding: 1.5rem 0.5rem;
     }
-}
-:root {
-    --main_color: #c89286;
-    --color1: #0f1016;
-}
-
-body {
-    background-color: #f8f9fa;
-    font-family: "Poppins", Georgia, "Times New Roman", serif;
 }
 
 .form-container {
@@ -1801,3 +1788,125 @@ textarea.form-control {
         font-size: 0.75rem;
     }
 }
+
+        /* Ajuste para que o container ocupe 100% da largura do ecrã */
+        .auth-container-full {
+            width: 100% !important;
+            max-width: 100% !important;
+            margin: 0;
+            padding: 2rem;
+            box-sizing: border-box;
+        }
+
+        /* Criação do Grid de duas colunas para organizar o espaço */
+        .form-grid-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            align-items: start;
+        }
+
+        /* Coluna inteira para o botão de submit no final */
+        .grid-full-width {
+            grid-column: span 2;
+        }
+
+        /* Faz com que as textareas não tenham scroll e expandam de forma fluida */
+        .textarea-auto-expand {
+            min-height: 80px;
+            overflow-y: hidden;
+            resize: none; /* Desativa o puxador manual do canto para não partir o layout */
+            transition: height 0.1s ease;
+        }
+
+        /* Responsividade para ecrãs mais pequenos (tablets e telemóveis) */
+        @media (max-width: 992px) {
+            .form-grid-layout {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            .grid-full-width {
+                grid-column: span 1;
+            }
+        }
+
+            .mimo-dashboard-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 24px;
+        padding: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+        font-family: inherit; /* Utiliza a mesma fonte definida no teu main/body */
+    }
+
+    .mimo-chart-card {
+        background: #ffffff;
+        border-radius: 0.5rem; /* Combinando com o .5em do teu logo */
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); /* Sombra suave e moderna */
+        border: 1px solid #f0f0f0;
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 340px;
+        min-height: 440px;
+        overflow: hidden;
+    }
+
+    /* O gráfico de barras (pedidos) ganha mais destaque horizontal */
+    .mimo-chart-card.wide {
+        flex: 2 1 500px;
+    }
+
+    .mimo-chart-header {
+        padding: 20px 24px 10px 24px;
+    }
+
+    .mimo-chart-header h2 {
+        margin: 0;
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #333333;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    /* Cor do ícone baseada na variável do teu projeto */
+    .mimo-chart-header h2 svg, 
+    .mimo-chart-header h2 x-heroicon-s-chart-bar, 
+    .mimo-chart-header h2 x-heroicon-s-pie-chart {
+        color: var(--main_color, #4e73df); 
+    }
+
+    .mimo-chart-header p {
+        margin: 4px 0 0 0;
+        font-size: 0.875rem;
+        color: #777777;
+    }
+
+    .mimo-chart-body {
+        padding: 20px 24px 24px 24px;
+        flex-grow: 1;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .mimo-chart-wrapper {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        max-height: 320px;
+    }
+
+    /* Responsividade extra para ecrãs muito pequenos */
+    @media (max-width: 480px) {
+        .mimo-dashboard-container {
+            padding: 10px;
+            gap: 16px;
+        }
+        .mimo-chart-card {
+            min-height: 380px;
+        }
+    }

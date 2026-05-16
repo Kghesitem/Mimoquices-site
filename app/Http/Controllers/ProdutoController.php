@@ -131,8 +131,6 @@ class ProdutoController extends Controller
     public function store(Request $request)
     {
         $produtos = Produto::all();
-        // Para testes
-        //  dd($request);
 
         $uploaded = $request->file('nome_original') ?: [];
 
@@ -190,7 +188,7 @@ class ProdutoController extends Controller
         }
 
         
-        return redirect()->route('produto.index');
+        return redirect()->route('produto.index')->with('success', 'Produto criado com sucesso!');
     }
 
     public function personalizarProduto(Request $request, $url_completo)
@@ -319,7 +317,7 @@ class ProdutoController extends Controller
         $tipos = Tipo::all();
         $favoritos = $idsFavoritos;
 
-        return view('produto.favoritos_cliente', [
+        return view('favoritos_cliente', [
             'produtos' => $produtos,
             'tipos' => $tipos,
             'favoritos' => $favoritos

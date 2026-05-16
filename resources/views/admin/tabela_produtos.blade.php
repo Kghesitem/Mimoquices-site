@@ -1,13 +1,5 @@
-
 <div class="dashboard-mimo" style="padding: 2rem;">
     
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; max-width: 1200px; margin: 0 auto 2rem;">
-        <h1 style="color: var(--color1); margin: 0;"><x-heroicon-c-shopping-bag style=" width: 3rem; height: 3rem; color:var(--main_color);"/> Gestão de Produtos</h1>
-    </div>
-
-    {{-- Gráfico de Favoritos --}}
-        @include('admin.grafico_favoritos')
-
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; max-width: 1200px; margin: 0 auto 2rem;">
             <h4 style="color: var(--color1); margin: 0;"><x-heroicon-o-numbered-list style=" width: 3rem; height: 3rem; color:var(--main_color);"/> Lista de Produtos</h4>
             <button id="toggleViewBtn" class="tab-button active">
@@ -47,9 +39,6 @@
     </div>
 </div>
 
-
-
-
 <div id="tableView" class="profile-card container-fluid p-0 mb-4" style="display: none; background-color: white; border: 2px solid var(--main_color); overflow: hidden;">
     <div class="table-responsive">
         <table class="table table-hover m-0" style="font-family: inherit;">
@@ -83,7 +72,6 @@
                                 type="checkbox"
                                 name="destaque"
                                 class="form-check-input d-none destaque"
-                                
                                 id="destaque-table-{{ $produto->id }}"
                                 data-produto-id="{{ $produto->id }}"
                                 @if($produto->destaque === 1) checked @endif
@@ -126,15 +114,15 @@
                                 <x-heroicon-s-pencil  style=" width: 1rem; height: 1rem; color:black"/> Editar
                             </a>
 
-                            {{-- Botão Eliminar --}}
+                            {{-- Botão Eliminar (Tabela) --}}
                             <form action="{{ url('produto/'.$produto->id) }}" 
                                 method="POST" 
-                                onsubmit="return confirm('Tem certeza que deseja eliminar este produto?')"
-                                style="width: 100%; margin: 0;"> {{-- Garante que o form ocupe 100% --}}
+                                class="form-eliminar-produto"
+                                style="width: 100%; margin: 0;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" 
-                                        class="tab-button" 
+                                <button type="button" 
+                                        class="tab-button btn-eliminar" 
                                         style="padding: 6px 12px; font-size: 0.85rem; border-color: var(--color-error); color: var(--color-error); background: transparent; width: 100%; cursor: pointer;">
                                     <x-heroicon-c-trash  style=" width: 1rem; height: 1rem; color:red"/> Eliminar
                                 </button>
@@ -146,7 +134,6 @@
         </table>
     </div>
 </div>
-
 
 <div id="cardView" class="container-fluid px-0" style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center;">
         <div id="noResultsCard" class="text-center py-5 w-100" style="display: none; color: var(--color-muted); font-style: italic;">
@@ -163,8 +150,6 @@
             
             <div class="d-flex justify-content-between align-items-start mb-2">
                 <div style="max-width: 80%;">
-                
-
                         <input 
                             type="checkbox"
                             name="destaque"
@@ -172,7 +157,6 @@
                             id="destaque-card-{{ $produto->id }}"
                             data-produto-id="{{ $produto->id }}"
                             @if($produto->destaque === 1) checked @endif
-                            onclick="SweetAlert_destaque()"
                         >
 
                         <label for="destaque-card-{{ $produto->id }}" class="cursor-pointer">
@@ -213,15 +197,14 @@
                     </div>
                 </div>
                 <div class="d-flex gap-2 flex-column">
-                    {{-- { route('produto.edit', ['produto' => $produto]) } --}}
                     <a href="{{ route('produto.edit', ['produto' => $produto]) }}" class="btn-personalizar w-100 d-block text-center text-decoration-none" style="background-color: var(--main_color); font-size: 0.9rem;">
                         Editar Produto
                     </a>
-                    {{-- {{ url('produto/'.$produto->id) }} --}}
-                    <form action="{{ url('produto/'.$produto->id) }}" method="post" class="flex-grow-1" onsubmit="return confirm('Eliminar definitivamente?')">
+                    {{-- Botão Eliminar (Cards) --}}
+                    <form action="{{ url('produto/'.$produto->id) }}" method="post" class="flex-grow-1 form-eliminar-produto">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn-personalizar w-100 py-2" style="background-color: var(--color-error); font-size: 0.9rem; margin-top: 0;">
+                        <button type="button" class="btn-personalizar w-100 py-2 btn-eliminar" style="background-color: var(--color-error); font-size: 0.9rem; margin-top: 0;">
                             Eliminar
                         </button>
                     </form>
@@ -233,14 +216,14 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script> 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-function SweetAlert_destaque()
-{
+<script> 
+// Funções globais de Toasts reutilizáveis para o SweetAlert2
+function mostrarToastSucesso(mensagem) {
     Swal.fire({
         icon: 'success',
-        title: 'Destaque atualizado!',
-        text: 'O destaque do produto foi atualizado com sucesso.',
+        title: mensagem,
         toast: true,
         position: 'top-end',
         showConfirmButton: false,
@@ -253,61 +236,69 @@ function SweetAlert_destaque()
     });
 }
 
+function mostrarToastErro(mensagem) {
+    Swal.fire({
+        icon: 'error',
+        title: 'Erro',
+        text: mensagem,
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true
+    });
+}
 </script>
 
-
 <script>
-
     $(document).ready(function() {
-    const pesquisa = document.getElementById('pesquisa');
-    const filtroTipos = document.getElementById('filtroTipos');
-    const visivel = document.getElementById('visibilidades');
-    const destaques = document.getElementById('destaques');
+        const pesquisa = document.getElementById('pesquisa');
+        const filtroTipos = document.getElementById('filtroTipos');
+        const visivel = document.getElementById('visibilidades');
+        const destaques = document.getElementById('destaques');
 
-    function filtrarProdutos() {
-        const texto = pesquisa.value.toLowerCase().trim();
-        const tipoId = filtroTipos.value;
-        const visivelId = visivel.value;
-        const destaqueId = destaques.value;
-        let encontrouAlgo = false;
+        function filtrarProdutos() {
+            const texto = pesquisa.value.toLowerCase().trim();
+            const tipoId = filtroTipos.value;
+            const visivelId = visivel.value;
+            const destaqueId = destaques.value;
+            let encontrouAlgo = false;
 
-        const itens = document.querySelectorAll('.item-produto');
+            const itens = document.querySelectorAll('.item-produto');
 
-        itens.forEach(item => {
-            const titulo = item.querySelector('h3, td:nth-child(2)')?.textContent.toLowerCase() || "";
-            const itemTipo = item.getAttribute('data-tipo');
-            
-            const selectVisivel = item.querySelector('.formato_agenda');
-            const itemVisivel = selectVisivel ? selectVisivel.value : "0";
-            
-            const itemdestaque = item.querySelector('.destaque')?.checked ? "1" : "0";
+            itens.forEach(item => {
+                const titulo = item.querySelector('h3, td:nth-child(2)')?.textContent.toLowerCase() || "";
+                const itemTipo = item.getAttribute('data-tipo');
+                
+                const selectVisivel = item.querySelector('.formato_agenda');
+                const itemVisivel = selectVisivel ? selectVisivel.value : "0";
+                
+                const itemdestaque = item.querySelector('.destaque')?.checked ? "1" : "0";
 
-            const matchTexto = titulo.includes(texto);
-            const matchTipo = tipoId === "" || itemTipo === tipoId;
-            const matchVisivel = visivelId === "" || itemVisivel === visivelId;
-            const matchdestaque = destaqueId === "" || itemdestaque === destaqueId;
+                const matchTexto = titulo.includes(texto);
+                const matchTipo = tipoId === "" || itemTipo === tipoId;
+                const matchVisivel = visivelId === "" || itemVisivel === visivelId;
+                const matchdestaque = destaqueId === "" || itemdestaque === destaqueId;
 
-            if (matchTexto && matchTipo && matchVisivel && matchdestaque) {
-                item.style.setProperty('display', '', 'important');
-                encontrouAlgo = true;
+                if (matchTexto && matchTipo && matchVisivel && matchdestaque) {
+                    item.style.setProperty('display', '', 'important');
+                    encontrouAlgo = true;
+                } else {
+                    item.style.setProperty('display', 'none', 'important');
+                }
+            });
+
+            const msgTabela = document.getElementById('noResultsTable');
+            const msgCard = document.getElementById('noResultsCard');
+
+            if (encontrouAlgo) {
+                if(msgTabela) msgTabela.style.display = 'none';
+                if(msgCard) msgCard.style.display = 'none';
             } else {
-                item.style.setProperty('display', 'none', 'important');
+                if(msgTabela) msgTabela.style.display = 'table-row';
+                if(msgCard) msgCard.style.display = 'block';
             }
-        });
-
-        const msgTabela = document.getElementById('noResultsTable');
-        const msgCard = document.getElementById('noResultsCard');
-
-        if (encontrouAlgo) {
-            if(msgTabela) msgTabela.style.display = 'none';
-            if(msgCard) msgCard.style.display = 'none';
-        } else {
-            // Só mostra a mensagem se houver uma busca ativa ou filtro
-            // para não confundir com a lista vazia original do banco de dados
-            if(msgTabela) msgTabela.style.display = 'table-row';
-            if(msgCard) msgCard.style.display = 'block';
         }
-    }
 
         pesquisa.addEventListener('input', filtrarProdutos);
         filtroTipos.addEventListener('change', filtrarProdutos);
@@ -315,19 +306,16 @@ function SweetAlert_destaque()
         destaques.addEventListener('change', filtrarProdutos);
     });
 
-
     $(document).ready(function() {
         const toggleBtn = $('#toggleViewBtn');
         const tableView = $('#tableView');
         const cardView = $('#cardView');
-
 
         tableView.show();
         cardView.hide();
         toggleBtn.html('<i class="bi bi-grid-3x3-gap"></i> Ver em Cards');
 
         toggleBtn.on('click', function() {
-            // Verificamos se a tabela está visível no momento do clique
             const isShowingTable = tableView.is(':visible');
 
             if (isShowingTable) {
@@ -337,19 +325,38 @@ function SweetAlert_destaque()
             } else {
                 cardView.hide();
                 tableView.fadeIn();
-
-
                 $(this).html('<i class="bi bi-grid-3x3-gap"></i> Ver em Cards');
             }
         });
+
+        // Modal do SweetAlert2 para confirmação de eliminação de produtos
+        $(document).on('click', '.btn-eliminar', function(e) {
+            e.preventDefault();
+            const form = $(this).closest('.form-eliminar-produto');
+
+            Swal.fire({
+                title: 'Tem a certeza?',
+                text: "Esta ação não pode ser revertida e o produto será removido permanentemente!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc3545', 
+                cancelButtonColor: '#6c757d',  
+                confirmButtonText: 'Sim, eliminar!',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        });
     });
 
+    // AJAX para Visibilidade
     $(document).on('change', '.formato_agenda', function() {
         const $select = $(this);
         const produtoId = $select.data('produto-id');
         const novoStatus = $select.val();
 
-        // Feedback visual usando a cor de borda do seu CSS
         $select.css('border-color', 'var(--main_color)');
 
         $.ajax({
@@ -361,41 +368,30 @@ function SweetAlert_destaque()
             },
             success: function(response) {
                 if(response.success) {
-                    // Sincroniza o valor em ambas as vistas (Card e Tabela)
                     $(`.formato_agenda[data-produto-id="${produtoId}"]`).val(novoStatus);
                     
-                    // Se for no card, atualiza a cor do status-dot dinamicamente
-                    const dot = $select.closest('.dash-card').find('.status-dot');
+                    const dot = $(`.formato_agenda[data-produto-id="${produtoId}"]`).closest('.dash-card').find('.status-dot');
                     if(novoStatus == "1") {
                         dot.css({'background-color': '#4ade80', 'box-shadow': '0 0 8px #4ade80'});
+                        mostrarToastSucesso('Produto alterado para Visível!');
                     } else {
                         dot.css({'background-color': '#dc3545', 'box-shadow': '0 0 8px #dc3545'});
+                        mostrarToastSucesso('Produto ocultado com sucesso!');
                     }
                 }
             },
             error: function() {
-                // Estilo de erro baseado no seu CSS
                 $select.css('border-color', 'var(--color-error)');
-                alert('Erro ao atualizar. Por favor, tente novamente.');
+                mostrarToastErro('Não foi possível alterar a visibilidade do produto.');
             }
         });
     });
 
+    // AJAX para Destaques
     $(document).on('change', '.destaque', function() {
         const $check = $(this);
         const produtoId = $check.data('produto-id');
         const novoStatus = $check.is(':checked') ? 1 : 0;
-
-        const icon = $(this).next('label').find('i')[0];
-
-
-                if (this.checked) {
-            icon.classList.remove('bi-star', 'text-secondary');
-            icon.classList.add('bi-star-fill', 'text-warning');
-        } else {
-            icon.classList.remove('bi-star-fill', 'text-warning');
-            icon.classList.add('bi-star', 'text-secondary');
-        }
 
         $.ajax({
             url: '/produto/' + produtoId + '/destaque',
@@ -406,23 +402,26 @@ function SweetAlert_destaque()
             },
             success: function(response) {
                 $(`.destaque[data-produto-id="${produtoId}"]`).each(function() {
+                    $(this).prop('checked', novoStatus === 1);
                     const icon = $(this).next('label').find('i');
 
                     if (novoStatus === 1) {
-                        icon.removeClass('bi-star text-secondary')
-                            .addClass('bi-star-fill text-warning');
+                        icon.removeClass('bi-star text-secondary').addClass('bi-star-fill text-warning');
                     } else {
-                        icon.removeClass('bi-star-fill text-warning')
-                            .addClass('bi-star text-secondary');
+                        icon.removeClass('bi-star-fill text-warning').addClass('bi-star text-secondary');
                     }
                 });
+
+                if(novoStatus === 1) {
+                    mostrarToastSucesso('Adicionado aos destaques!');
+                } else {
+                    mostrarToastSucesso('Removido dos destaques!');
+                }
             },
             error: function() {
-                $check.css('border-color', 'var(--color-error)');
-                alert('Erro ao atualizar. Por favor, tente novamente.');
+                $check.prop('checked', !$check.is(':checked'));
+                mostrarToastErro('Não foi possível atualizar o destaque do produto.');
             }
         });
     });
-
-    
 </script>

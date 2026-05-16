@@ -13,7 +13,7 @@
     </div>
 
     <div class="mt-5">
-        <!-- O formulário fica escondido e é submetido via JS -->
+        {{-- O formulário fica escondido e é submetido via JS --}}
         <form id="delete-account-form" method="POST" action="{{ route('profile.destroy') }}">
             @csrf
             @method('DELETE')

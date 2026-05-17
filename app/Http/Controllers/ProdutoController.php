@@ -328,46 +328,41 @@ class ProdutoController extends Controller
     {
         $data = $request->validate([
             'titulo'              => ['required'],
+            'url_completo'        => ['nullable'],
             'descricao'           => ['required'],
             'conteudo'            => ['nullable'],
             'detalhes'            => ['nullable'],
             'tipo_prod'           => ['required'],
             'pode_personalizar'   => ['nullable'],
             'personalizar_opcoes' => ['nullable', 'array'],
-            // Validação das novas imagens
             'nome_original'       => ['nullable', 'array'],
             'nome_original.*'     => ['image', 'mimes:jpeg,png,jpg,gif', 'max:5120'],
-            // Lista de caminhos para remover (enviados pelo JS)
             'fotos_remover'       => ['nullable', 'array'],
+
         ]);
 
-        // 1. Lógica para Personalização (Converter array para JSON se necessário)
         if (isset($data['personalizar_opcoes'])) {
             $data['personalizar_opcoes'] = json_encode($data['personalizar_opcoes']);
         }
 
-        // 2. Atualizar os dados básicos do produto
         $produto->update($data);
 
-        // 3. Remover as fotos que o utilizador apagou no front-end
+        $produto->url_completo = $produto->titulo . '-' . $produto->id;
+        $produto->save();
+
         if ($request->has('fotos_remover')) {
             foreach ($request->fotos_remover as $path) {
-                // Apaga o ficheiro físico da pasta storage/app/public/
                 Storage::disk('public')->delete($path);
                 
-                // Apaga o registo na sua tabela de Fotos (ajuste o nome da relação se for diferente)
                 $produto->fotos()->where('img_cod', $path)->delete();
             }
         }
 
-        // 4. Guardar as NOVAS fotos
         if ($request->hasFile('nome_original')) {
             foreach ($request->file('nome_original') as $file) {
                 $nomeOriginal = $file->getClientOriginalName();
-                // Guarda na pasta 'uploads' dentro da pasta 'public'
                 $caminho = $file->store('uploads', 'public');
 
-                // Criar registo na tabela de fotos relacionada
                 $produto->fotos()->create([
                     'img_original' => $nomeOriginal,
                     'img_cod'      => $caminho,

@@ -88,7 +88,7 @@
                             </label>
                         </div>
                     </td>
-                    <td class="ps-4 font-weight-700" ><a href="/produtos/{{$produto->url_completo}}" style="color: var(--color1); font-weight: 700; text-decoration:none">{{ $produto->titulo }}</a></td>
+                    <td class="ps-4 font-weight-700" ><a href="{{ route('produto.show', $produto->url_completo) }}" style="color: var(--color1); font-weight: 700; text-decoration:none">{{ $produto->titulo }}</a></td>
                     <td>
                         <span class="badge" style="background-color: var(--main_color_light); color: var(--main_color); border: 1px solid var(--main_color);">
                             @foreach ($tipos as $tipo)
@@ -169,7 +169,7 @@
                             ></i>
                         </label>
 
-                    <h3><a href="/produtos/{{$produto->url_completo}}"style="color: var(--main_color); font-size: 1.1rem; margin: 0; font-family: Georgia, serif; text-decoration:none" >{{ $produto->titulo }}</a></h3>
+                    <h3><a href="{{ route('produto.show', $produto->url_completo) }}" style="color: var(--main_color); font-size: 1.1rem; margin: 0; font-family: Georgia, serif; text-decoration:none" >{{ $produto->titulo }}</a></h3>
                     <small class="text-muted" style="font-family: 'Poppins', sans-serif;">
                         @foreach ($tipos as $tipo)
                             @if ($produto->tipo_prod === $tipo->id) {{ $tipo->Categoria }} @endif
@@ -190,10 +190,10 @@
             <div class="mt-auto pt-2" style="border-top: 1px dashed var(--color-border);">
                 <div style="font-size: 0.75rem; color: #888; margin-bottom: 10px;">
                     <div class="d-flex align-items-center mb-1">
-                        <span class="me-1">📅</span> <b>Criação: </b> {{ $produto->created_at->format('d/m/Y H:i') }}
+                        <span class="me-1"><x-heroicon-o-calendar style="width: 0.95rem; height: 0.95rem; margin-right: 0.25rem; color: #666;" /></span> <b>Criação: </b> {{ $produto->created_at->format('d/m/Y H:i') }}
                     </div>
                     <div class="d-flex align-items-center">
-                        <span class="me-1">🔄</span> <b>Edição: </b> {{ $produto->updated_at == $produto->created_at ? '-' : $produto->updated_at->format('d/m/Y H:i') }}
+                        <span class="me-1"><x-heroicon-o-arrow-path style="width: 0.95rem; height: 0.95rem; margin-right: 0.25rem; color: #666;" /></span> <b>Edição: </b> {{ $produto->updated_at == $produto->created_at ? '-' : $produto->updated_at->format('d/m/Y H:i') }}
                     </div>
                 </div>
                 <div class="d-flex gap-2 flex-column">

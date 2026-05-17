@@ -30,7 +30,6 @@ return new class extends Migration
             $table->foreign('tipo_prod')->references('id')->on('tipo');
         });
 
-        // ✅ Inserir dados iniciais
         DB::table('produto')->insert([
             [
                 'titulo' => 'Agenda A5',

@@ -13,7 +13,7 @@
                 
                 <tr>
                     <td style="padding:40px 30px; text-align:center; background-color:#f9f9f9; border-bottom: 2px solid #f0f0f0;">
-                        <h1 style="margin:0; font-size:24px; color:#333; font-weight:700;">✨ Personalização Registada</h1>
+                        <h1 style="margin:0; font-size:24px; color:#333; font-weight:700;"><x-heroicon-s-sparkles style="width: 1.25rem; height: 1.25rem; color: var(--main_color);"/> Personalização Registada</h1>
                         <p style="margin:10px 0 0 0; color:#777; font-size:15px;">Confirmamos as tuas escolhas personalizadas com sucesso!</p>
                     </td>
                 </tr>

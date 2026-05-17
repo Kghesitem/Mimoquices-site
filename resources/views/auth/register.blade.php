@@ -147,7 +147,7 @@
         } else if (strength <= 2) {
             strengthBar.classList.add('weak');
             strengthText.classList.add('show');
-            strengthText.textContent = '❌ Fraca - Adicione maiúsculas, números e símbolos';
+            strengthText.textContent = '<x-heroicon-o-x-mark style="width:1.25rem; height:1.25rem;"/> Fraca - Adicione maiúsculas, números e símbolos';
             strengthText.style.color = '#dc3545';
         } else if (strength === 3) {
             strengthBar.classList.add('medium');
@@ -157,7 +157,7 @@
         } else {
             strengthBar.classList.add('strong');
             strengthText.classList.add('show');
-            strengthText.textContent = '✅ Forte - Excelente segurança!';
+            strengthText.textContent = '<x-heroicon-c-check-circle style="width:1.25rem; height:1.25rem;"/> Forte - Excelente segurança!';
             strengthText.style.color = '#28a745';
         }
     }

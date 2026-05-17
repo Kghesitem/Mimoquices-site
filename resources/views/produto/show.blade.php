@@ -180,7 +180,7 @@
 
                                 @if($user && !is_null($user->email_verified_at))
                                     <button type="submit" class="btn-personalizar">
-                                        ✨ Personalizar Produto
+                                        <x-heroicon-s-sparkles style="width: 1.25rem; height: 1.25rem; color: yellow;"/> Personalizar Produto
                                     </button>
                                 @elseif($user && is_null($user->email_verified_at))
                                     <button type="button" class="btn-desativo" disabled>
@@ -198,9 +198,8 @@
                                         document.addEventListener('DOMContentLoaded', function() {
                                             Swal.fire({
                                                 title: 'Erro!',
-                                                 
-                                                html: "{!! implode('<br>', array_map('e', $errors->all())) !!}",
                                                 icon: 'error',
+                                                html: "{!! implode('<br>', array_map('e', $errors->all())) !!}",
                                                 confirmButtonColor: '#dc3545',
                                                 confirmButtonText: 'OK'
                                             });

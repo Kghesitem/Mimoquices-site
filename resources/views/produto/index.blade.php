@@ -43,7 +43,7 @@
         {{-- LISTA DE PRODUTOS --}}
         <div class="limite">
             @foreach($produtos as $produto)
-                <a href="/produtos/{{$produto->url_completo}}" 
+                <a href="{{ route('produto.show', $produto->url_completo) }}" 
                    class="produtos-produto animacao-aparecer text-decoration-none" 
                    data-tipo="{{ $produto->tipo_prod }}" data-destaque="{{ $produto->destaque }}" data-produto-id="{{ $produto->id }}">
                    <x-heroicon-c-heart 
@@ -139,7 +139,7 @@
     </script>
     <script src="{{ asset('frontend/assets/js/favoritos.js') }}"></script>
 
-    <!-- No final do seu layout, antes de </body> -->
+
 @if(session('success'))
     <script>
         const Toast = Swal.mixin({

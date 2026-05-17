@@ -41,7 +41,7 @@
             @include('admin.icon_categorias')
 
             {{-- Seção de graficos --}}
-            @include('admin.grafico_favoritos')
+            @include('admin.graficos')
 
             {{-- Card: Personalizações --}}
             @include('admin.tabela_produtos')

@@ -15,7 +15,7 @@
                 
                 {{-- Card: Perfil --}}
                 <a href="{{ route('profile.edit') }}" class="dash-card">
-                    <div class="dash-icon">👤</div>
+                    <div class="dash-icon"><x-heroicon-s-user style="width: 2.5rem; height: 2.5rem; color: var(--main_color);"/></div>
                     <h3>O Meu Perfil</h3>
                     <p>Edita os teus dados e muda a tua password.</p>
                     <span class="dash-link">Gerir conta →</span>
@@ -23,7 +23,7 @@
 
                 {{-- Card: Personalizações (Exemplo de rota) --}}
                 <a href="{{ route('historico') }}" class="dash-card">
-                    <div class="dash-icon">📦</div>
+                    <div class="dash-icon"><x-heroicon-s-archive-box style="width: 2.5rem; height: 2.5rem; color: var(--main_color);"/></div>
                     <h3>Personalizações</h3>
                     <p>Vê o estado e o histórico de personalizações.</p>
                     <span class="dash-link">Ver histórico →</span>
@@ -31,7 +31,7 @@
 
                 {{-- Card: Suporte/Contacto --}}
                 <a href="https://www.instagram.com/mimoquices.mv/" class="dash-card">
-                    <div class="dash-icon">✨</div>
+                    <div class="dash-icon"><x-heroicon-s-sparkles style="width: 2.5rem; height: 2.5rem; color: var(--main_color);"/></div>
                     <h3>Mimos e Ajuda</h3>
                     <p>Tens alguma dúvida? Estamos aqui para ajudar.</p>
                     <span class="dash-link">Contactar →</span>

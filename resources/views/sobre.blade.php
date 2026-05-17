@@ -1,20 +1,33 @@
-@include('partial/header')
+<!DOCTYPE html>
+<html lang="pt">
 <head>
-    <link rel="stylesheet" href="frontend/assets/css/carrosel.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ asset('frontend/assets/css/carrosel.css') }}">
     <title>Sobre - Mimoquices</title>
 </head>
+<body>
 
+    {{-- 1. CABEÇALHO: Inclui a barra de navegação/menu global do site --}}
+    @include('partial/header')
+
+    {{-- 2. SECÇÃO PRINCIPAL: História da Fundadora (Vânia) e da marca Mimoquices --}}
     <div class="bg-white d-flex flex-column justify-content-center align-items-center py-5">
         <div class="container">
             <div class="row align-items-center">
+                
+                {{-- Coluna da Esquerda: Título e Foto da Fundadora --}}
                 <div class="col-md-6 d-flex flex-column align-items-center mb-4 mb-md-0">
                     <h1 class="mb-4 text-center">
                         Sobre a Mimoquices...
                     </h1>
                     <div class="container-sobre">
-                        <img class="sobre" src="{{ asset('frontend/assets/img/VC.jpeg')}}" alt="">
+                        {{-- Foto pessoal da fundadora carregada através do helper asset --}}
+                        <img class="sobre" src="{{ asset('frontend/assets/img/VC.jpeg') }}" alt="Vânia - Fundadora da Mimoquices">
                     </div>
                 </div>
+                
+                {{-- Coluna da Direita: Texto Biográfico e objetivos da marca --}}
                 <div class="col-md-6 d-flex align-items-start fs-4">
                     <div>
                         <p>Sou a Vânia, mãe de dois e casada com o homem mais maravilhoso que conheço.</p>
@@ -30,50 +43,60 @@
                         </p>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
 
-
+    {{-- 3. SECÇÃO SECUNDÁRIA: Carrosel de Destaque das Categorias de Produtos --}}
     <div class="bg-white d-flex flex-column justify-content-center align-items-center py-5">
         <div class="container">
-
             <div class="carrosel">
     
-            <div class="cartao max cartao-sobre animacao-home" style="border:solid 0px red;">
-                <div class="container max">
-                    <h2>Agendas</h2>
-                    <p class="sobre">Únicas e totalmente personalizadas!São simples e funcionais, adequadas para qualquer pessoa.</p>
-                    <a class="butao-sobre" href="{{ route('produto.index') }}?tipo=1">Ver opções</a>
+                {{-- Cartão 1: Agendas (Filtrado por tipo=1 no link) --}}
+                <div class="cartao max cartao-sobre animacao-home" style="border: solid 0px red;">
+                    <div class="container max">
+                        <h2>Agendas</h2>
+                        <p class="sobre">Únicas e totalmente personalizadas! São simples e funcionais, adequadas para qualquer pessoa.</p>
+                        <a class="butao-sobre" href="{{ route('produto.index') }}?tipo=1">Ver opções</a>
+                    </div>
                 </div>
-            </div>
 
-            <div class="cartao max cartao-sobre animacao-home" style="border:solid 0px red;">
-                <div class="container max">
-                    <h2>Docinhos</h2>
-                    <p class="sobre">Delicadamente preparados e cheios de encanto! Docinhos únicos, feitos para adoçar cada momento com um toque especial.</p>
-                    <a class="butao-sobre" href="{{ route('produto.index') }}?tipo=2">Ver opções</a>
+                {{-- Cartão 2: Docinhos (Filtrado por tipo=2 no link) --}}
+                <div class="cartao max cartao-sobre animacao-home" style="border: solid 0px red;">
+                    <div class="container max">
+                        <h2>Docinhos</h2>
+                        <p class="sobre">Delicadamente preparados e cheios de encanto! Docinhos únicos, feitos para adoçar cada momento com um toque especial.</p>
+                        <a class="butao-sobre" href="{{ route('produto.index') }}?tipo=2">Ver opções</a>
+                    </div>
                 </div>
-            </div>
 
-            <div class="cartao max cartao-sobre animacao-home" style="border:solid 0px red;">
-                <div class="container max">
-                    <h2>Lembraças</h2>
-                    <p class="sobre">Lembraças para casamentos e batizados pensadas para eternizar e agradercer seus convidados</p>
-                    <a class="butao-sobre" href="{{ route('produto.index') }}">Ver opções</a>
+                {{-- Cartão 3: Lembranças (Corrigido o erro ortográfico de "Lembraças") --}}
+                <div class="cartao max cartao-sobre animacao-home" style="border: solid 0px red;">
+                    <div class="container max">
+                        <h2>Lembranças</h2>
+                        <p class="sobre">Lembranças para casamentos e batizados pensadas para eternizar e agradecer aos seus convidados.</p>
+                        <a class="butao-sobre" href="{{ route('produto.index') }}">Ver opções</a>
+                    </div>
                 </div>
-            </div>
 
-            <div class="cartao max cartao-sobre animacao-home" style="border:solid 0px red;">
-                <div class="container max">
-                    <h2>Cadernos de Notas</h2>
-                    <p class="sobre">Ideal para anotar ideias,listas,desenhar,tirar apontamentos ou usar como diário de reflexão</p>
-                    <a class="butao-sobre" href="{{ route('produto.index') }}">Ver opções</a>
+                {{-- Cartão 4: Cadernos de Notas --}}
+                <div class="cartao max cartao-sobre animacao-home" style="border: solid 0px red;">
+                    <div class="container max">
+                        <h2>Cadernos de Notas</h2>
+                        <p class="sobre">Ideal para anotar ideias, listas, desenhar, tirar apontamentos ou usar como diário de reflexão.</p>
+                        <a class="butao-sobre" href="{{ route('produto.index') }}">Ver opções</a>
+                    </div>
                 </div>
-            </div>
+
+                {{-- Podes adicionar outros cartões para outras categorias de produtos, se necessário --}}
    
             </div>
         </div>
     </div>
-@include('partial/footer')
 
+    {{-- 4. RODAPÉ: Inclui o rodapé global da aplicação --}}
+    @include('partial/footer')
+
+</body>
+</html>

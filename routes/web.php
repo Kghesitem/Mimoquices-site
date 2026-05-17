@@ -21,10 +21,10 @@ Route::get('/sobre', function () {return view('sobre');})->name('sobre');
 
 
 Route::get('/dashboard', [UserController::class, 'Dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
-Route::get('/produtos/{titulo}', [ProdutoController::class, 'show'])->name('produto.show');
+Route::get('/produto/{titulo}', [ProdutoController::class, 'show'])->name('produto.show');
 
 Route::get('/produtos', [ProdutoController::class, 'index'])->name('produto.index');
-Route::post('/produtos/{titulo}/personalizar', [ProdutoController::class, 'personalizarProduto'])->name('produto.personalizar');
+Route::post('/produto/{titulo}/personalizar', [ProdutoController::class, 'personalizarProduto'])->name('produto.personalizar');
 
 Route::middleware(['auth', AdminMiddleware::class])->group(function () {
     // Rotas para criar novos produtos, categorias e personalizações
@@ -54,8 +54,8 @@ Route::middleware('auth')->group(function () {
     // ---------------------------------------------------------------------------------
 
     // Rotas para editar, colocar visivel, destacar, atualizar e deletar produtos -- (apenas para admin)
-        Route::get('/produtos/{produto}/editar', [ProdutoController::class, 'edit'])->name('produto.edit');
-        Route::put('/produtos/{produto}/update', [ProdutoController::class, 'update'])->name('produto.update');
+        Route::get('/produto/{produto}/editar', [ProdutoController::class, 'edit'])->name('produto.edit');
+        Route::put('/produto/{produto}/update', [ProdutoController::class, 'update'])->name('produto.update');
         Route::post('/produto/{id}/visivel', [ProdutoController::class, 'visivel'])->name('produto.visivel');
         Route::post('/produto/{id}/destaque', [ProdutoController::class, 'destaque'])->name('produto.destaque');
         Route::delete('/produto/{id}', [ProdutoController::class, 'destroy'])->name('produto.destroy');
@@ -82,7 +82,6 @@ Route::middleware('auth')->group(function () {
     // ---------------------------------------------------------------------------------
 
     // Rota para exibir gráfico de favoritos e histórico de personalizações -- (apenas para admin)
-        Route::get('/grafico-favoritos', [FavoritoController::class, 'grafico'])->name('grafico.favoritos');
         Route::get('/historico-personalizacoes', [PersonalizacaoController::class, 'index'])->name('historico');
         Route::get('/tabela-pedidos', [PersonalizacaoController::class, 'tabelaPedidos'])->name('tabelaPedidos');
     // ---------------------------------------------------------------------------------

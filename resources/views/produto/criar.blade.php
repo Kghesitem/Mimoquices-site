@@ -127,10 +127,6 @@
 
                 {{-- BLOCO DE PERSONALIZAÇÃO (ADMIN) --}}
                 <div id="bloco-personalizacao-admin" class="hidden" style="margin-top: 1.5rem; padding: 1.25rem; border: 1px dashed var(--main_color); border-radius: 0.5rem; background-color: rgba(var(--main_color_rgb), 0.03);">
-                    <div class="admin-info" style="margin-bottom: 1rem;">
-                        <strong>⚙️ Modo Admin:</strong>
-                        <span>Configure as opções de personalização para os clientes</span>
-                    </div>
 
                     {{-- Radio --}}
                     <div class="form-group">
@@ -150,7 +146,7 @@
                     {{-- Opções de Personalização --}}
                     <div id="opcoes-personalizacao" class="{{ old('pode_personalizar') == 'Sim' ? 'visible' : '' }}" style="margin-top: 1.25rem;">
                         <h6 style="color: var(--main_color); margin-bottom: 1rem; font-weight: bold;">
-                            ✅ Selecione as opções válidas:
+                            <x-heroicon-c-check-circle style="width: 1.25rem; height: 1.25rem;"/> Selecione as opções válidas:
                         </h6>
                         <div id="opcoes-papelaria" class="opcoes-personalizacao">
                             <div class="opcoes-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.75rem;">

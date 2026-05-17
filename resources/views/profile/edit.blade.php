@@ -22,7 +22,7 @@
                 {{-- INFORMAÇÕES DO PERFIL --}}
                 <details class="accordion-profile" open>
                     <summary>
-                        <span class="summary-title"><i class="icon">👤</i> Informações do Perfil</span>
+                        <span class="summary-title"><i class="icon"><x-heroicon-s-user style="width: 1.5rem; height: 1.5rem; color: var(--main_color);"/></i> Informações do Perfil</span>
                         <span class="arrow">▾</span>
                     </summary>
                     <div class="accordion-content">
@@ -35,7 +35,7 @@
                 {{-- ALTERAR PALAVRA-PASSE --}}
                 <details class="accordion-profile">
                     <summary>
-                        <span class="summary-title"><i class="icon">🔒</i> Segurança da Conta</span>
+                        <span class="summary-title"><i class="icon"><x-heroicon-s-lock-closed style="width: 1.5rem; height: 1.5rem; color: var(--main_color);"/></i> Segurança da Conta</span>
                         <span class="arrow">▾</span>
                     </summary>
                     <div class="accordion-content">
@@ -48,7 +48,7 @@
                 {{-- ELIMINAR CONTA --}}
                 <details class="accordion-profile danger-zone">
                     <summary>
-                        <span class="summary-title"><i class="icon"><x-heroicon-s-exclamation-triangle style="width:4rem; heigth:4rem"/></i> Zona de Perigo</span>
+                        <span class="summary-title"><i class="icon"><x-heroicon-s-exclamation-triangle style="width: 1.5rem; height: 1.5rem; color: red;"/></i> Zona de Perigo</span>
                         <span class="arrow">▾</span>
                     </summary>
                     <div class="accordion-content">

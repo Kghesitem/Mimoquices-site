@@ -52,7 +52,7 @@
                     />
                     <div>
                         <img class="produto-img" 
-                             src="{{asset("Storage/{$produto->nome_cod}")}}" 
+                             src="{{asset("storage/{$produto->nome_cod}")}}" 
                              alt="{{$produto->nome_original}}">
                     </div>
 

@@ -42,7 +42,7 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
 
 Route::middleware('auth')->group(function () {
 
-    // Rotas para editar, atualizar e deletar perfil -- (apenas para usuário autenticado)
+    // Rotas para editar, atualizar e apagar perfil -- (apenas para usuário autenticado)
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -53,7 +53,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/favoritos', [ProdutoController::class, 'favoritos'])->name('favoritos');
     // ---------------------------------------------------------------------------------
 
-    // Rotas para editar, colocar visivel, destacar, atualizar e deletar produtos -- (apenas para admin)
+    // Rotas para editar, colocar visivel, destacar, atualizar e apagar produtos -- (apenas para admin)
         Route::get('/produto/{produto}/editar', [ProdutoController::class, 'edit'])->name('produto.edit');
         Route::put('/produto/{produto}/update', [ProdutoController::class, 'update'])->name('produto.update');
         Route::post('/produto/{id}/visivel', [ProdutoController::class, 'visivel'])->name('produto.visivel');
@@ -61,20 +61,20 @@ Route::middleware('auth')->group(function () {
         Route::delete('/produto/{id}', [ProdutoController::class, 'destroy'])->name('produto.destroy');
     // ---------------------------------------------------------------------------------
 
-    // Rotas para editar, atualizar e deletar personalizações -- (apenas para admin)
+    // Rotas para editar, atualizar e apagar personalizações -- (apenas para admin)
         Route::post('/pedido/{id}/atualizar', [PersonalizacaoController::class, 'atualizar'])->name('pedido.atualizar');
         Route::delete('/pedido/{id}/admin', [PersonalizacaoController::class, 'delete'])->name('pedido.delete');
         Route::delete('/pedido/{id}', [PersonalizacaoController::class, 'destroy'])->name('pedido.destroy');
         Route::get('/pedido/{id}', [PersonalizacaoController::class, 'show'])->name('pedido.show');
     // ---------------------------------------------------------------------------------
 
-    // Rotas para editar, atualizar e deletar categorias -- (apenas para admin)
+    // Rotas para editar, atualizar e apagar categorias -- (apenas para admin)
         Route::get('/categoria/{id}/editar', [CategoriaController::class, 'edit'])->name('categoria.edit');
         Route::put('/categoria/{id}/update', [CategoriaController::class, 'update'])->name('categoria.update');
         Route::delete('/categoria/{id}', [CategoriaController::class, 'destroy'])->name('categoria.destroy');
     // ---------------------------------------------------------------------------------
 
-    // Rota para deletar personalização -- (apenas para admin)
+    // Rota para apagar personalização -- (apenas para admin)
        
         Route::get('/personalizacao/{id}/editar', [PersonalizacaoController::class, 'edit'])->name('personalizacao.edit');
         Route::put('/personalizacao/{id}/update', [PersonalizacaoController::class, 'update'])->name('personalizacao.update');

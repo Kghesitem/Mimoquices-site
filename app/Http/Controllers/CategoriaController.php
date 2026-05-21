@@ -5,16 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Produto;
 use App\Models\Tipo;
-use App\Models\todas_as_personalizacoes;
-use App\Models\todas_as_respostas;
-use App\Models\associadas;
+use App\Models\Todas_as_personalizacoes;
+use App\Models\Todas_as_respostas;
+use App\Models\Associadas;
 
 class CategoriaController extends Controller
 {
     public function create()
     {
         $tipo    = Tipo::all();
-        $todas_personalizações = todas_as_personalizacoes::all();
+        $todas_personalizações = Todas_as_personalizacoes::all();
         
         return view('categoria.criar_categoria', compact( 'tipo', 'todas_personalizações'));
     }
@@ -40,8 +40,8 @@ class CategoriaController extends Controller
     public function edit (Tipo $categoria, $id)
     {
         $categoria = Tipo::findOrFail($id);
-        $todas_personalizações = todas_as_personalizacoes::all();
-        $associados = associadas::where('id_tipo', $categoria->id)->get();
+        $todas_personalizações = Todas_as_personalizacoes::all();
+        $associados = Associadas::where('id_tipo', $categoria->id)->get();
 
         return view('categoria.editar_categoria', compact('categoria', 'todas_personalizações', 'associados'));
     }
@@ -115,6 +115,6 @@ class CategoriaController extends Controller
         $categoria->delete();
 
         return redirect()->route('dashboard')
-            ->with('success', 'Categoria deletada com sucesso!');
+            ->with('success', 'Categoria eliminada com sucesso!');
     }
 }

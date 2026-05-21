@@ -19,6 +19,6 @@ class todas_as_respostas extends Model
     // Relação inversa para a personalização
     public function personalizacao()
     {
-        return $this->belongsTo(todas_as_personalizacoes::class, 'id_todas');
+        return $this->belongsTo(Todas_as_personalizacoes::class, 'id_todas');
     }
 }

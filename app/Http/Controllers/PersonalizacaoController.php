@@ -7,9 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Pedido;
 use App\Models\Tipo;
-use App\Models\todas_as_personalizacoes;
-use App\Models\todas_as_respostas;
-use App\Models\associadas;
+use App\Models\Todas_as_personalizacoes;
+use App\Models\Todas_as_respostas;
+use App\Models\Associadas;
 use App\Models\Produto;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -18,8 +18,8 @@ class PersonalizacaoController extends Controller
 {
     public function index()
     {
-        $pesonalizacoes = todas_as_personalizacoes::select('id', 'titulo')->get();
-        $selecionadas = todas_as_respostas::select('id', 'resposta')->get();
+        $pesonalizacoes = Todas_as_personalizacoes::select('id', 'titulo')->get();
+        $selecionadas = Todas_as_respostas::select('id', 'resposta')->get();
         $historico = Personalizacao::whereHas('pedido', function ($query) {
             $query->where('id_user', Auth::id()); 
         })
@@ -108,15 +108,15 @@ class PersonalizacaoController extends Controller
     public function edit($id) 
     {
         // Agora o $id vai receber o número "1" diretamente da URL
-        $personalizacao = todas_as_personalizacoes::findOrFail($id);
-        $respostas = todas_as_respostas::where('id_personalizacao', $id)->get();
+        $personalizacao = Todas_as_personalizacoes::findOrFail($id);
+        $respostas = Todas_as_respostas::where('id_personalizacao', $id)->get();
 
         return view('personalizacoes.editar_personalizacoes', compact('personalizacao', 'respostas'));
     }
     public function update(Request $request, $id)
 {
     // 1. Garante que a personalização existe antes de continuar
-    $personalizacao = todas_as_personalizacoes::findOrFail($id);
+    $personalizacao = Todas_as_personalizacoes::findOrFail($id);
 
     // 2. Validação dos dados recebidos do formulário
     $request->validate([
@@ -137,14 +137,14 @@ class PersonalizacaoController extends Controller
     if (in_array($request->tipo_de_input, ['select', 'checkbox'])) {
         
         // Remove as opções antigas para evitar duplicados
-        todas_as_respostas::where('id_personalizacao', $id)->delete();
+        Todas_as_respostas::where('id_personalizacao', $id)->delete();
         
         // Insere as novas opções enviadas pelo formulário
         if ($request->has('campos')) {
             foreach ($request->campos as $opcao) {
                 if (!is_null($opcao) && trim($opcao) !== '') {
                     // Usando o Model em vez de DB::table para manter o padrão do Laravel
-                    todas_as_respostas::create([
+                    Todas_as_respostas::create([
                         'id_personalizacao' => $id,
                         'resposta'          => trim($opcao),
                     ]);
@@ -153,7 +153,7 @@ class PersonalizacaoController extends Controller
         }
     } else {
         // Se mudou o tipo para 'texto', limpa qualquer opção que existisse antes
-        todas_as_respostas::where('id_personalizacao', $id)->delete();
+        Todas_as_respostas::where('id_personalizacao', $id)->delete();
     }
 
     // 5. Redireciona o utilizador com uma mensagem de sucesso
@@ -246,8 +246,8 @@ class PersonalizacaoController extends Controller
             $pedido->update(['estado' => 'visto']);
         }
 
-        $pesonalizacoes = todas_as_personalizacoes::select('id', 'titulo')->get();
-        $selecionadas = todas_as_respostas::select('id', 'resposta')->get();
+        $pesonalizacoes = Todas_as_personalizacoes::select('id', 'titulo')->get();
+        $selecionadas = Todas_as_respostas::select('id', 'resposta')->get();
 
         return view('personalizacoes.show', compact('pedido', 'historico', 'selecionadas', 'pesonalizacoes'));
     }

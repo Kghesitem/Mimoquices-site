@@ -20,7 +20,7 @@ class todas_as_personalizacoes extends Model
     // Relação com respostas/opções
     public function respostas()
     {
-        return $this->hasMany(todas_as_respostas::class, 'id_personalizacao');
+        return $this->hasMany(Todas_as_respostas::class, 'id_personalizacao');
     }
     
     public function tipos()

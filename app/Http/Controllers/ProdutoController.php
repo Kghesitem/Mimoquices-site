@@ -5,11 +5,11 @@ use Illuminate\Http\Request;
 use App\Models\Produto;
 use App\Models\Tipo;
 use App\Models\Fotos;
-use App\Models\favoritos;
+use App\Models\Favoritos;
 use App\Models\Personalizacao;
-use App\Models\todas_as_personalizacoes;
-use App\Models\associadas;
-Use App\Models\todas_as_respostas;
+use App\Models\Todas_as_personalizacoes;
+use App\Models\Associadas;
+Use App\Models\Todas_as_respostas;
 use App\Models\Pedido;
 use App\Mail\PersonalizarMail;
 use Illuminate\Support\Facades\Mail;
@@ -27,7 +27,7 @@ class ProdutoController extends Controller
         
         // Verifica favoritos apenas se o utilizador estiver logado
         $favoritos = Auth::check() 
-            ? favoritos::where('id_user', Auth::id())->pluck('id_produto')->toArray() 
+            ? Favoritos::where('id_user', Auth::id())->pluck('id_produto')->toArray() 
             : [];
 
         return view('produto.index', [
@@ -51,7 +51,7 @@ class ProdutoController extends Controller
         $tipos = Tipo::all();
 
         $favoritos = Auth::check() 
-            ? favoritos::where('id_user', Auth::id())->pluck('id_produto')->toArray() 
+            ? Favoritos::where('id_user', Auth::id())->pluck('id_produto')->toArray() 
             : [];
 
         return view('welcome', [
@@ -72,17 +72,16 @@ class ProdutoController extends Controller
         $id_user = Auth::id();
 
         // Procura se o favorito já existe para este utilizador
-        $favorito = favoritos::where('id_user', $id_user)
+        $favorito = Favoritos::where('id_user', $id_user)
                             ->where('id_produto', $id_produto)
                             ->first();
 
         if ($favorito) {
-            // Se já existe, remove (Unfavorite)
             $favorito->delete();
             return response()->json(['status' => 'removed']);
         } else {
             // Se não existe, cria (Favorite)
-            favoritos::create([
+            Favoritos::create([
                 'id_user' => $id_user,
                 'id_produto' => $id_produto
             ]);
@@ -95,7 +94,7 @@ class ProdutoController extends Controller
     {
         $produto = Produto::where('url_completo', $url_completo)->where('disponivel', 1)->firstOrFail();
         $tipo    = Tipo::find($produto->tipo_prod);
-        $associadas = associadas::where('id_tipo', $tipo->id)->get();
+        $associadas = Associadas::where('id_tipo', $tipo->id)->get();
         if($produto->personalizar_opcoes == null)
         {
             $todas_personalizações = null;
@@ -103,8 +102,8 @@ class ProdutoController extends Controller
         }
         else
         {
-            $todas_personalizações = todas_as_personalizacoes::wherein('id', json_decode($produto->personalizar_opcoes))->get();
-            $todas_respostas = todas_as_respostas::whereIn('id_personalizacao',$todas_personalizações->pluck('id'))->get();
+            $todas_personalizações = Todas_as_personalizacoes::wherein('id', json_decode($produto->personalizar_opcoes))->get();
+            $todas_respostas = Todas_as_respostas::whereIn('id_personalizacao',$todas_personalizações->pluck('id'))->get();
         }
         
         
@@ -119,7 +118,7 @@ class ProdutoController extends Controller
     {
        
         $tipos = Tipo::all();
-        $todas_personalizações = todas_as_personalizacoes::with('tipos')->get();;
+        $todas_personalizações = Todas_as_personalizacoes::with('tipos')->get();;
 
         return view('produto.criar', [
             'tipos' => $tipos,
@@ -264,8 +263,8 @@ class ProdutoController extends Controller
             }
         }
 
-        $pesonalizacoes = \App\Models\todas_as_personalizacoes::select('id', 'titulo')->get();
-        $selecionadas = \App\Models\todas_as_respostas::select('id', 'resposta')->get();
+        $pesonalizacoes = \App\Models\Todas_as_personalizacoes::select('id', 'titulo')->get();
+        $selecionadas = \App\Models\Todas_as_respostas::select('id', 'resposta')->get();
         
         // Buscamos os itens que acabaste de criar, já com o relacionamento do produto carregado
         $itensDoPedido = \App\Models\Personalizacao::where('id_pedido', $pedido->id)
@@ -311,7 +310,7 @@ class ProdutoController extends Controller
     }
     public function favoritos(Request $request)
     {
-        $idsFavoritos = favoritos::where('id_user', Auth::id())->pluck('id_produto')->toArray();
+        $idsFavoritos = Favoritos::where('id_user', Auth::id())->pluck('id_produto')->toArray();
         $produtos = Produto::whereIn('id', $idsFavoritos)->where('disponivel', 1)->get();
 
         $tipos = Tipo::all();
@@ -376,7 +375,7 @@ class ProdutoController extends Controller
     public function edit(Produto $produto)
     {
         $tipos = Tipo::all();
-        $todas_personalizações = todas_as_personalizacoes::with('tipos')->get();
+        $todas_personalizações = Todas_as_personalizacoes::with('tipos')->get();
         $fotos = Fotos::where('group_img', $produto->id)
         ->select('img_original', 'img_cod')
         ->get();

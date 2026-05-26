@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('user_type')->after('name')->default('user');
+            $table->boolean('newsletter')->after('user_type')->default(false);
         });
 
         DB::table('users')->insert([
@@ -22,6 +23,7 @@ return new class extends Migration
                 'email' => 'a@gmail.com',
                 'email_verified_at' => now(),
                 'password' => '$2y$12$CuLZ6SVdsW0w5Drr.xt.Vu3lRvw2xB0usFdIr4Ey97oxmUvdjRWLe',
+                'newsletter' => true,
                 'created_at' => now(),
                 'updated_at' => now()
             ]

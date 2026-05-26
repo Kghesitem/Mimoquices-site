@@ -9,6 +9,7 @@ use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\PersonalizacaoController;
 use App\Http\Controllers\FavoritoController;
 use App\Http\Middleware\AdminMiddleware;
+use App\Http\Controllers\NewsletterController;
 
 // ------------------------------------------------------------------------------
 // Rotas públicas
@@ -25,6 +26,8 @@ Route::get('/produto/{titulo}', [ProdutoController::class, 'show'])->name('produ
 
 Route::get('/produtos', [ProdutoController::class, 'index'])->name('produto.index');
 Route::post('/produto/{titulo}/personalizar', [ProdutoController::class, 'personalizarProduto'])->name('produto.personalizar');
+
+Route::get('/newsletter/unsubscribe/{user}', [NewsletterController::class, 'unsubscribe'])->name('newsletter.unsubscribe')->middleware('signed');
 
 Route::middleware(['auth', AdminMiddleware::class])->group(function () {
     // Rotas para criar novos produtos, categorias e personalizações

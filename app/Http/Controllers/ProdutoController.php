@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Produto;
+use App\Models\User;
 use App\Models\Tipo;
 use App\Models\Fotos;
 use App\Models\Favoritos;
@@ -12,6 +13,7 @@ use App\Models\Associadas;
 Use App\Models\Todas_as_respostas;
 use App\Models\Pedido;
 use App\Mail\PersonalizarMail;
+use App\Mail\Newsletter_produto;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -186,7 +188,19 @@ class ProdutoController extends Controller
             $novasfotos = Fotos::create($fotos);
         }
 
-        
+
+            if ($request->has('newsletter')) {
+                
+
+                $clientes = User::where('newsletter', 1)->get();
+
+                foreach ($clientes as $cliente) {
+                    Mail::to($cliente->email)->queue(
+                        new Newsletter_produto($novoproduto, $cliente) 
+                    );
+                }
+            }
+
         return redirect()->route('produto.index')->with('success', 'Produto criado com sucesso!');
     }
 
@@ -271,7 +285,6 @@ class ProdutoController extends Controller
             ->with('produto')
             ->get();
 
-        // Enviar email (agora com os 4 argumentos que a classe espera)
 
         Mail::to(auth()->user()->email)->send(
             new PersonalizarMail($pedido, $itensDoPedido, $pesonalizacoes, $selecionadas)
@@ -308,6 +321,7 @@ class ProdutoController extends Controller
 
         return response()->json(['success' => true]);
     }
+
     public function favoritos(Request $request)
     {
         $idsFavoritos = Favoritos::where('id_user', Auth::id())->pluck('id_produto')->toArray();

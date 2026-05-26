@@ -98,6 +98,21 @@
                     <label for="detalhes" class="form-label">Detalhes</label>
                     <textarea id="detalhes" class="form-input textarea-auto-expand" name="detalhes" rows="3" placeholder="Detalhes do produto...">{{ old('detalhes') }}</textarea>
                 </div>
+
+                {{-- Newsletter Checkbox --}}
+                <div class="form-group-checkbox" style="display: flex; align-items: flex-start; gap: 0.5rem; margin: 1rem 0;">
+                    <input 
+                        type="checkbox" 
+                        id="newsletter" 
+                        name="newsletter" 
+                        value="1"
+                        class="form-checkbox"
+                        autocomplete="newsletter"
+                    />
+                    <label for="newsletter" class="form-label-checkbox" style="cursor: pointer; user-select: none; font-size: 0.9rem; color: #4a5568;">
+                        Enviar novidades sobre este produto por email para os clientes que optaram por receber atualizações
+                    </label>
+                </div>
             </div>
 
             

@@ -19,6 +19,7 @@ class User extends Authenticatable implements MustVerifyEmail // Implementação
         'name',
         'email',
         'password',
+        'newsletter',
     ];
 
     protected $hidden = [
@@ -31,6 +32,7 @@ class User extends Authenticatable implements MustVerifyEmail // Implementação
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'newsletter' => 'boolean',
         ];
     }
 

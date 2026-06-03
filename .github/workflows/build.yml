@@ -8,13 +8,13 @@ on:
 jobs:
   build:
     name: Build and analyze
-    runs-on: windows-latest
+    runs-on: ubuntu-latest  # <-- Alterado de windows-latest para ubuntu-latest
     
     steps:
       - name: Checkout código
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Obrigatório para o SonarCloud calcular o histórico corretamente
+          fetch-depth: 0  # Desativa clones rasos para o SonarCloud ler o histórico do Git
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@v3

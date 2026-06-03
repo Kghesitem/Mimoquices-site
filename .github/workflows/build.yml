@@ -14,10 +14,9 @@ jobs:
       - name: Checkout código
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Desativa clones rasos para uma melhor análise do histórico
+          fetch-depth: 0  # Obrigatório para o SonarCloud calcular o histórico corretamente
 
-      - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@v6
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@v3
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          # SONAR_HOST_URL foi removido porque estás a usar o SonarCloud automático

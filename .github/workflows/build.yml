@@ -33,3 +33,4 @@ jobs:
         with:
           args: >
             -Dsonar.scanner.skipJreProvisioning=true
+            -X

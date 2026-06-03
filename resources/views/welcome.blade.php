@@ -9,7 +9,7 @@
 <body>
 
     {{-- 1. CABEÇALHO: Inclui a barra de navegação/menu global do site --}}
-    include('partial/header')
+    @include('partial/header')
 
     {{-- 2. BANNER PRINCIPAL: Imagem de destaque no topo da página inicial --}}
     <div class="banner">

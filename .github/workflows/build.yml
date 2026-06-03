@@ -8,13 +8,22 @@ on:
 jobs:
   build:
     name: Build and analyze
-    runs-on: ubuntu-latest  # <-- Alterado de windows-latest para ubuntu-latest
+    runs-on: ubuntu-latest
     
     steps:
       - name: Checkout código
         uses: actions/checkout@v4
         with:
           fetch-depth: 0  # Desativa clones rasos para o SonarCloud ler o histórico do Git
+
+      - name: Validar se o Secret existe
+        run: |
+          if [ -z "${{ secrets.SONAR_TOKEN }}" ]; then
+            echo "ATENÇÃO: O GitHub NÃO está a conseguir ler o SONAR_TOKEN! Está vazio."
+            exit 1
+          else
+            echo "O GitHub encontrou o SONAR_TOKEN com sucesso. O valor está a ser passado."
+          fi
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@v3

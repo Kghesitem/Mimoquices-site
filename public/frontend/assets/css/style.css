@@ -516,7 +516,6 @@ img.banner {
 
 /*------------------------------------ Login/Register ------------------------------------*/
 .img {
-    background-image: url("../img/2382062-volta-as-aulas-papelaria-fundo-gratis-vetor.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -526,6 +525,11 @@ img.banner {
     flex-direction: column;
     justify-items: center;
     align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+.img.loaded {
+    opacity: 1;
 }
 
 div.login-register {

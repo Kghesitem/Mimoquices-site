@@ -13,7 +13,7 @@
                 
                 <tr>
                     <td style="padding:40px 30px; text-align:center; background-color:#f9f9f9; border-bottom: 2px solid #f0f0f0;">
-                        <h1 style="margin:0; font-size:24px; color:#333; font-weight:700;"><x-heroicon-s-sparkles style="width: 1.25rem; height: 1.25rem; color: var(--main_color);"/> Personalização Registada</h1>
+                        <h1 style="margin:0; font-size:24px; color:#333; font-weight:700;"></h1>
                         <p style="margin:10px 0 0 0; color:#777; font-size:15px;">Confirmamos as tuas escolhas personalizadas com sucesso!</p>
                     </td>
                 </tr>
@@ -68,7 +68,7 @@
                         @endforeach
 
                         <div style="margin-top: 20px; padding: 25px; background-color: #fdfdff; border-radius: 10px; text-align: center; border: 1px dashed #d1d1f0;">
-                            <p style="margin: 0 0 10px 0; font-weight: 600; color: #333;">Obrigado pela tua preferência! ❤️</p>
+                            <p style="margin: 0 0 10px 0; font-weight: 600; color: #333;">Obrigado pela tua preferência!</p>
                             <p style="margin: 0; font-size: 13px; color: #777; line-height: 1.6;">
                                 O teu pedido foi registado e será processado com base nestas personalizações. Podes consultar o teu histórico a qualquer momento no nosso site.
                             </p>

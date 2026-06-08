@@ -18,18 +18,18 @@
                 </div>
             </div>
 
-            <select id="filtroTipos" class="form-select w-auto" style="border-radius: 1rem; border-color: var(--color-border); appearance: none; -webkit-appearance: none; -moz-appearance: none; background-image: none; padding-right: 0.5rem;">">
+            <select id="filtroTipos" class="form-select w-auto" style="border-radius: 1rem; border-color: var(--color-border); appearance: none; -webkit-appearance: none; -moz-appearance: none; background-image: none; padding-right: 0.5rem;">
                 <option value="">Todas as Categorias</option>
                 @foreach($tipos as $tipo)
                     <option value="{{ $tipo->id }}">{{ $tipo->Categoria }}</option>
                 @endforeach
             </select>
-            <select id="visibilidades" class="form-select w-auto" style="border-radius: 1rem; border-color: var(--color-border); appearance: none; -webkit-appearance: none; -moz-appearance: none; background-image: none; padding-right: 0.5rem;">">
+            <select id="visibilidades" class="form-select w-auto" style="border-radius: 1rem; border-color: var(--color-border); appearance: none; -webkit-appearance: none; -moz-appearance: none; background-image: none; padding-right: 0.5rem;">
                 <option value="">Todas as Visibilidades</option>
                 <option value="1">Visível</option>
                 <option value="0">Oculto</option>
             </select>
-            <select id="destaques" class="form-select w-auto" style="border-radius: 1rem; border-color: var(--color-border); appearance: none; -webkit-appearance: none; -moz-appearance: none; background-image: none; padding-right: 0.5rem;">">
+            <select id="destaques" class="form-select w-auto" style="border-radius: 1rem; border-color: var(--color-border); appearance: none; -webkit-appearance: none; -moz-appearance: none; background-image: none; padding-right: 0.5rem;">
                 <option value="">destaques e não destaques</option>
                 <option value="1">destaques</option>
                 <option value="0">Não destaques</option>

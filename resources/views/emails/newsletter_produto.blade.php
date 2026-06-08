@@ -56,7 +56,7 @@
     </p>
     <p style="font-size: 0.8rem; text-align: center; margin-top: 0;">
         <a href="{{ $unsubscribeUrl }}" style="color: #dc3545; text-decoration: underline;">
-            Deixar de receber estes e-mails (Cancelar Newsletter)
+            Deixar de receber estes e-mails
         </a>
     </p>
 </body>

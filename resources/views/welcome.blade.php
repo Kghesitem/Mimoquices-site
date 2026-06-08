@@ -41,7 +41,9 @@
                                 <img src="{{ asset("storage/{$produto->nome_cod}") }}" 
                                      alt="{{ $produto->nome_original }}" 
                                      class="produto-img" 
-                                     onload="this.parentElement.classList.add('loaded')">
+                                     loading="lazy"
+                                     onload="this.parentElement.classList.add('loaded')"
+                                     >
                             </div>
 
                             {{-- Título do Produto --}}

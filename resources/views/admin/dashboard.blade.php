@@ -12,30 +12,43 @@
 
             {{-- Grelha de Atalhos --}}
             <div class="d-flex justify-content-center">    
-                <div class="d-flex flex-column justify-content-center flex-md-row gap-3 max"style="width:65%">
+                {{-- Aumentado para width:85% para acomodar melhor os 4 cards em desktop --}}
+                <div class="d-flex flex-column justify-content-center flex-md-row gap-3 max" style="width:85%">
                     
-                    {{-- Card: Perfil --}}
+                    {{-- Card: Adicionar Produto --}}
                     <a href="{{ route('produto.criar') }}" class="dash-card-admin" style="flex: 1;">
                         <div class="dash-icon"><x-heroicon-s-tag style="width: 3rem; height: 3rem; color:var(--main_color);" /></div>
                         <h3>Adicionar Produto</h3>
                         <p>Cria um novo produto</p>
                         <span class="dash-link">Adicionar Produto →</span>
                     </a>
-                    <a href="{{ route('categoria.criar') }}" class="dash-card-admin"style="flex: 1;">
+
+                    {{-- Card: Adicionar Categoria --}}
+                    <a href="{{ route('categoria.criar') }}" class="dash-card-admin" style="flex: 1;">
                         <div class="dash-icon"><x-heroicon-m-folder-plus style="width: 3rem; height: 3rem; color:var(--main_color);" /></div>
                         <h3>Adicionar Categoria</h3>
                         <p>Cria uma nova Categoria</p>
                         <span class="dash-link">Adicionar Categoria →</span>
                     </a>
-                    <a href="{{ route('tabelaPedidos') }}" class="dash-card-admin"style="flex: 1;">
-                        <div class="dash-icon"><x-heroicon-c-clipboard-document-list style=" width: 3rem; height: 3rem; color:var(--main_color);" /></div>
+
+                    {{-- Card: Lista de Pedidos --}}
+                    <a href="{{ route('tabelaPedidos') }}" class="dash-card-admin" style="flex: 1;">
+                        <div class="dash-icon"><x-heroicon-c-clipboard-document-list style="width: 3rem; height: 3rem; color:var(--main_color);" /></div>
                         <h3>Lista de Pedidos</h3>
                         <p>Visualiza todos os pedidos</p>
                         <span class="dash-link">Ver Pedidos →</span>
                     </a>                  
+                    
+                    {{-- Card: Enviar Newsletter (Novo) --}}
+                    <a href="{{ route('newsletter.criar') }}" class="dash-card-admin" style="flex: 1;">
+                        <div class="dash-icon"><x-heroicon-s-envelope style="width: 3rem; height: 3rem; color:var(--main_color);" /></div>
+                        <h3>Enviar Newsletter</h3>
+                        <p>Cria uma campanha com vários produtos</p>
+                        <span class="dash-link">Criar Newsletter →</span>
+                    </a>
+
                 </div>
             </div>
-            
             
             {{-- Seção de Categorias --}}
             @include('admin.icon_categorias')
@@ -48,7 +61,6 @@
         </div>
     </div>
 @include('partial.footer')
-
 
 @if(session('success'))
 <script>

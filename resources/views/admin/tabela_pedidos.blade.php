@@ -3,7 +3,7 @@
     <title>Lista de Pedidos - Mimoquices</title>
 </head>
 
-<a class="btn botao-voltar mt-4 text-decoration-none d-flex justify-content-center" href="{{ url('/dashboard') }}">
+<a class="btn botao-voltar mt-4 text-decoration-none d-flex justify-content-center" href="{{ route('dashboard') }}">
     ← Voltar
 </a>
 

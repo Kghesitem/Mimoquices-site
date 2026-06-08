@@ -4,7 +4,7 @@
 </head>
 
     <div class="banner">
-        <img class="banner" src="frontend/assets/img/BannerPapelaria.png" alt="">
+        <img class="banner" src="frontend/assets/img/BannerPapelaria.png" loading="eager" alt="Banner Papelaria Mimoquices">
     </div>
 
     <div class="centrador">
@@ -53,7 +53,8 @@
                     <div>
                         <img class="produto-img" 
                              src="{{asset("storage/{$produto->nome_cod}")}}" 
-                             alt="{{$produto->nome_original}}">
+                             alt="{{$produto->nome_original}}"
+                             loading="lazy">
                     </div>
 
                     <div>

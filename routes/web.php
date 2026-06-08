@@ -89,6 +89,11 @@ Route::middleware('auth')->group(function () {
         Route::get('/tabela-pedidos', [PersonalizacaoController::class, 'tabelaPedidos'])->name('tabelaPedidos');
     // ---------------------------------------------------------------------------------
 
+    // Rota para criar a newsletter e enviar para os utilizadores -- (apenas para admin)
+        Route::get('/newsletter/criar', [NewsletterController::class, 'create'])->name('newsletter.criar');
+        Route::post('/newsletter/enviar', [NewsletterController::class, 'send'])->name('newsletter.enviar');
+    // ---------------------------------------------------------------------------------
+
 });
 
 require __DIR__.'/auth.php';

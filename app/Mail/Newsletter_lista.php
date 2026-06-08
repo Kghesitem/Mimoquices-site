@@ -8,25 +8,30 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\URL;
 
-class Newsletter_produto extends Mailable implements ShouldQueue
+class Newsletter_lista extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
-    public $produto;
+
+    public $produtos;
     public $user; 
     public $unsubscribeUrl; 
 
-    public function __construct($produto, $user)
+    public function __construct($produtos, $user)
     {
-        $this->produto = $produto;
+        $this->produtos = $produtos;
         $this->user = $user;
 
+        // Gera o link assinado e seguro aqui dentro, tal como na outra!
         $this->unsubscribeUrl = URL::signedRoute('newsletter.unsubscribe', ['user' => $user->id]);
     }
 
+    /**
+     * Constrói o e-mail usando o método clássico build()
+     */
     public function build()
     {
-        return $this->subject('Novidade fresquinha na Mimoquices!')
-                    ->view('emails.newsletter_produto');
+        return $this->subject('Novidades Mimoquices')
+                    ->view('emails.newsletter');
     }
 }

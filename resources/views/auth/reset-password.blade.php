@@ -4,7 +4,7 @@
     <div class="auth-container">
         {{-- HEADER --}}
         <div class="auth-header">
-            <h1>🔐 Repôr Palavra‑passe</h1>
+            <h1>Repôr Palavra‑passe</h1>
             <p>Introduza a nova palavra‑passe para a sua conta</p>
         </div>
 
@@ -22,7 +22,7 @@
                     document.addEventListener('DOMContentLoaded', function() {
                         Swal.fire({
                             title: 'Erro!',
-                             
+
                             html: "{!! implode('<br>', array_map('e', $errors->all())) !!}",
                             icon: 'error',
                             confirmButtonColor: '#dc3545',
@@ -61,7 +61,7 @@
 
             {{-- Password --}}
             <div class="form-group">
-                <label for="password" class="form-label">🔒 Palavra‑passe</label>
+                <label for="password" class="form-label">Palavra‑passe</label>
                 <input
                     id="password"
                     type="password"
@@ -78,7 +78,7 @@
 
             {{-- Confirm Password --}}
             <div class="form-group">
-                <label for="password_confirmation" class="form-label">🔒 Confirmar Palavra‑passe</label>
+                <label for="password_confirmation" class="form-label">Confirmar Palavra-passe</label>
                 <input
                     id="password_confirmation"
                     type="password"
@@ -95,14 +95,14 @@
 
             <div style="margin-top: 0.75rem;">
                 <button type="submit" class="btn-submit" onclick="this.disabled=true; this.form.submit();">
-                    Repôr Palavra‑passe
+                    Repôr Palavra-passe
                 </button>
             </div>
         </form>
 
         {{-- FOOTER --}}
         <div class="auth-footer">
-            <p>Lembraste da palavra‑passe?</p>
+            <p>Lembraste da palavra-passe?</p>
             <a href="{{ route('login') }}">Voltar ao Início de Sessão →</a>
         </div>
     </div>

@@ -31,16 +31,18 @@
 
             {{-- IMAGEM --}}
             <div class="d-flex flex-column align-items-center">
+
                 <div class="imagem-principal-container">
                     <img id="imagem-principal"
-                         src="{{ asset("storage/{$produto->nome_cod}") }}"
-                         alt="{{ $produto->nome_original }}">
+                        src="{{ asset('storage/' . $produto->nome_cod) }}"
+                        alt="{{ $produto->titulo ?? $produto->nome_original }}">
                 </div>
 
                 <a class="btn btn-outline-primary mt-4 text-decoration-none d-flex justify-content-center"
-                   href="{{ route('produto.index') }}">
+                href="{{ route('produto.index') }}">
                     &larr; Voltar
                 </a>
+
             </div>
 
             {{-- TEXTO + FORMULÁRIO --}}
@@ -116,9 +118,11 @@
                                   id="meuFormulario">
                                 @csrf
 
-                                @foreach($todas_personalizações as $personalizacao)
+                                @foreach($todas_personalizacoes as $personalizacao)
                                     <div class="mb-4">
-                                        <label><strong>{{ $personalizacao->titulo }}</strong></label>
+                                        <label for="personalizacao-{{ $personalizacao->id }}">
+                                            <strong>{{ $personalizacao->titulo }}</strong>
+                                        </label>
                                         @php
                                             $respostas = $todas_respostas->where('id_personalizacao', $personalizacao->id);
                                         @endphp
@@ -153,7 +157,7 @@
                                             <div class="checkbox-group">
                                                 @foreach($respostas as $resposta)
                                                     <label class="d-block checkbox-label">
-                                                        <input type="checkbox" 
+                                                        <input type="checkbox"
                                                             name="personalizacoes_opcoes[{{ $personalizacao->id }}][]"
                                                             value="{{ $resposta->id }}"
                                                             @if(!$user || is_null($user->email_verified_at))
@@ -167,8 +171,8 @@
                                         @endif
 
                                         @if(!empty($personalizacao->PDF))
-                                            <a href="{{ asset('storage/' . $personalizacao->PDF) }}" 
-                                            target="_blank" 
+                                            <a href="{{ asset('storage/' . $personalizacao->PDF) }}"
+                                            target="_blank"
                                             class="btn btn-outline-secondary btn-sm px-3 mt-2">
                                                 Abrir PDF
                                             </a>
@@ -221,24 +225,37 @@
     </div>
 </div>
 
-{{-- CARROSSEL DE FOTOS --}}
+{{-- CARROSSEL DE FOTOS COM SETAS --}}
 @if($fotos && $fotos->count() > 0)
     <div class="bg-white d-flex flex-column justify-content-center align-items-center py-5">
         <div class="container">
-            <div class="carrosel">
-                <div>
-                    <img class="fotos-img"
-                         src="{{ asset('storage/' . $produto->nome_cod) }}"
-                         alt="{{ $produto->nome_original }}">
-                </div>
-                @foreach ($fotos as $foto)
+
+            {{-- MODIFICADO: Adicionada a div de controlo posicional das setas --}}
+            <div style="position: relative; width: 100%;">
+
+                {{-- Botão Esquerdo Nativo --}}
+                <button class="btn-scroll-left" onclick="document.querySelector('.container .carrosel').scrollBy({left: -200, behavior: 'smooth'})">←</button>
+
+                <div class="carrosel">
                     <div>
                         <img class="fotos-img"
-                             src="{{ asset('storage/' . $foto->img_cod) }}"
-                             alt="{{ $foto->img_original }}">
+                             src="{{ asset('storage/' . $produto->nome_cod) }}"
+                             alt="{{ $produto->nome_original }}">
                     </div>
-                @endforeach
+                    @foreach ($fotos as $foto)
+                        <div>
+                            <img class="fotos-img"
+                                 src="{{ asset('storage/' . $foto->img_cod) }}"
+                                 alt="{{ $foto->img_original }}">
+                        </div>
+                    @endforeach
+                </div>
+
+                {{-- Botão Direito Nativo --}}
+                <button class="btn-scroll-right" onclick="document.querySelector('.container .carrosel').scrollBy({left: 200, behavior: 'smooth'})">→</button>
+
             </div>
+
         </div>
     </div>
 @endif

@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recuperação de Senha - Mimoquices</title> {{-- Adicionado para corrigir o aviso do SonarQube --}}
+
     <style>
-        /* Estilos base para garantir compatibilidade com e-mail */
         body {
             margin: 0;
             padding: 0;
@@ -97,7 +98,7 @@
 
             <div class="content">
                 <p>Esqueceu a sua Palavra-passe? Não há problema. Basta clicar no botão abaixo para escolher uma nova palavra-passe.</p>
-                
+
                 <a href="{{ $url }}" class="btn">Repor palavra-passe</a>
 
                 <p style="margin-top: 30px; font-size: 14px; color: #777;">

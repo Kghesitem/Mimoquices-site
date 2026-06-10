@@ -1,5 +1,5 @@
 <div class="dashboard-mimo" style="padding: 2rem;">
-    
+
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; max-width: 1200px; margin: 0 auto 2rem;">
             <h4 style="color: var(--color1); margin: 0;"><x-heroicon-o-numbered-list style=" width: 3rem; height: 3rem; color:var(--main_color);"/> Lista de Produtos</h4>
             <button id="toggleViewBtn" class="tab-button active">
@@ -8,7 +8,7 @@
     </div>
     <div class="card mb-2 border-0 shadow-sm" style="border-radius: 1.5rem; max-width: 73%; margin: 0 auto 2rem;">
         <div class="card-body p-3 d-flex flex-wrap gap-3 align-items-center" style="background-color: white; border-radius: 1.5rem; border: 1px solid var(--color-border);">
-            
+
             <div class="flex-grow-1">
                 <div class="input-group">
                     <span class="input-group-text bg-white border-end-0" style="border-radius: 1rem 0 0 1rem; border-color: var(--color-border);">
@@ -68,7 +68,7 @@
                 <tr class="align-middle item-produto" data-visivel="{{ $produto->disponivel }}" data-tipo="{{ $produto->tipo_prod }}" style="border-bottom: 1px solid var(--color-border);">
                     <td class="ps-4 font-weight-700">
                         <div class="form-check">
-                            <input 
+                            <input
                                 type="checkbox"
                                 name="destaque"
                                 class="form-check-input d-none destaque"
@@ -77,13 +77,16 @@
                                 @if($produto->destaque === 1) checked @endif
                             >
 
-                            <label for="destaque-table-{{ $produto->id }}" class="cursor-pointer">
-                                <i class="bi 
-                                    @if($produto->destaque === 1) bi-star-fill text-warning 
-                                    @else bi-star text-secondary 
+                            <label for="destaque-card-{{ $produto->id }}" class="cursor-pointer">
+                                {{-- Texto invisível para os utilizadores, mas legível para o SonarQube e leitores de ecrã --}}
+                                <span class="visually-hidden">Destacar produto {{ $produto->titulo ?? '' }}</span>
+
+                                <i class="bi
+                                    @if($produto->destaque === 1) bi-star-fill text-warning
+                                    @else bi-star text-secondary
                                     @endif
                                     estrela-icon"
-                                    style="cursor: pointer;"
+                                style="cursor: pointer;"
                                 ></i>
                             </label>
                         </div>
@@ -108,26 +111,26 @@
                     </td>
                         <td class="d-flex gap-1 flex-column">
                             {{-- Botão Editar --}}
-                            <a href="{{ route('produto.edit', ['produto' => $produto]) }}" 
-                            class="tab-button text-center" 
+                            <a href="{{ route('produto.edit', ['produto' => $produto]) }}"
+                            class="tab-button text-center"
                             style="padding: 6px 12px; font-size: 0.85rem; text-decoration: none; width: 100%; display: block;">
                                 <x-heroicon-s-pencil  style=" width: 1rem; height: 1rem; color:black"/> Editar
                             </a>
 
                             {{-- Botão Eliminar (Tabela) --}}
-                            <form action="{{ url('produto/'.$produto->id) }}" 
-                                method="POST" 
+                            <form action="{{ url('produto/'.$produto->id) }}"
+                                method="POST"
                                 class="form-eliminar-produto"
                                 style="width: 100%; margin: 0;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="button" 
-                                        class="tab-button btn-eliminar" 
+                                <button type="button"
+                                        class="tab-button btn-eliminar"
                                         style="padding: 6px 12px; font-size: 0.85rem; border-color: var(--color-error); color: var(--color-error); background: transparent; width: 100%; cursor: pointer;">
                                     <x-heroicon-c-trash  style=" width: 1rem; height: 1rem; color:red"/> Eliminar
                                 </button>
                             </form>
-                        </td>                 
+                        </td>
                 </tr>
                 @endforeach
             </tbody>
@@ -138,7 +141,7 @@
 <div id="cardView" class="container-fluid px-0" style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center;">
         <div id="noResultsCard" class="text-center py-5 w-100" style="display: none; color: var(--color-muted); font-style: italic;">
             <x-heroicon-s-magnifying-glass style="width: 2rem; height: 2rem;"/> Nenhum produto corresponde aos filtros.
-        </div>    
+        </div>
 
     @if($produtos->isEmpty())
         <div class="text-center py-5" style="color: var(--color-muted); font-style: italic; width: 100%;">
@@ -147,10 +150,10 @@
     @endif
     @foreach ($produtos as $produto)
         <div class="dash-card item-produto" data-visivel="{{ $produto->disponivel }}" data-tipo="{{ $produto->tipo_prod }}" style="flex: 0 1 280px; min-width: 250px; background-color: white; border: 1px solid var(--color-border); display: flex; flex-direction: column; padding: 1.5rem; border-radius: 1.5rem;">
-            
+
             <div class="d-flex justify-content-between align-items-start mb-2">
                 <div style="max-width: 80%;">
-                        <input 
+                        <input
                             type="checkbox"
                             name="destaque"
                             class="form-check-input d-none destaque"
@@ -160,12 +163,15 @@
                         >
 
                         <label for="destaque-card-{{ $produto->id }}" class="cursor-pointer">
-                            <i class="bi 
-                                @if($produto->destaque === 1) bi-star-fill text-warning 
-                                @else bi-star text-secondary 
+                            {{-- Texto acessível adicionado para o SonarQube e leitores de ecrã --}}
+                            <span class="visually-hidden">Alternar destaque do produto {{ $produto->titulo ?? '' }}</span>
+
+                            <i class="bi
+                                @if($produto->destaque === 1) bi-star-fill text-warning
+                                @else bi-star text-secondary
                                 @endif
                                 estrela-icon"
-                                style="cursor: pointer;"
+                               style="cursor: pointer;"
                             ></i>
                         </label>
 
@@ -180,8 +186,11 @@
             </div>
 
             <div class="form-group-personalizacao mb-3">
-                <label class="small fw-bold mb-1" style="display: block;">Estado de Exibição</label>
-                <select class="form-select-personalizacao formato_agenda py-1" data-produto-id="{{ $produto->id }}">
+                {{-- Associado o "for" ao id do select abaixo --}}
+                <label for="estado-exibicao-{{ $produto->id }}" class="small fw-bold mb-1" style="display: block;">Estado de Exibição</label>
+
+                {{-- Adicionado o atributo id correspondente --}}
+                <select id="estado-exibicao-{{ $produto->id }}" class="form-select-personalizacao formato_agenda py-1" data-produto-id="{{ $produto->id }}">
                     <option value="0" {{ $produto->disponivel == 0 ? 'selected' : '' }}> Não Visível</option>
                     <option value="1" {{ $produto->disponivel == 1 ? 'selected' : '' }}> Visível</option>
                 </select>
@@ -209,17 +218,17 @@
                         </button>
                     </form>
                 </div>
-                
+
             </div>
         </div>
     @endforeach
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{{ asset('frontend/assets/js/jquery.min.js') }}"></script>
 
-<script> 
-// Funções globais de Toasts reutilizáveis para o SweetAlert2
+<script src="{{ asset('frontend/assets/js/sweetalert2.all.min.js') }}"></script>
+
+<script>
 function mostrarToastSucesso(mensagem) {
     Swal.fire({
         icon: 'success',
@@ -269,10 +278,10 @@ function mostrarToastErro(mensagem) {
             itens.forEach(item => {
                 const titulo = item.querySelector('h3, td:nth-child(2)')?.textContent.toLowerCase() || "";
                 const itemTipo = item.getAttribute('data-tipo');
-                
+
                 const selectVisivel = item.querySelector('.formato_agenda');
                 const itemVisivel = selectVisivel ? selectVisivel.value : "0";
-                
+
                 const itemdestaque = item.querySelector('.destaque')?.checked ? "1" : "0";
 
                 const matchTexto = titulo.includes(texto);
@@ -320,7 +329,7 @@ function mostrarToastErro(mensagem) {
 
             if (isShowingTable) {
                 tableView.hide();
-                cardView.fadeIn().css('display', 'flex'); 
+                cardView.fadeIn().css('display', 'flex');
                 $(this).html('<i class="bi bi-table"></i> Ver em Tabela');
             } else {
                 cardView.hide();
@@ -329,7 +338,6 @@ function mostrarToastErro(mensagem) {
             }
         });
 
-        // Modal do SweetAlert2 para confirmação de eliminação de produtos
         $(document).on('click', '.btn-eliminar', function(e) {
             e.preventDefault();
             const form = $(this).closest('.form-eliminar-produto');
@@ -339,8 +347,8 @@ function mostrarToastErro(mensagem) {
                 text: "Esta ação não pode ser revertida e o produto será removido permanentemente!",
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#dc3545', 
-                cancelButtonColor: '#6c757d',  
+                confirmButtonColor: '#dc3545',
+                cancelButtonColor: '#6c757d',
                 confirmButtonText: 'Sim, eliminar!',
                 cancelButtonText: 'Cancelar'
             }).then((result) => {
@@ -369,7 +377,7 @@ function mostrarToastErro(mensagem) {
             success: function(response) {
                 if(response.success) {
                     $(`.formato_agenda[data-produto-id="${produtoId}"]`).val(novoStatus);
-                    
+
                     const dot = $(`.formato_agenda[data-produto-id="${produtoId}"]`).closest('.dash-card').find('.status-dot');
                     if(novoStatus == "1") {
                         dot.css({'background-color': '#4ade80', 'box-shadow': '0 0 8px #4ade80'});

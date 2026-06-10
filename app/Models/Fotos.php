@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Fotos extends Model
 {
     use HasFactory;
-    // correct table name for photos
     protected $table = 'fotos_produto';
 
     protected $fillable =[

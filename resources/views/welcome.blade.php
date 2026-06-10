@@ -20,47 +20,55 @@
     <div class="bg-white d-flex flex-column justify-content-center align-items-center py-5">
         <div class="container">
             <h1 class="mb-4">Últimos Produtos Adicionados:</h1>
-            
+
             {{-- Verificação: Se a lista de novos produtos estiver vazia --}}
             @if($produtos->isEmpty())
                 <div class="text-center py-5" style="color: var(--color-muted); font-style: italic; width: 100%;">
                     Nenhum produto recentemente adicionado.
                 </div>
             @else
-                {{-- Carrosel de produtos dinâmico --}}
-                <div class="carrosel">
-                    @foreach ($produtos as $produto)
-                        {{-- Cartão do produto com link para a sua página de detalhe --}}
-                        <a href="{{ route('produto.show', $produto->url_completo) }}" data-produto-id="{{ $produto->id }}" class="produtos-produto animacao-home text-decoration-none">
-                            <x-heroicon-c-heart 
-                                class="favorite-btn {{ in_array($produto->id, $favoritos) ? 'active' : '' }}" 
-                                aria-label="Favoritar"
-                            />
-                            {{-- Imagem do Produto --}}
-                            <div>
-                                <img src="{{ asset("storage/{$produto->nome_cod}") }}" 
-                                     alt="{{ $produto->nome_original }}" 
-                                     class="produto-img" 
-                                     loading="lazy"
-                                     onload="this.parentElement.classList.add('loaded')"
-                                     >
-                            </div>
+                {{-- Carrosel envolvido numa div estrutural para isolar as âncoras dos botões --}}
+                <div style="position: relative; width: 100%;">
 
-                            {{-- Título do Produto --}}
-                            <div>
-                                <h3>{{ $produto->titulo }}</h3>
-                            </div>
+                    {{-- Botão Esquerdo Nativo --}}
+                    <button class="btn-scroll-left" onclick="document.querySelector('.carrosel').scrollBy({left: -300, behavior: 'smooth'})">←</button>
 
-                            {{-- Categoria do Produto: Faz a correspondência do ID com o nome real da categoria --}}
-                            <div>
-                                @foreach ($tipos as $tipo)
-                                    @if ($produto->tipo_prod === $tipo->id)
-                                        {{ $tipo->Categoria }}
-                                    @endif
-                                @endforeach
-                            </div>
-                        </a>
-                    @endforeach
+                    <div class="carrosel">
+                        @foreach ($produtos as $produto)
+                            {{-- Cartão do produto com link para a sua página de detalhe --}}
+                            <a href="{{ route('produto.show', $produto->url_completo) }}" data-produto-id="{{ $produto->id }}" class="produtos-produto animacao-home text-decoration-none">
+                                <x-heroicon-c-heart
+                                    class="favorite-btn {{ in_array($produto->id, $favoritos) ? 'active' : '' }}"
+                                    aria-label="Favoritar"
+                                />
+                                {{-- Imagem do Produto --}}
+                                <div class="produto-img-container">
+                                    <img src="{{ asset('storage/' . $produto->nome_cod) }}"
+                                        alt="{{ $produto->titulo ?? $produto->nome_original }}"
+                                        class="produto-img"
+                                        loading="lazy">
+                                </div>
+
+                                {{-- Título do Produto --}}
+                                <div>
+                                    <h3>{{ $produto->titulo }}</h3>
+                                </div>
+
+                                {{-- Categoria do Produto --}}
+                                <div>
+                                    @foreach ($tipos as $tipo)
+                                        @if ($produto->tipo_prod === $tipo->id)
+                                            {{ $tipo->Categoria }}
+                                        @endif
+                                    @endforeach
+                                </div>
+                            </a>
+                        @endforeach
+                    </div>
+
+                    {{-- Botão Direito Nativo --}}
+                    <button class="btn-scroll-right" onclick="document.querySelector('.carrosel').scrollBy({left: 300, behavior: 'smooth'})">→</button>
+
                 </div>
             @endif
         </div>
@@ -70,7 +78,7 @@
     <div class="bg-white d-flex flex-column justify-content-center align-items-center py-5">
         <div class="container">
             <h1 class="mb-4">Produtos em Destaque:</h1>
-            
+
             {{-- Verificação: Se a lista de destaques estiver vazia --}}
             @if($destaques->isEmpty())
                 <div class="text-center py-5" style="color: var(--color-muted); font-style: italic; width: 100%;">
@@ -81,24 +89,26 @@
                 <div class="limite">
                     @foreach($destaques as $destaque)
                         {{-- Cartão do destaque com link dinâmico --}}
-                        <a href="{{ route('produto.show', $destaque->url_completo) }}" 
-                           class="produtos-produto animacao-aparecer text-decoration-none" 
-                           data-tipo="{{ $destaque->tipo_prod }}" data-produto-id="{{ $produto->id }}">
-                           <x-heroicon-c-heart 
-                                class="favorite-btn {{ in_array($produto->id, $favoritos) ? 'active' : '' }}" 
+                        <a href="{{ route('produto.show', $destaque->url_completo) }}"
+                           class="produtos-produto animacao-aparecer text-decoration-none"
+                           data-tipo="{{ $destaque->tipo_prod }}" data-produto-id="{{ $destaque->id }}">
+
+                           <x-heroicon-c-heart
+                                class="favorite-btn {{ in_array($destaque->id, $favoritos) ? 'active' : '' }}"
                                 aria-label="Favoritar"
                             />
-                            
-                            {{-- Imagem do Destaque (Corrigido para "storage" em minúsculas para evitar erros em Linux) --}}
-                            <div>
-                                <img class="produto-img" 
-                                     src="{{ asset("storage/{$destaque->nome_cod}") }}" 
-                                     alt="{{ $destaque->nome_original }}">
+
+                            {{-- Imagem do Destaque --}}
+                            <div class="produto-img-container">
+                                <img class="produto-img"
+                                    src="{{ asset('storage/' . $destaque->nome_cod) }}"
+                                    alt="{{ $destaque->titulo ?? $destaque->nome_original }}"
+                                    loading="lazy">
                             </div>
 
                             {{-- Título do Destaque --}}
                             <div>
-                                <h3>{{ $destaque->titulo }}</h3> 
+                                <h3>{{ $destaque->titulo }}</h3>
                             </div>
 
                             {{-- Categoria do Destaque --}}
@@ -126,6 +136,22 @@
     {{-- 5. RODAPÉ: Inclui o rodapé global da aplicação --}}
     @include('partial/footer')
 
+    {{-- Scripts de Inicialização e Notificações --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // CORREÇÃO: Aplica a classe 'loaded' nas imagens de forma não intrutiva e acessível
+            const imagens = document.querySelectorAll('.produto-img');
+            imagens.forEach(function (img) {
+                if (img.complete) {
+                    img.parentElement.classList.add('loaded');
+                } else {
+                    img.addEventListener('load', function () {
+                        this.parentElement.classList.add('loaded');
+                    });
+                }
+            });
+        });
+    </script>
 
     @if(session('success'))
     <script>
@@ -146,6 +172,6 @@
             title: "{{ session('success') }}"
         });
     </script>
-@endif
+    @endif
 </body>
 </html>

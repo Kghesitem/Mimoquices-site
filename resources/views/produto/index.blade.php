@@ -10,11 +10,13 @@
     <div class="centrador">
         <div class="filtro">
 
-            <label class="ms-3">Pesquisa:</label>
+            {{-- CORRIGIDO: Adicionado o atributo 'for' a apontar para o id do input --}}
+            <label class="ms-3" for="pesquisa">Pesquisa:</label>
             <input type="text" placeholder="Caderno" id="pesquisa" class="form-control d-inline-block w-auto ms-2">
 
             {{-- SELECT PARA FILTRO --}}
-             <label class="ms-3">Categoria:</label>
+            {{-- CORRIGIDO: Adicionado o atributo 'for' a apontar para o id do select --}}
+            <label class="ms-3" for="filtroTipos">Categoria:</label>
             <select id="filtroTipos" class="form-select d-inline-block w-auto">
                 <option value="">Todos</option>
                 @foreach($tipos as $tipo)
@@ -22,10 +24,10 @@
                 @endforeach
             </select>
 
-            <label class="ms-3">Ordenar:</label>
+            <label class="ms-3" for="ordenar">Ordenar:</label>
             <select id="ordenar" class="form-select d-inline-block w-auto ms-2">
-                <option value="nome_asc">Nome A→Z</option>
-                <option value="nome_desc">Nome Z→A</option>
+                <option value="nome_asc">Nome (A-Z)</option>
+                <option value="nome_desc">Nome (Z-A)</option>
             </select>
         </div>
     </div>
@@ -43,22 +45,22 @@
         {{-- LISTA DE PRODUTOS --}}
         <div class="limite">
             @foreach($produtos as $produto)
-                <a href="{{ route('produto.show', $produto->url_completo) }}" 
-                   class="produtos-produto animacao-aparecer text-decoration-none" 
+                <a href="{{ route('produto.show', $produto->url_completo) }}"
+                   class="produtos-produto animacao-aparecer text-decoration-none"
                    data-tipo="{{ $produto->tipo_prod }}" data-destaque="{{ $produto->destaque }}" data-produto-id="{{ $produto->id }}">
-                   <x-heroicon-c-heart 
-                        class="favorite-btn {{ in_array($produto->id, $favoritos) ? 'active' : '' }}" 
+                   <x-heroicon-c-heart
+                        class="favorite-btn {{ in_array($produto->id, $favoritos) ? 'active' : '' }}"
                         aria-label="Favoritar"
                     />
                     <div>
-                        <img class="produto-img" 
-                             src="{{asset("storage/{$produto->nome_cod}")}}" 
-                             alt="{{$produto->nome_original}}"
-                             loading="lazy">
+                    <img class="produto-img"
+                        src="{{ asset('storage/' . $produto->nome_cod) }}"
+                        alt="{{ $produto->titulo ?? $produto->nome_original }}"
+                        loading="lazy">
                     </div>
 
                     <div>
-                        <h3>{{$produto->titulo}}</h3> 
+                        <h3>{{$produto->titulo}}</h3>
                     </div>
 
                     <div>
@@ -100,17 +102,17 @@
 
                 const tipo = filtroTipos ? filtroTipos.value : '';
                 const texto = pesquisa ? pesquisa.value.trim().toLowerCase() : '';
-                
+
                 let encontrou = false;
 
                 produtos.forEach(prod => {
                     const tituloEl = prod.querySelector('h3');
                     const titulo = tituloEl ? tituloEl.textContent.trim().toLowerCase() : '';
-                    
+
                     const matchTipo = (tipo === '' || prod.dataset.tipo === tipo);
-                    
+
                     const matchTexto = (texto === '' || titulo.includes(texto));
-                    
+
                     prod.style.display = (matchTipo && matchTexto) ? '' : 'none';
                     if (matchTipo && matchTexto) encontrou = true;
                 });

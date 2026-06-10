@@ -8,12 +8,12 @@ use App\Models\Tipo;
 use App\Models\Fotos;
 use App\Models\Favoritos;
 use App\Models\Personalizacao;
-use App\Models\Todas_as_personalizacoes;
+use App\Models\TodasAsPersonalizacoes;
 use App\Models\Associadas;
-Use App\Models\Todas_as_respostas;
+use App\Models\TodasAsRespostas;
 use App\Models\Pedido;
 use App\Mail\PersonalizarMail;
-use App\Mail\Newsletter_produto;
+use App\Mail\NewsletterProduto;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -26,10 +26,10 @@ class ProdutoController extends Controller
         // Filtragem feita diretamente na BD para melhor performance
         $produtos = Produto::where('disponivel', 1)->get();
         $tipos = Tipo::all();
-        
+
         // Verifica favoritos apenas se o utilizador estiver logado
-        $favoritos = Auth::check() 
-            ? Favoritos::where('id_user', Auth::id())->pluck('id_produto')->toArray() 
+        $favoritos = Auth::check()
+            ? Favoritos::where('id_user', Auth::id())->pluck('id_produto')->toArray()
             : [];
 
         return view('produto.index', [
@@ -52,8 +52,8 @@ class ProdutoController extends Controller
 
         $tipos = Tipo::all();
 
-        $favoritos = Auth::check() 
-            ? Favoritos::where('id_user', Auth::id())->pluck('id_produto')->toArray() 
+        $favoritos = Auth::check()
+            ? Favoritos::where('id_user', Auth::id())->pluck('id_produto')->toArray()
             : [];
 
         return view('welcome', [
@@ -97,42 +97,38 @@ class ProdutoController extends Controller
         $produto = Produto::where('url_completo', $url_completo)->where('disponivel', 1)->firstOrFail();
         $tipo    = Tipo::find($produto->tipo_prod);
         $associadas = Associadas::where('id_tipo', $tipo->id)->get();
-        if($produto->personalizar_opcoes == null)
-        {
-            $todas_personalizações = null;
+
+        if ($produto->personalizar_opcoes == null) {
+            $todas_personalizacoes = null;
             $todas_respostas = null;
+        } else {
+
+            $todas_personalizacoes = TodasAsPersonalizacoes::whereIn('id', json_decode($produto->personalizar_opcoes))->get();
+
+            $todas_respostas = TodasAsRespostas::whereIn('id_personalizacao', $todas_personalizacoes->pluck('id'))->get();
         }
-        else
-        {
-            $todas_personalizações = Todas_as_personalizacoes::wherein('id', json_decode($produto->personalizar_opcoes))->get();
-            $todas_respostas = Todas_as_respostas::whereIn('id_personalizacao',$todas_personalizações->pluck('id'))->get();
-        }
-        
-        
+
         $fotos = Fotos::where('group_img', $produto->id)
         ->select('img_original', 'img_cod')
         ->get();
 
-        return view('produto.show', compact('produto', 'tipo', 'associadas','todas_personalizações', 'todas_respostas', 'fotos'));
+        return view('produto.show', compact('produto', 'tipo', 'associadas','todas_personalizacoes', 'todas_respostas', 'fotos'));
     }
 
     public function create()
     {
-       
         $tipos = Tipo::all();
-        $todas_personalizações = Todas_as_personalizacoes::with('tipos')->get();;
+
+        $todas_personalizacoes = TodasAsPersonalizacoes::with('tipos')->get();
 
         return view('produto.criar', [
             'tipos' => $tipos,
-            'todas_personalizações' => $todas_personalizações
+            'todas_personalizacoes' => $todas_personalizacoes
         ]);
-        
     }
-    
+
     public function store(Request $request)
     {
-        $produtos = Produto::all();
-
         $uploaded = $request->file('nome_original') ?: [];
 
         $data = $request->validate([
@@ -150,21 +146,18 @@ class ProdutoController extends Controller
 
         if (!empty($uploaded) && isset($uploaded[0]) && $uploaded[0]) {
             $file0 = $uploaded[0];
-            $fotos['img_1_original'] = $file0->getClientOriginalName();
-            $nomeCod0 = md5(time() . $file0->getClientOriginalName()) . '.' . $file0->extension();
-            $caminho0 = $file0->storeAs('uploads', $nomeCod0);
+            $img_1_original = $file0->getClientOriginalName();
 
-            $data['nome_original'] = $fotos['img_1_original'];
+            $caminho0 = $file0->store('uploads', 'public');
+
+            $data['nome_original'] = $img_1_original;
             $data['nome_cod'] = $caminho0;
-
-            $fotos['img_1_cod'] = $caminho0;
         }
 
-        
-            $data['pode_personalizar'] = $request->input('pode_personalizar') ?? 'Não';
-        $data['personalizar_opcoes'] = $request->input('personalizar_opcoes') 
-        ? json_encode($request->input('personalizar_opcoes')) 
-        : null;
+        $data['pode_personalizar'] = $request->input('pode_personalizar') ?? 'Não';
+        $data['personalizar_opcoes'] = $request->input('personalizar_opcoes')
+            ? json_encode($request->input('personalizar_opcoes'))
+            : null;
 
         $data['url_completo'] = '';
         $novoproduto = Produto::create($data);
@@ -172,41 +165,44 @@ class ProdutoController extends Controller
         $novoproduto->url_completo = $novoproduto->titulo . '-' . $novoproduto->id;
         $novoproduto->save();
 
-
+        // Salvar imagens secundárias na tabela Fotos
         foreach ($uploaded as $index => $file) {
-            if (!$file) continue;
-            if ($index === 0) continue;
-            
-            $i = $index; 
-            $fotos["img_original"] = $file->getClientOriginalName();
-            $nomeCod = md5(time() . $file->getClientOriginalName()) . '.' . $file->extension();
-            $caminho = $file->storeAs('uploads', $nomeCod);
-            $fotos["img_cod"] = $caminho;
 
-            $id = Produto::where('nome_cod', $data['nome_cod'])->value('id');
-            $fotos['group_img'] = $id;
-            $novasfotos = Fotos::create($fotos);
+            if (!$file) {
+                continue;
+            }
+
+            if ($index === 0) {
+                continue;
+            }
+
+            $nomeOriginal = $file->getClientOriginalName();
+            $nomeCod = Str::random(40) . '.' . $file->extension();
+            $caminho = $file->storeAs('uploads', $nomeCod, 'public');
+
+            // CORREÇÃO: Criação efetiva do registo na tabela através do modelo Fotos
+            Fotos::create([
+                'img_original' => $nomeOriginal,
+                'img_cod'      => $caminho,
+                'group_img'    => $novoproduto->id // ID do produto sem necessidade de nova query
+            ]);
         }
 
+        if ($request->has('newsletter')) {
+            $clientes = User::where('newsletter', 1)->get();
 
-            if ($request->has('newsletter')) {
-                
-
-                $clientes = User::where('newsletter', 1)->get();
-
-                foreach ($clientes as $cliente) {
-                    Mail::to($cliente->email)->queue(
-                        new Newsletter_produto($novoproduto, $cliente) 
-                    );
-                }
+            foreach ($clientes as $cliente) {
+                Mail::to($cliente->email)->queue(
+                    new NewsletterProduto($novoproduto, $cliente)
+                );
             }
+        }
 
         return redirect()->route('produto.index')->with('success', 'Produto criado com sucesso!');
     }
 
     public function personalizarProduto(Request $request, $url_completo)
     {
-        // Validar o request
         $data = $request->validate([
             'personalizacoes_opcoes' => ['required', 'array'],
             'personalizacoes_opcoes.*' => ['nullable'],
@@ -260,7 +256,6 @@ class ProdutoController extends Controller
                 }
 
             }
-            // Caso seja apenas uma opção
             else {
 
                 Personalizacao::create([
@@ -277,11 +272,11 @@ class ProdutoController extends Controller
             }
         }
 
-        $pesonalizacoes = \App\Models\Todas_as_personalizacoes::select('id', 'titulo')->get();
-        $selecionadas = \App\Models\Todas_as_respostas::select('id', 'resposta')->get();
-        
+        $pesonalizacoes = TodasAsPersonalizacoes::select('id', 'titulo')->get();
+        $selecionadas = TodasAsRespostas::select('id', 'resposta')->get();
+
         // Buscamos os itens que acabaste de criar, já com o relacionamento do produto carregado
-        $itensDoPedido = \App\Models\Personalizacao::where('id_pedido', $pedido->id)
+        $itensDoPedido = Personalizacao::where('id_pedido', $pedido->id)
             ->with('produto')
             ->get();
 
@@ -322,7 +317,7 @@ class ProdutoController extends Controller
         return response()->json(['success' => true]);
     }
 
-    public function favoritos(Request $request)
+    public function favoritos()
     {
         $idsFavoritos = Favoritos::where('id_user', Auth::id())->pluck('id_produto')->toArray();
         $produtos = Produto::whereIn('id', $idsFavoritos)->where('disponivel', 1)->get();
@@ -366,7 +361,7 @@ class ProdutoController extends Controller
         if ($request->has('fotos_remover')) {
             foreach ($request->fotos_remover as $path) {
                 Storage::disk('public')->delete($path);
-                
+
                 $produto->fotos()->where('img_cod', $path)->delete();
             }
         }
@@ -389,12 +384,12 @@ class ProdutoController extends Controller
     public function edit(Produto $produto)
     {
         $tipos = Tipo::all();
-        $todas_personalizações = Todas_as_personalizacoes::with('tipos')->get();
+        $todas_personalizacoes = TodasAsPersonalizacoes::with('tipos')->get();
         $fotos = Fotos::where('group_img', $produto->id)
         ->select('img_original', 'img_cod')
         ->get();
 
-        return view('produto.edit', ['produto' => $produto],compact('tipos', 'todas_personalizações','fotos'));
+        return view('produto.edit', ['produto' => $produto],compact('tipos', 'todas_personalizacoes','fotos'));
     }
 
     public function destroy($id)
@@ -406,4 +401,4 @@ class ProdutoController extends Controller
     }
 
 }
-?>
+

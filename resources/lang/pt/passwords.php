@@ -7,5 +7,5 @@ return [
     'throttled' => 'Demasiadas tentativas. Por favor aguarde um momento e tente novamente.',
     'token' => 'O token para repor a palavra-passe é inválido.',
     'user' => 'Não conseguimos encontrar nenhum utilizador com esse endereço de email.',
-    
+
 ];

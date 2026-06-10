@@ -12,7 +12,7 @@
 
 <main style="padding: 1rem 1rem;">
 <div class="auth-container auth-container-full">
-    
+
     {{-- Botão Voltar --}}
     <div class="d-flex justify-content-center" style="margin-bottom: 1.5rem;">
         <a class="btn botao-voltar text-decoration-none d-inline-flex align-items-center" href="{{ url('/dashboard') }}" style="gap: 0.5rem;">
@@ -23,7 +23,7 @@
     {{-- CABEÇALHO DA PÁGINA --}}
     <div class="auth-header rounded" style="text-align: left; margin-bottom: 2.5rem;">
         <h1>
-            <x-heroicon-c-plus id="iconTitulo" style="width: 2.5rem; height: 2.5rem; vertical-align: middle; "/> 
+            <x-heroicon-c-plus id="iconTitulo" style="width: 2.5rem; height: 2.5rem; vertical-align: middle; "/>
             <span id="textoTitulo">Criar Categoria</span>
         </h1>
         <p id="descricaoPagina" style="text-align: center;">Gerencie a estrutura do catálogo configurando as opções e permissões de categorias abaixo</p>
@@ -33,18 +33,18 @@
     <form method="post" action="{{ route('categoria.store') }}" id="formCriar" class="auth-form" style="max-width: 100%;">
         @csrf
         <div class="form-grid-layout" style="display: block;">
-            
+
             {{-- Campo Nome da Categoria --}}
             <div class="form-group" id="inputCategoria">
                 <label for="Categoria" class="form-label">Título da Categoria</label>
-                <input 
-                    type="text" 
+                <input
+                    type="text"
                     id="Categoria"
-                    class="form-input {{ $errors->has('Categoria') ? 'is-invalid' : '' }}" 
-                    name="Categoria" 
-                    placeholder="Ex.: Papelaria, Agendas..." 
-                    required 
-                    value="{{ old('Categoria') }}" 
+                    class="form-input {{ $errors->has('Categoria') ? 'is-invalid' : '' }}"
+                    name="Categoria"
+                    placeholder="Ex.: Papelaria, Agendas..."
+                    required
+                    value="{{ old('Categoria') }}"
                 />
             </div>
 
@@ -54,7 +54,7 @@
             <div class="form-group">
                 <div class="d-flex justify-content-between align-items-center gap-2" style="flex-wrap: wrap; margin-bottom: 1rem;">
                     <div>
-                        <label class="form-label" style="margin-bottom: 0;">Selecione as Personalizações Permitidas</label>
+                        <span class="form-label fw-bold" style="margin-bottom: 0; display: block;">Selecione as Personalizações Permitidas</span>
                         <small class="text-muted" style="display: block; font-size: 0.85rem;">
                             Os produtos desta categoria poderão usar as opções selecionadas abaixo.
                         </small>
@@ -71,13 +71,13 @@
 
                 {{-- Grid de Checkboxes --}}
                 <div class="opcoes-grid" id="gridPersonalizacoes" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.75rem;">
-                    @foreach($todas_personalizações as $personalizacao)     
+                    @foreach($todas_personalizacoes as $personalizacao)
                         <div class="opcao-item border rounded-3 p-3 mb-3 shadow-sm bg-white d-flex align-items-start gap-3">
                             <div class="form-check" style="padding-left: 0;">
-                                <input 
-                                    type="checkbox" 
-                                    id="p-{{ $personalizacao->id }}" 
-                                    name="personalizacoes[]" 
+                                <input
+                                    type="checkbox"
+                                    id="p-{{ $personalizacao->id }}"
+                                    name="personalizacoes[]"
                                     value="{{ $personalizacao->id }}"
                                 >
                             </div>
@@ -110,14 +110,14 @@
     <form method="POST" action="{{ route('personalizacao.destroy') }}" id="formEliminar" class="auth-form" style="max-width: 100%; display: none;">
         @csrf
         @method('DELETE')
-        
+
         <div class="alert alert-warning d-flex align-items-center" style="padding: 1rem; border-radius: 0.5rem; margin-bottom: 1.5rem; background-color: #fff3cd; border: 1px solid #ffeeba; color: #856404; gap: 0.5rem;">
             <x-heroicon-o-exclamation-triangle style="width: 1.5rem; height: 1.5rem; flex-shrink: 0;" />
             <span><strong>Modo de Exclusão:</strong> Selecione as personalizações que deseja apagar permanentemente do sistema.</span>
         </div>
 
         <div class="opcoes-grid" id="gridEliminar" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.75rem;">
-            @foreach($todas_personalizações as $personalizacao)     
+            @foreach($todas_personalizacoes as $personalizacao)
                 <div class="opcao-item border-danger" style="display: flex; gap: 0.5rem; align-items: flex-start; padding: 0.5rem; border: 1px solid #dc3545; border-radius: 0.25rem; background: #fffdfd;">
                     <input type="checkbox" name="personalizacoes[]" value="{{ $personalizacao->id }}" id="del-{{ $personalizacao->id }}">
                     <div class="opcao-descricao">
@@ -156,7 +156,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const textoTitulo = document.getElementById("textoTitulo");
     const descricaoPagina = document.getElementById("descricaoPagina");
     const btnConfirmarEliminar = document.getElementById("btnConfirmarEliminar");
-    
+
     function toggleModo() {
         const isEliminar = formEliminar.style.display === "none";
 
@@ -174,15 +174,14 @@ document.addEventListener("DOMContentLoaded", function() {
             removeBtn.classList.replace("btn-danger", "btn-outline-danger");
         }
     }
-    
+
     removeBtn.addEventListener("click", toggleModo);
     btnVoltarModo.addEventListener("click", toggleModo);
 
-    // SweetAlert2 para confirmação de exclusão
     btnConfirmarEliminar.addEventListener("click", function(e) {
         // Valida se há pelo menos um item selecionado para exclusão
         const selecionados = formEliminar.querySelectorAll('input[name="personalizacoes[]"]:checked');
-        
+
         if (selecionados.length === 0) {
             Swal.fire({
                 title: 'Aviso!',

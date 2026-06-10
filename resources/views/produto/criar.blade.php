@@ -12,7 +12,7 @@
 
 <main style="padding: 1rem 1rem;">
 <div class="auth-container auth-container-full">
-    
+
     {{-- Botão Voltar --}}
     <div class="d-flex justify-content-center" style="margin-bottom: 1.5rem;">
         <a class="btn botao-voltar text-decoration-none d-inline-flex align-items-center" href="{{ url('/dashboard') }}" style="gap: 0.5rem;">
@@ -23,7 +23,7 @@
     {{-- CABEÇALHO DO FORMULÁRIO --}}
     <div class="auth-header rounded" style="text-align: left; margin-bottom: 2.5rem;">
         <h1>
-            <x-heroicon-c-plus style="width: 2.5rem; height: 2.5rem; vertical-align: middle;"/> 
+            <x-heroicon-c-plus style="width: 2.5rem; height: 2.5rem; vertical-align: middle;"/>
             Criar Produto
         </h1>
         <p style="text-align: center;">Adicione um novo produto ao catálogo da Mimoquices preenchendo as secções abaixo</p>
@@ -35,7 +35,7 @@
             document.addEventListener('DOMContentLoaded', function() {
                 Swal.fire({
                     title: 'Erro!',
-                     
+
                     html: "{!! implode('<br>', array_map('e', $errors->all())) !!}",
                     icon: 'error',
                     confirmButtonColor: '#dc3545',
@@ -51,18 +51,18 @@
         @method('post')
 
         <div class="form-grid-layout">
-            
+
             {{-- COLUNA ESQUERDA: Dados do Produto --}}
             <div class="col-dados">
                 {{-- Título --}}
                 <div class="form-group">
                     <label for="titulo" class="form-label">Título do Produto</label>
-                    <input 
-                        type="text" 
+                    <input
+                        type="text"
                         id="titulo"
-                        class="form-input {{ $errors->has('titulo') ? 'is-invalid' : '' }}" 
-                        name="titulo" 
-                        placeholder="Ex.: Caderno A5" 
+                        class="form-input {{ $errors->has('titulo') ? 'is-invalid' : '' }}"
+                        name="titulo"
+                        placeholder="Ex.: Caderno A5"
                         required
                         value="{{ old('titulo') }}"
                     />
@@ -101,13 +101,13 @@
 
                 {{-- Newsletter Checkbox --}}
                 <div class="form-group-checkbox" style="display: flex; align-items: flex-start; gap: 0.5rem; margin: 1rem 0;">
-                    <input 
-                        type="checkbox" 
-                        id="newsletter" 
-                        name="newsletter" 
+                    <input
+                        type="checkbox"
+                        id="newsletter"
+                        name="newsletter"
                         value="1"
                         class="form-checkbox"
-                        autocomplete="newsletter"
+                        autocomplete="on"
                     />
                     <label for="newsletter" class="form-label-checkbox" style="cursor: pointer; user-select: none; font-size: 0.9rem; color: #4a5568;">
                         Enviar novidades sobre este produto por email para os clientes que optaram por receber atualizações
@@ -115,25 +115,25 @@
                 </div>
             </div>
 
-            
+
 
             {{-- COLUNA DIREITA: Imagens (Estilo Antigo) e Customizações --}}
             <div class="col-media">
                 {{-- Imagens (Restaurado o comportamento CSS original) --}}
                 <div class="form-group">
                     <label for="images" class="form-label">Imagens do Produto</label>
-                    <input 
-                        type="file" 
-                        id="images" 
-                        class="form-input" 
-                        name="nome_original[]" 
-                        accept="image/*" 
-                        multiple 
+                    <input
+                        type="file"
+                        id="images"
+                        class="form-input"
+                        name="nome_original[]"
+                        accept="image/*"
+                        multiple
                         onchange="previewImages(this)"
                         required
                     />
                     <small class="text-muted" style="display: block; margin-top: 0.25rem;">Pode selecionar várias imagens. Máx: 5MB por imagem.</small>
-                    
+
                     {{-- Retornado exatamente à div antiga comandada pelas classes do seu CSS global --}}
                     <div class="preview" id="preview">
                         <div class="preview-empty">Nenhuma imagem selecionada</div>
@@ -145,12 +145,17 @@
 
                     {{-- Radio --}}
                     <div class="form-group">
-                        <label class="form-label">Este produto pode ser personalizado?</label>
+                        {{-- CORRIGIDO: Alterado de <label> para <span class="form-label d-block"> para não exigir associação a um input --}}
+                        <span class="form-label" style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #4a5568;">
+                            Este produto pode ser personalizado?
+                        </span>
+
                         <div class="radio-personalizacao" style="display: flex; gap: 1.5rem; margin-top: 0.5rem;">
                             <label style="cursor: pointer; display: flex; align-items: center; gap: 0.25rem;">
                                 <input type="radio" name="pode_personalizar" value="Sim" onchange="toggleOpcoes()" {{ old('pode_personalizar') == 'Sim' ? 'checked' : '' }} />
                                 Sim - permitir personalização
                             </label>
+
                             <label style="cursor: pointer; display: flex; align-items: center; gap: 0.25rem;">
                                 <input type="radio" name="pode_personalizar" value="Não" onchange="toggleOpcoes()" {{ old('pode_personalizar') == 'Não' || !old('pode_personalizar') ? 'checked' : '' }} />
                                 Não
@@ -165,7 +170,7 @@
                         </h6>
                         <div id="opcoes-papelaria" class="opcoes-personalizacao">
                             <div class="opcoes-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.75rem;">
-                                @foreach($todas_personalizações as $personalizacao)
+                                @foreach($todas_personalizacoes as $personalizacao)
                                     <div class="opcao-item" data-categorias="{{ $personalizacao->tipos->pluck('id')->implode(',') }}" style="display: flex; gap: 0.5rem; align-items: flex-start; padding: 0.5rem; border: 1px solid #ddd; border-radius: 0.25rem; background: #fff;">
                                         <input type="checkbox" id="personalizacao_{{ $personalizacao->id }}" name="personalizar_opcoes[]" value="{{ $personalizacao->id }}" {{ in_array($personalizacao->id, old('personalizar_opcoes', [])) ? 'checked' : '' }} />
                                         <div class="opcao-descricao">

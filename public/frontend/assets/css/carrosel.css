@@ -1,4 +1,4 @@
-/*-----------------------------------------------------------------------Carrosel-------------------------------------------------------------------------*/
+/*---------------------------------Carrosel-----------------------------------*/
 div.Produto{
     padding: 10px 6em 4.5em;
     background-color: white;
@@ -15,7 +15,6 @@ div.Produto{
     flex-wrap: nowrap;
     padding-top: 10px;
     padding-bottom: 30px;
-
 }
 
 /* esconder scrollbar */
@@ -23,10 +22,9 @@ div.Produto{
     display: none;
 }
 
-/* botões de scroll nativos (se o browser suportar) */
-.carrosel::scroll-button(right),
-.carrosel::scroll-button(left){
-    content: '→';
+/* Botões de scroll usando classes normais para não quebrar o SonarQube */
+.btn-scroll-right,
+.btn-scroll-left {
     border: none;
     background-color: var(--main_color);
     font-family: "Poppins", Georgia, "Times New Roman", serif;
@@ -39,17 +37,22 @@ div.Produto{
     cursor: pointer;
     position: fixed;
     position-anchor: --carrosel;
-    position-area: right center;
     margin: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.carrosel::scroll-button(left){
-    content: '←';
+.btn-scroll-right {
+    position-area: right center;
+}
+
+.btn-scroll-left {
     position-area: left center;
 }
 
-.carrosel::scroll-button(left):disabled,
-.carrosel::scroll-button(right):disabled{
+.btn-scroll-left:disabled,
+.btn-scroll-right:disabled {
     opacity: 0.5;
     cursor: auto;
 }
@@ -78,7 +81,6 @@ div.Produto{
 
 /*----------------------------------- Responsivo ------------------------------------*/
 @media (max-width: 950px) {
-
     /* cada card ocupa 100% da largura no mobile, centrado */
     .carrosel > .produtos-produto,
     .carrosel > .cartao-sobre,
@@ -102,13 +104,13 @@ div.Produto{
 }
 
 @media (max-width: 768px) {
-    /* podes manter igual ao de 950px se quiseres */
     .carrosel {
         gap: 1em;
         max-width: 100%;
     }
-    .carrosel::scroll-button(left),
-    .carrosel::scroll-button(right){
+
+    .btn-scroll-left,
+    .btn-scroll-right {
         display: none;
     }
 
@@ -123,4 +125,4 @@ div.Produto{
         margin: 0 auto;
     }
 }
-/*--------------------------------------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------*/

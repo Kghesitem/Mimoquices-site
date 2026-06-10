@@ -8,7 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Auth\Notifications\VerifyEmail; // Adicionado para verificação
-use Illuminate\Notifications\Messages\MailMessage; 
+use Illuminate\Notifications\Messages\MailMessage;
 
 class User extends Authenticatable implements MustVerifyEmail // Implementação da interface
 {
@@ -75,7 +75,7 @@ class User extends Authenticatable implements MustVerifyEmail // Implementação
             }
         });
     }
-    
+
     /**
      * Histórico de Personalizações do Utilizador
      */

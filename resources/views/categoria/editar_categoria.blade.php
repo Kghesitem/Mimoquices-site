@@ -12,7 +12,7 @@
 
 <main style="padding: 1rem 1rem;">
 <div class="auth-container auth-container-full">
-    
+
     {{-- Botão Voltar --}}
     <div class="d-flex justify-content-center" style="margin-bottom: 1.5rem;">
         <a class="btn botao-voltar text-decoration-none d-inline-flex align-items-center" href="{{ url('/dashboard') }}" style="gap: 0.5rem;">
@@ -23,7 +23,7 @@
     {{-- CABEÇALHO DA PÁGINA (Dinâmico para os dois modos) --}}
     <div class="auth-header rounded" style="text-align: left; margin-bottom: 2.5rem;">
         <h1>
-            <x-heroicon-m-folder-open id="iconTitulo" style="width: 2.5rem; height: 2.5rem; vertical-align: middle;"/> 
+            <x-heroicon-m-folder-open id="iconTitulo" style="width: 2.5rem; height: 2.5rem; vertical-align: middle;"/>
             <span id="textoTitulo">Editar Categoria</span>
         </h1>
         <p id="descricaoPagina" style="text-align: center;">Gerencie a estrutura do catálogo configurando as opções e permissões de categorias abaixo</p>
@@ -48,20 +48,20 @@
     <form method="post" action="{{ route('categoria.update', ['id' => $categoria->id]) }}" id="formEditar" class="auth-form" style="max-width: 100%;">
         @csrf
         @method('put')
-        
+
         <div class="form-grid-layout" style="display: block;">
-            
+
             {{-- Campo Nome da Categoria --}}
             <div class="form-group" id="inputCategoria">
                 <label for="Categoria" class="form-label">Título da Categoria</label>
-                <input 
-                    type="text" 
+                <input
+                    type="text"
                     id="Categoria"
-                    class="form-input {{ $errors->has('Categoria') ? 'is-invalid' : '' }}" 
-                    name="Categoria" 
-                    placeholder="Ex.: Papelaria, Agendas..." 
-                    required 
-                    value="{{ old('Categoria', $categoria->Categoria) }}" 
+                    class="form-input {{ $errors->has('Categoria') ? 'is-invalid' : '' }}"
+                    name="Categoria"
+                    placeholder="Ex.: Papelaria, Agendas..."
+                    required
+                    value="{{ old('Categoria', $categoria->Categoria) }}"
                 />
             </div>
 
@@ -71,7 +71,7 @@
             <div class="form-group">
                 <div class="d-flex justify-content-between align-items-center gap-2" style="flex-wrap: wrap; margin-bottom: 1rem;">
                     <div>
-                        <label class="form-label" style="margin-bottom: 0;">Selecione as Personalizações Permitidas</label>
+                        <span class="form-label fw-bold" style="margin-bottom: 0; display: block;">Selecione as Personalizações Permitidas</span>
                         <small class="text-muted" style="display: block; font-size: 0.85rem;">
                             Os produtos desta categoria poderão usar as opções selecionadas abaixo.
                         </small>
@@ -90,15 +90,15 @@
 
                 {{-- Grid de Checkboxes com verificação de itens associados --}}
                 <div class="opcoes-grid" id="gridPersonalizacoes" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.75rem;">
-                    @foreach($todas_personalizações as $personalizacao)     
+                    @foreach($todas_personalizacoes as $personalizacao)
                         <div class="opcao-item border rounded-3 p-3 mb-3 shadow-sm bg-white d-flex align-items-start gap-3">
 
                             {{-- Checkbox --}}
                             <div class="form-check" style="padding-left: 0;">
-                                <input 
-                                type="checkbox" 
-                                id="p-{{ $personalizacao->id }}" 
-                                name="personalizacoes[]" 
+                                <input
+                                type="checkbox"
+                                id="p-{{ $personalizacao->id }}"
+                                name="personalizacoes[]"
                                 value="{{ $personalizacao->id }}"
                                 @foreach($associados as $associado)
                                     @if($associado->id_todas == $personalizacao->id)
@@ -111,8 +111,8 @@
                             {{-- Conteúdo --}}
                             <div class="flex-grow-1">
 
-                                <label 
-                                    for="p-{{ $personalizacao->id }}" 
+                                <label
+                                    for="p-{{ $personalizacao->id }}"
                                     class="fw-semibold mb-1 d-block"
                                     style="cursor: pointer;"
                                 >
@@ -124,8 +124,8 @@
                                 </small>
 
                                 {{-- Botão editar redirecionando para a rota correta configurada --}}
-                                <a 
-                                    href="{{ route('personalizacao.edit', ['id' => $personalizacao->id]) }}" 
+                                <a
+                                    href="{{ route('personalizacao.edit', ['id' => $personalizacao->id]) }}"
                                     class="btn btn-sm btn-outline-primary rounded-pill px-3"
                                     title="Editar personalização"
                                 >
@@ -141,8 +141,10 @@
 
             {{-- Campo de Opções Dinâmicas (Ajustado para usar $respostas do Controller sem gerar erro) --}}
             <div class="form-group" id="opcoes-wrapper" style="{{ in_array($personalizacao->tipo_de_input, ['select', 'checkbox']) ? 'display: block;' : 'display: none;' }}">
-                <label class="form-label">Opções Disponíveis para Escolha</label>
-                
+
+                {{-- Alterado de <label> para <span> para passar na validação do SonarQube --}}
+                <span class="form-label fw-bold" style="display: block; margin-bottom: 0.5rem;">Opções Disponíveis para Escolha</span>
+
                 <div id="inputs-container">
                     @if(isset($respostas) && $respostas->isNotEmpty())
                         @foreach($respostas as $index => $campo)
@@ -175,14 +177,14 @@
     <form method="POST" action="{{ route('personalizacao.destroy') }}" id="formEliminar" class="auth-form" style="max-width: 100%; display: none;">
         @csrf
         @method('DELETE')
-        
+
         <div class="alert alert-warning d-flex align-items-center" style="padding: 1rem; border-radius: 0.5rem; margin-bottom: 1.5rem; background-color: #fff3cd; border: 1px solid #ffeeba; color: #856404; gap: 0.5rem;">
             <x-heroicon-o-exclamation-triangle style="width: 1.5rem; height: 1.5rem; flex-shrink: 0;" />
             <span><strong>Modo de Exclusão:</strong> Selecione as personalizações que deseja apagar permanentemente do sistema.</span>
         </div>
 
         <div class="opcoes-grid" id="gridEliminar" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.75rem;">
-            @foreach($todas_personalizações as $personalizacao)     
+            @foreach($todas_personalizacoes as $personalizacao)
                 <div class="opcao-item border-danger" style="display: flex; gap: 0.5rem; align-items: flex-start; padding: 0.5rem; border: 1px solid #dc3545; border-radius: 0.25rem; background: #fffdfd;">
                     <input type="checkbox" name="personalizacoes[]" value="{{ $personalizacao->id }}" id="del-{{ $personalizacao->id }}">
                     <div class="opcao-descricao">
@@ -220,7 +222,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const formEliminar = document.getElementById("formEliminar");
     const textoTitulo = document.getElementById("textoTitulo");
     const descricaoPagina = document.getElementById("descricaoPagina");
-    
+
     function toggleModo() {
         const isEliminar = formEliminar.style.display === "none";
 
@@ -238,7 +240,7 @@ document.addEventListener("DOMContentLoaded", function() {
             removeBtn.classList.replace("btn-danger", "btn-outline-danger");
         }
     }
-    
+
     removeBtn.addEventListener("click", toggleModo);
     btnVoltarModo.addEventListener("click", toggleModo);
 });

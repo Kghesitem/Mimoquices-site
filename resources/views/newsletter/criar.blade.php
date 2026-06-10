@@ -12,7 +12,7 @@
 
 <main style="padding: 1rem 1rem;">
 <div class="auth-container auth-container-full">
-    
+
     {{-- Botão Voltar --}}
     <div class="d-flex justify-content-center" style="margin-bottom: 1.5rem;">
         <a class="btn botao-voltar text-decoration-none d-inline-flex align-items-center" href="{{ url('/dashboard') }}" style="gap: 0.5rem;">
@@ -23,7 +23,7 @@
     {{-- CABEÇALHO DO FORMULÁRIO --}}
     <div class="auth-header rounded" style="text-align: left; margin-bottom: 2.5rem;">
         <h1>
-            <x-heroicon-s-envelope style="width: 2.5rem; height: 2.5rem; vertical-align: middle; color: white;"/> 
+            <x-heroicon-s-envelope style="width: 2.5rem; height: 2.5rem; vertical-align: middle; color: white;"/>
             Criar Nova Newsletter
         </h1>
         <p style="text-align: center;">Filtra e seleciona os produtos que queres incluir nesta campanha de e-mail</p>
@@ -74,35 +74,51 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <label class="form-label" style="font-weight: bold; margin-bottom: 1rem; display: block;">
-                Selecione os produtos pretendidos:
+        <div class="form-group" style="margin-bottom: 1.5rem;">
+            {{-- Corrigido: Adicionado o atributo for associado ao id do textarea --}}
+            <label for="newsletter_text" class="form-label" style="font-weight: bold; display: block; margin-bottom: 0.75rem;">
+                Mensagem da Newsletter:
             </label>
-            
+
+            <textarea name="newsletter_text" id="newsletter_text" rows="5" class="form-control" placeholder="Escreve uma mensagem personalizada para os teus clientes..." style="width: 100%; min-height: 150px; padding: 0.85rem; border: 1px solid #ddd; border-radius: 0.5rem; resize: vertical; font-family: inherit;">{{ old('newsletter_text') }}</textarea>
+
+            @error('newsletter_text')
+                <p class="text-danger" style="font-size:0.9rem; margin-top:0.5rem;">{{ $message }}</p>
+            @enderror
+
+            <small class="text-muted" style="font-size: 0.85rem; display: block; margin-top: 0.5rem;">
+                Este texto aparecerá no início do e-mail, antes dos produtos.
+            </small>
+        </div>
+
+        <fieldset class="form-group" style="border: none; padding: 0; margin: 0;">
+
+            {{-- Corrigido: A label passa a ser uma legend, ideal para títulos de grupos --}}
+            <legend class="form-label" style="font-weight: bold; margin-bottom: 1rem; display: block; width: 100%; float: left;">
+                Selecione os produtos pretendidos:
+            </legend>
+
             {{-- Zona de Scroll para os cards dos produtos --}}
-            <div style="max-height: 480px; overflow-y: auto; padding-right: 10px; border: 1px solid #eee; border-radius: 0.5rem; padding: 1rem; background: #fafafa;">
+            <div style="clear: both; max-height: 480px; overflow-y: auto; padding-right: 10px; border: 1px solid #eee; border-radius: 0.5rem; padding: 1rem; background: #fafafa;">
+
                 <div id="produtosContainer" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem;">
-                    
+
                     @foreach($produtos as $produto)
-                        {{-- Adicionado o atributo data-tipo para o JavaScript funcionar --}}
                         <div class="opcao-item produto-card-filter" data-tipo="{{ $produto->tipo_prod }}" style="display: flex; gap: 0.75rem; align-items: center; padding: 0.75rem; border: 1px solid #ddd; border-radius: 0.5rem; background: #fff; transition: transform 0.2s, box-shadow 0.2s;">
-                            
-                            <input type="checkbox" 
-                                   name="produtos_ids[]" 
-                                   value="{{ $produto->id }}" 
-                                   id="prod_{{ $produto->id }}" 
-                                   class="form-checkbox" 
+
+                            <input type="checkbox"
+                                   name="produtos_ids[]"
+                                   value="{{ $produto->id }}"
+                                   id="prod_{{ $produto->id }}"
+                                   class="form-checkbox"
                                    style="width: 1.25rem; height: 1.25rem; cursor: pointer;">
-                            
+
                             @if($produto->nome_cod)
                                 <div style="width: 55px; height: 55px; overflow: hidden; border-radius: 0.35rem; border: 1px solid #eee; flex-shrink: 0;">
-                                    <img src="{{ asset("storage/{$produto->nome_cod}") }}" 
-                                        alt="{{ $produto->nome_original }}" 
-                                        class="produto-img" 
-                                        loading="lazy"
-                                        onload="this.classList.add('is-loaded')">
+                                    <img src="{{ asset('storage/' . $produto->nome_cod) }}" alt="Produto: {{ $produto->titulo ?? $produto->nome_original ?? 'Mimoquices' }}" class="produto-img" loading="lazy">
                                 </div>
                             @endif
+
 
                             <label for="prod_{{ $produto->id }}" class="form-label-checkbox" style="cursor: pointer; user-select: none; flex-grow: 1; margin: 0;">
                                 <strong class="d-block" style="color: #2d3748; font-size: 0.95rem; line-height: 1.3;">{{ $produto->titulo }}</strong>
@@ -111,14 +127,13 @@
                         </div>
                     @endforeach
 
-                </div>
+                     <p id="semProdutos" class="text-center fw-bold mt-4 py-3 text-muted" style="display:none; font-style: italic;">
+                                Nenhum produto corresponde aos filtros aplicados.
+                    </p>
 
-                {{-- Aviso de Lista Vazia pelo Filtro --}}
-                <p id="semProdutos" class="text-center fw-bold mt-4 py-3 text-muted" style="display:none; font-style: italic;">
-                    Nenhum produto corresponde aos filtros aplicados.
-                </p>
+                </div>
             </div>
-        </div>
+        </fieldset>
 
         {{-- BOTÃO SUBMIT --}}
         <div class="grid-full-width">
@@ -139,9 +154,20 @@
 
 @include('partial.footer')
 
-{{-- SCRIPT DE FILTRAGEM EM TEMPO REAL --}}
+
 <script>
     document.addEventListener('DOMContentLoaded', function(){
+        document.querySelectorAll('.produto-img').forEach(img => {
+            if (img.complete) {
+                img.classList.add('is-loaded');
+            } else {
+                img.addEventListener('load', () => {
+                    img.classList.add('is-loaded');
+                });
+            }
+        });
+        // =========================================================================
+
         const filtroTipos = document.getElementById('filtroTipos');
         const pesquisa = document.getElementById('pesquisa');
         const ordenar = document.getElementById('ordenar');
@@ -154,16 +180,16 @@
 
             const tipo = filtroTipos ? filtroTipos.value : '';
             const texto = pesquisa ? pesquisa.value.trim().toLowerCase() : '';
-            
+
             let encontrou = false;
 
             produtos.forEach(prod => {
                 const tituloEl = prod.querySelector('strong');
                 const titulo = tituloEl ? tituloEl.textContent.trim().toLowerCase() : '';
-                
+
                 const matchTipo = (tipo === '' || prod.dataset.tipo === tipo);
                 const matchTexto = (texto === '' || titulo.includes(texto));
-                
+
                 if (matchTipo && matchTexto) {
                     prod.style.setProperty('display', 'flex', 'important');
                     encontrou = true;
@@ -178,13 +204,13 @@
             if (ordenar && produtosContainer) {
                 const ord = ordenar.value;
                 const visiveis = produtos.filter(p => p.style.display !== 'none');
-                
+
                 visiveis.sort((a, b) => {
                     const A = (a.querySelector('strong')?.textContent || '').toLowerCase();
                     const B = (b.querySelector('strong')?.textContent || '').toLowerCase();
                     return ord === 'nome_asc' ? A.localeCompare(B) : B.localeCompare(A);
                 });
-                
+
                 visiveis.forEach(p => produtosContainer.appendChild(p));
             }
         }

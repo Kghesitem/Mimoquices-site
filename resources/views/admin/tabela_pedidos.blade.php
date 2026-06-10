@@ -34,7 +34,7 @@
     <div class="mimo-chart-card wide" style="margin: 0; flex: 1; min-width: 300px;">
         <div class="mimo-chart-header">
             <h2>
-                <x-heroicon-s-shopping-bag style="color: var(--main_color); width: 1.5rem; height: 1.5rem;"/> 
+                <x-heroicon-s-shopping-bag style="color: var(--main_color); width: 1.5rem; height: 1.5rem;"/>
                 Total de Pedidos
             </h2>
             <p>Volume de encomendas realizadas por produto</p>
@@ -49,7 +49,7 @@
 </div>
 
 <div class="dashboard-mimo" style="padding: 2rem;">
-    
+
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; max-width: 1200px; margin: 0 auto 2rem;">
         <h1 style="color: var(--color1); margin: 0;"><x-heroicon-c-shopping-bag style=" width: 3rem; height: 3rem; color:var(--main_color);"/> Gestão de Pedidos</h1>
         <button id="toggleViewBtn" class="tab-button active">
@@ -82,8 +82,8 @@
                         <td class="ps-4" style="color: var(--color1); font-weight: 700;">
                             @foreach ($users as $user)
                                 @if ($pedido->id_user === $user->id) {{ $user->name }} @endif
-                            @endforeach 
-                        </td>   
+                            @endforeach
+                        </td>
                         <td>
                             <span class="badge" style="background-color: var(--main_color_light); color: var(--main_color); border: 1px solid var(--main_color);">
                                 {{ $pedido->id }}
@@ -114,7 +114,7 @@
                                     <x-heroicon-c-trash style="width: 1rem; height: 1rem; color:red"/> Eliminar
                                 </button>
                             </form>
-                        </td>                  
+                        </td>
                     </tr>
                     @endforeach
                     <tr id="noMatchesTable" style="display:none;">
@@ -134,7 +134,7 @@
         @endif
         @foreach ($pedidos as $pedido)
             <div class="dash-card pedido-item-card" style="flex: 0 1 280px; min-width: 250px; background-color: white; border: 1px solid var(--color-border); display: flex; flex-direction: column; padding: 1.5rem; border-radius: 1.5rem;">
-                
+
                 <div class="d-flex justify-content-between align-items-start mb-2">
                     <div style="max-width: 80%;">
                         <h3 style="color: var(--main_color); font-size: 1.1rem; margin: 0; font-family: Georgia, serif;">{{ $pedido->id }}</h3>
@@ -148,15 +148,15 @@
                 </div>
 
                 <div class="form-group-personalizacao mb-3">
-                    <label class="small fw-bold mb-1" style="display: block;">Estado do Pedido</label>
-                    <select class="form-select-personalizacao formato_agenda status-select py-1" data-pedido-id="{{ $pedido->id }}">
+                    <label class="small fw-bold mb-1" for="status-pedido-{{ $pedido->id }}" style="display: block;">Estado do Pedido</label>
+
+                    <select id="status-pedido-{{ $pedido->id }}" class="form-select-personalizacao formato_agenda status-select py-1" data-pedido-id="{{ $pedido->id }}">
                         <option value="não visto" {{ $pedido->estado == 'não visto' ? 'selected' : '' }}> Não visto</option>
                         <option value="visto" {{ $pedido->estado == 'visto' ? 'selected' : '' }}> Visto</option>
                         <option value="a trabalhar" {{ $pedido->estado == 'a trabalhar' ? 'selected' : '' }}> A Trabalhar</option>
                         <option value="concluido" {{ $pedido->estado == 'concluido' ? 'selected' : '' }}> Concluído</option>
                     </select>
                 </div>
-
                 <div class="mt-auto pt-2" style="border-top: 1px dashed var(--color-border);">
                     <div style="font-size: 0.75rem; color: #888; margin-bottom: 10px;">
                         <div class="d-flex align-items-center mb-1">
@@ -190,11 +190,14 @@
 </div>
 
 {{-- SCRIPTS JS --}}
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+<script src="{{ asset('frontend/assets/js/jquery.min.js') }}"></script>
+
+<script src="{{ asset('frontend/assets/js/chart.min.js') }}"></script>
+
+<script src="{{ asset('frontend/assets/js/chartjs-plugin-datalabels.min.js') }}"></script>
+
+<script src="{{ asset('frontend/assets/js/sweetalert2.all.min.js') }}"></script>
 <script>
 $(document).ready(function() {
     const toggleBtn = $('#toggleViewBtn');
@@ -204,8 +207,8 @@ $(document).ready(function() {
     tableView.show();
     cardView.hide();
     toggleBtn.html('<i class="bi bi-grid-3x3-gap"></i> Ver em Cards');
+    updateStatusDots();
 
-    // Lógica SweetAlert2 para o Botão Eliminar
     $(document).on('click', '.btn-eliminar', function(e) {
         e.preventDefault();
         const form = $(this).closest('.form-eliminar');
@@ -215,8 +218,8 @@ $(document).ready(function() {
             text: "Esta ação não pode ser revertida e o pedido será apagado permanentemente!",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#dc3545', 
-            cancelButtonColor: '#6c757d',  
+            confirmButtonColor: '#dc3545',
+            cancelButtonColor: '#6c757d',
             confirmButtonText: 'Sim, eliminar!',
             cancelButtonText: 'Cancelar'
         }).then((result) => {
@@ -286,6 +289,26 @@ $(document).ready(function() {
         });
     }
 
+    function updateStatusDots() {
+        const cores = {
+            "não visto": "#dc3545",
+            "visto": "#facc15",
+            "a trabalhar": "#4ade80",
+            "concluido": "#3b82f6"
+        };
+
+        $('.pedido-item-card').each(function() {
+            const select = $(this).find('.status-select');
+            const status = (select.val() || '').toLowerCase().trim();
+            const cor = cores[status] || "#6b7280";
+            const dot = $(this).find('.status-dot');
+            dot.css({
+                'background-color': cor,
+                'box-shadow': `0 0 8px ${cor}`
+            });
+        });
+    }
+
     // Botão de alternar entre Tabela e Cards
     toggleBtn.on('click', function() {
         const isShowingTable = tableView.is(':visible');
@@ -293,6 +316,7 @@ $(document).ready(function() {
         if (isShowingTable) {
             tableView.hide();
             cardView.fadeIn().css('display', 'flex');
+            updateStatusDots();
             $(this).html('<i class="bi bi-table"></i> Ver em Tabela');
         } else {
             cardView.hide();
@@ -309,7 +333,7 @@ $(document).ready(function() {
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    let filtroAtual = null; 
+    let filtroAtual = null;
 
     const mapaDeCores = {
         'não visto': '#dc3545',
@@ -318,14 +342,14 @@ document.addEventListener('DOMContentLoaded', function () {
         'concluido': '#3b82f6'
     };
 
-    const labelsEstados = @json($labels ?? []); 
-    const valoresEstados = @json($valores ?? []); 
+    const labelsEstados = @json($labels ?? []);
+    const valoresEstados = @json($valores ?? []);
     const totalPedidos = valoresEstados.reduce((a, b) => a + b, 0);
     const coresGrafico = labelsEstados.map(label => mapaDeCores[label.toLowerCase()] || '#6b7280');
 
     function aplicarFiltro(status) {
         filtroAtual = status;
-        
+
         if(status) {
             const statusNormalizado = status.toLowerCase().trim();
             $('#filtroAtivoAviso').text('Filtro ativo: ' + status + ' (Clique aqui para limpar)').fadeIn();
@@ -380,7 +404,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // --- GRÁFICO DE ESTADOS ---
     const ctxFav = document.getElementById('chartFavoritos').getContext('2d');
     new Chart(ctxFav, {
-        type: 'bar', 
+        type: 'bar',
         data: {
             labels: labelsEstados,
             datasets: [{
@@ -393,14 +417,14 @@ document.addEventListener('DOMContentLoaded', function () {
         options: {
             indexAxis: 'y',
             responsive: true,
-            maintainAspectRatio: false, 
+            maintainAspectRatio: false,
             plugins: {
                 legend: { display: false },
                 datalabels: {
-                    color: '#000000', 
-                    anchor: 'end',    
-                    align: 'right',   
-                    offset: 4,        
+                    color: '#000000',
+                    anchor: 'end',
+                    align: 'right',
+                    offset: 4,
                     font: {
                         weight: 'bold',
                         size: 11
@@ -408,9 +432,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     formatter: function(value) {
                         if (totalPedidos > 0 && value > 0) {
                             let percentagem = ((value / totalPedidos) * 100).toFixed(1);
-                            return `${value} (${percentagem}%)`; 
+                            return `${value} (${percentagem}%)`;
                         }
-                        return value; 
+                        return value;
                     }
                 }
             },
@@ -418,7 +442,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 x: {
                     beginAtZero: true,
                     ticks: { stepSize: 1 },
-                    grace: '8%' 
+                    grace: '8%'
                 }
             },
             onClick: (evt, activeElements) => {
@@ -434,7 +458,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
         },
-        plugins: [ChartDataLabels] 
+        plugins: [ChartDataLabels]
     });
 
     // --- GRÁFICO DE TOTAL DE PEDIDOS (CORRIGIDO) ---

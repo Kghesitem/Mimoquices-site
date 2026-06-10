@@ -2,19 +2,20 @@
 <head>
     <title>Dashboard Admin - Mimoquices</title>
 </head>
+
     <div class="py-12 dashboard-mimo">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            
+
             {{-- Saudação --}}
             <div class="welcome-banner mb-8">
                 <h1>Olá, Admin {{ Auth::user()->name }}!</h1>
             </div>
 
             {{-- Grelha de Atalhos --}}
-            <div class="d-flex justify-content-center">    
+            <div class="d-flex justify-content-center">
                 {{-- Aumentado para width:85% para acomodar melhor os 4 cards em desktop --}}
                 <div class="d-flex flex-column justify-content-center flex-md-row gap-3 max" style="width:85%">
-                    
+
                     {{-- Card: Adicionar Produto --}}
                     <a href="{{ route('produto.criar') }}" class="dash-card-admin" style="flex: 1;">
                         <div class="dash-icon"><x-heroicon-s-tag style="width: 3rem; height: 3rem; color:var(--main_color);" /></div>
@@ -37,8 +38,8 @@
                         <h3>Lista de Pedidos</h3>
                         <p>Visualiza todos os pedidos</p>
                         <span class="dash-link">Ver Pedidos →</span>
-                    </a>                  
-                    
+                    </a>
+
                     {{-- Card: Enviar Newsletter (Novo) --}}
                     <a href="{{ route('newsletter.criar') }}" class="dash-card-admin" style="flex: 1;">
                         <div class="dash-icon"><x-heroicon-s-envelope style="width: 3rem; height: 3rem; color:var(--main_color);" /></div>
@@ -49,7 +50,7 @@
 
                 </div>
             </div>
-            
+
             {{-- Seção de Categorias --}}
             @include('admin.icon_categorias')
 
@@ -62,32 +63,29 @@
     </div>
 @include('partial.footer')
 
-@if(session('success'))
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        Swal.fire({
-            title: 'Sucesso!',
-            toast: true,
-            position: 'top-end',
-            text: "{{ session('success') }}",
-            icon: 'success',
-            timer: 3000,
-            showConfirmButton: false,
-        });
-    });
-</script>
-@endif
+        @if(session('success'))
+            Swal.fire({
+                title: 'Sucesso!',
+                toast: true,
+                position: 'top-end',
+                text: "{{ session('success') }}",
+                icon: 'success',
+                timer: 3000,
+                showConfirmButton: false,
+            });
+        @endif
 
-@if ($errors->any())
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        @if ($errors->any())
             Swal.fire({
                 title: 'Erro!',
-                html: "{!! implode('<br>', array_map('e', $errors->all())) !!}",
+                html: "{!! implode('<br>', $errors->all()->map(fn($e) => e($e))->toArray()) !!}",
                 icon: 'error',
                 confirmButtonColor: '#dc3545',
                 confirmButtonText: 'OK'
             });
-        });
-    </script>
-@endif
+        @endif
+    });
+</script>

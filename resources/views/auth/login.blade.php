@@ -24,7 +24,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             Swal.fire({
                 title: 'Erro!',
-                 
+
                 html: "{!! implode('<br>', array_map('e', $errors->all())) !!}",
                 icon: 'error',
                 confirmButtonColor: '#dc3545',
@@ -41,10 +41,10 @@
         {{-- Email --}}
         <div class="form-group">
             <label for="email" class="form-label"><x-heroicon-c-envelope style="color: var(--main_color); width: 1.25rem; height: 1.25rem;"/> Endereço de Email</label>
-            <input 
-                type="email" 
-                id="email" 
-                name="email" 
+            <input
+                type="email"
+                id="email"
+                name="email"
                 class="form-input {{ $errors->has('email') ? 'is-invalid' : '' }}"
                 value="{{ old('email') }}"
                 placeholder="seu.email@example.com"
@@ -57,10 +57,10 @@
         {{-- Palavra-passe --}}
         <div class="form-group">
             <label for="password" class="form-label"><x-heroicon-s-lock-closed style="color: var(--main_color); width: 1.25rem; height: 1.25rem;"/> Palavra-passe</label>
-            <input 
-                type="password" 
-                id="password" 
-                name="password" 
+            <input
+                type="password"
+                id="password"
+                name="password"
                 class="form-input {{ $errors->has('password') ? 'is-invalid' : '' }}"
                 placeholder="••••••••"
                 required

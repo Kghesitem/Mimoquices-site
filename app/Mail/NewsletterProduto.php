@@ -8,13 +8,13 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\URL;
 
-class Newsletter_produto extends Mailable implements ShouldQueue
+class NewsletterProduto extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
     public $produto;
-    public $user; 
-    public $unsubscribeUrl; 
+    public $user;
+    public $unsubscribeUrl;
 
     public function __construct($produto, $user)
     {
@@ -27,6 +27,6 @@ class Newsletter_produto extends Mailable implements ShouldQueue
     public function build()
     {
         return $this->subject('Novidade fresquinha na Mimoquices!')
-                    ->view('emails.newsletter_produto');
+                    ->view('emails.NewsletterProduto');
     }
 }

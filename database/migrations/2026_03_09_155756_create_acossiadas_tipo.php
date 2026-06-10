@@ -20,50 +20,7 @@ return new class extends Migration
             $table->foreign('id_todas')->references('id')
                 ->on('todas_as_personalizacoes')->onupdate('cascade')->onDelete('cascade');
         });
-        DB::table('acossiadas_tipo')->insert([
-        [
-            'id_tipo' => 1,
-            'id_todas' => 1,
-            'created_at' => now(),
-            'updated_at' => now()
-        ],
-        [
-            'id_tipo' => 1,
-            'id_todas' => 2,
-            'created_at' => now(),
-            'updated_at' => now()
-        ],
-        [
-            'id_tipo' => 1,
-            'id_todas' => 3,
-            'created_at' => now(),
-            'updated_at' => now()
-        ],
-        [
-            'id_tipo' => 1,
-            'id_todas' => 4,
-            'created_at' => now(),
-            'updated_at' => now()
-        ],
-        [
-            'id_tipo' => 1,
-            'id_todas' => 5,
-            'created_at' => now(),
-            'updated_at' => now()
-        ],
-        [
-            'id_tipo' => 2,
-            'id_todas' => 6,
-            'created_at' => now(),
-            'updated_at' => now()
-        ],
-        [
-            'id_tipo' => 2,
-            'id_todas' => 7,
-            'created_at' => now(),
-            'updated_at' => now()
-        ],
-    ]);
+
     }
 
     /**

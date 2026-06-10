@@ -16,18 +16,7 @@ return new class extends Migration
             $table->string('Categoria');
             $table->timestamps();
         });
-        DB::table('tipo')->insert([
-        [
-            'Categoria' => 'Papelaria',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ],
-        [
-            'Categoria' => 'Docinhos',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]
-    ]);
+
     }
 
 

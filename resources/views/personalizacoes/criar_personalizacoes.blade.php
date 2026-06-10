@@ -17,7 +17,7 @@
 
 <main style="padding: 1rem 1rem;">
 <div class="auth-container auth-container-full">
-    
+
     {{-- Botão Voltar --}}
     <div class="d-flex justify-content-center" style="margin-bottom: 1.5rem;">
         <a class="btn botao-voltar text-decoration-none d-inline-flex align-items-center" href="{{ url('/categoria/criar') }}" style="gap: 0.5rem;">
@@ -28,7 +28,7 @@
     {{-- CABEÇALHO DO FORMULÁRIO --}}
     <div class="auth-header rounded" style="text-align: left; margin-bottom: 2.5rem;">
         <h1>
-            <x-heroicon-c-plus style="width: 2.5rem; height: 2.5rem; vertical-align: middle; color:var(--main_color);" /> 
+            <x-heroicon-c-plus style="width: 2.5rem; height: 2.5rem; vertical-align: middle; color:var(--main_color);" />
             Criar Personalizações
         </h1>
         <p style="text-align: center;">Configure as opções de campos personalizados que os clientes poderão preencher nos produtos</p>
@@ -55,18 +55,18 @@
         @method('post')
 
         <div class="form-grid-layout">
-            
+
             {{-- COLUNA ESQUERDA: Dados Gerais da Personalização --}}
             <div class="col-dados">
                 {{-- Nome da Personalização --}}
                 <div class="form-group">
                     <label for="nome" class="form-label">Nome da Personalização</label>
-                    <input 
-                        type="text" 
+                    <input
+                        type="text"
                         id="nome"
-                        class="form-input {{ $errors->has('nome') ? 'is-invalid' : '' }}" 
-                        name="nome" 
-                        placeholder="Ex.: Papelaria, Agendas..." 
+                        class="form-input {{ $errors->has('nome') ? 'is-invalid' : '' }}"
+                        name="nome"
+                        placeholder="Ex.: Papelaria, Agendas..."
                         required
                         value="{{ old('nome') }}"
                     />
@@ -75,12 +75,12 @@
                 {{-- Breve Descrição --}}
                 <div class="form-group" style="margin-top: 1.25rem;">
                     <label for="descricao" class="form-label">Breve Descrição</label>
-                    <input 
-                        type="text" 
+                    <input
+                        type="text"
                         id="descricao"
-                        class="form-input {{ $errors->has('descricao') ? 'is-invalid' : '' }}" 
-                        name="descricao" 
-                        placeholder="Ex.: Pode ser personalizada com nome, data ou frase..." 
+                        class="form-input {{ $errors->has('descricao') ? 'is-invalid' : '' }}"
+                        name="descricao"
+                        placeholder="Ex.: Pode ser personalizada com nome, data ou frase..."
                         required
                         value="{{ old('descricao') }}"
                     />
@@ -89,11 +89,11 @@
                 {{-- Ficheiro Auxiliar (PDF) --}}
                 <div class="form-group" style="margin-top: 1.25rem;">
                     <label for="pdf" class="form-label">PDF Auxiliar</label>
-                    <input 
-                        type="file" 
+                    <input
+                        type="file"
                         id="pdf"
-                        class="form-input {{ $errors->has('pdf') ? 'is-invalid' : '' }}" 
-                        name="pdf" 
+                        class="form-input {{ $errors->has('pdf') ? 'is-invalid' : '' }}"
+                        name="pdf"
                         accept=".pdf"
                     />
                     <small class="text-muted" style="display: block; margin-top: 0.25rem;">Documento opcional de suporte para a personalização.</small>
@@ -130,7 +130,7 @@
                             <button type="button" id="remove-input" class="btn btn-danger btn-sm d-inline-flex align-items-center" style="gap: 0.25rem; font-weight: 600;">
                                 <span>-</span> Remover
                             </button>
-                        </div>                        
+                        </div>
                     </div>
 
                     <div id="inputs-container">

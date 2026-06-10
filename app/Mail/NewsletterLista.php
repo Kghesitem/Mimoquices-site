@@ -8,19 +8,20 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\URL;
 
-class Newsletter_lista extends Mailable implements ShouldQueue
+class NewsletterLista extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
-
     public $produtos;
-    public $user; 
-    public $unsubscribeUrl; 
+    public $user;
+    public $texto;
+    public $unsubscribeUrl;
 
-    public function __construct($produtos, $user)
+    public function __construct($produtos, $user, $texto = null)
     {
         $this->produtos = $produtos;
         $this->user = $user;
+        $this->texto = $texto;
 
         // Gera o link assinado e seguro aqui dentro, tal como na outra!
         $this->unsubscribeUrl = URL::signedRoute('newsletter.unsubscribe', ['user' => $user->id]);

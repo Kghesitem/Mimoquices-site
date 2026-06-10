@@ -17,18 +17,18 @@
 
 <main style="padding: 1rem 1rem;">
 <div class="auth-container auth-container-full">
-    
+
     {{-- Botão Voltar --}}
     <div class="d-flex justify-content-center" style="margin-bottom: 1.5rem;">
         <a class="btn botao-voltar text-decoration-none d-inline-flex align-items-center" href="{{ url('/categoria/criar') }}" style="gap: 0.5rem;">
             ← Voltar para o Criar Categoria
         </a>
-    </div>  
+    </div>
 
     {{-- CABEÇALHO DO FORMULÁRIO --}}
     <div class="auth-header rounded" style="text-align: left; margin-bottom: 2.5rem;">
         <h1>
-            <x-heroicon-m-folder-open style="width: 2.5rem; height: 2.5rem; vertical-align: middle; color:var(--main_color);" /> 
+            <x-heroicon-m-folder-open style="width: 2.5rem; height: 2.5rem; vertical-align: middle; color:var(--main_color);" />
             Editar Personalização
         </h1>
         <p style="text-align: center;">Modifique as configurações e opções dos campos personalizados deste registo</p>
@@ -55,18 +55,18 @@
         @method('PUT')
 
         <div class="form-grid-layout">
-            
+
             {{-- COLUNA ESQUERDA: Dados Gerais da Personalização --}}
             <div class="col-dados">
                 {{-- Nome da Personalização --}}
                 <div class="form-group">
                     <label for="nome" class="form-label">Nome da Personalização</label>
-                    <input 
-                        type="text" 
+                    <input
+                        type="text"
                         id="nome"
-                        class="form-input {{ $errors->has('nome') ? 'is-invalid' : '' }}" 
-                        name="nome" 
-                        placeholder="Ex.: Papelaria, Agendas..." 
+                        class="form-input {{ $errors->has('nome') ? 'is-invalid' : '' }}"
+                        name="nome"
+                        placeholder="Ex.: Papelaria, Agendas..."
                         required
                         value="{{ old('nome', $personalizacao->titulo) }}"
                     />
@@ -75,12 +75,12 @@
                 {{-- Breve Descrição --}}
                 <div class="form-group" style="margin-top: 1.25rem;">
                     <label for="descricao" class="form-label">Breve Descrição</label>
-                    <input 
-                        type="text" 
+                    <input
+                        type="text"
                         id="descricao"
-                        class="form-input {{ $errors->has('descricao') ? 'is-invalid' : '' }}" 
-                        name="descricao" 
-                        placeholder="Ex.: Pode ser personalizada com nome, data ou frase..." 
+                        class="form-input {{ $errors->has('descricao') ? 'is-invalid' : '' }}"
+                        name="descricao"
+                        placeholder="Ex.: Pode ser personalizada com nome, data ou frase..."
                         required
                         value="{{ old('descricao', $personalizacao->descricao) }}"
                     />
@@ -89,11 +89,11 @@
                 {{-- Ficheiro Auxiliar (PDF) --}}
                 <div class="form-group" style="margin-top: 1.25rem;">
                     <label for="pdf" class="form-label">PDF Auxiliar</label>
-                    <input 
-                        type="file" 
+                    <input
+                        type="file"
                         id="pdf"
-                        class="form-input {{ $errors->has('pdf') ? 'is-invalid' : '' }}" 
-                        name="pdf" 
+                        class="form-input {{ $errors->has('pdf') ? 'is-invalid' : '' }}"
+                        name="pdf"
                         accept=".pdf"
                     />
                     @if($personalizacao->PDF)
@@ -136,7 +136,7 @@
                             <button type="button" id="remove-input" class="btn btn-danger btn-sm d-inline-flex align-items-center" style="gap: 0.25rem; font-weight: 600;">
                                 <span>-</span> Remover
                             </button>
-                        </div>                        
+                        </div>
                     </div>
 
                     <div id="inputs-container">
@@ -209,7 +209,7 @@
 
     // Inicializa o estado correto e define o contador inicial baseado nos elementos renderizados
     let contador = 1;
-    
+
     document.addEventListener("DOMContentLoaded", function() {
         verificaCategoria();
         // Atualiza o contador de acordo com o número de registos que vieram do banco de dados

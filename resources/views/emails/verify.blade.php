@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificação de E-mail - Mimoquices</title> {{-- Adicionado para resolver o aviso do SonarQube --}}
+
     <style>
         body { margin: 0; padding: 0; background-color: #f8f9fa; font-family: sans-serif; }
         .wrapper { width: 100%; background-color: #f8f9fa; padding: 40px 0; }
@@ -22,7 +24,7 @@
             </div>
             <div class="content">
                 <p>Bem-vindo à <strong>Mimoquices</strong>! <br> Para começares a utilizar a tua conta, precisamos apenas que confirmes o teu endereço de e-mail.</p>
-                
+
                 <a href="{{ $url }}" class="btn">Confirmar E-mail</a>
 
                 <p style="margin-top: 25px; font-size: 14px;">Se não criaste uma conta, podes ignorar este e-mail.</p>

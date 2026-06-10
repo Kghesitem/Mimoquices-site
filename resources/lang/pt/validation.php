@@ -9,6 +9,7 @@ return [
     ],
     'max' => [
         'string' => 'O/A :attribute não pode ter mais de :max caracteres.',
+        'file' => 'O ficheiro não pode exceder os :max KB.',
     ],
     'confirmed' => 'A confirmação de :attribute não corresponde.',
     'unique' => 'O :attribute já está a ser utilizado',

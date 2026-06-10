@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Produto;
 use Illuminate\Support\Facades\Mail;
 use App\Models\Tipo;
-use App\Mail\Newsletter_lista;
+use App\Mail\NewsletterLista;
 
 class NewsletterController extends Controller
 {
@@ -34,6 +34,7 @@ class NewsletterController extends Controller
         $request->validate([
             'produtos_ids' => 'required|array|min:1',
             'produtos_ids.*' => 'exists:produto,id',
+            'newsletter_text' => 'nullable|string|max:2000',
         ], [
             'produtos_ids.required' => 'Precisas de selecionar pelo menos um produto para enviar a newsletter.'
         ]);
@@ -47,7 +48,7 @@ class NewsletterController extends Controller
 
         foreach ($subscritores as $user) {
             Mail::to($user->email)->queue(
-                new Newsletter_lista($produtosSelecionados, $user)
+                new NewsletterLista($produtosSelecionados, $user, $request->newsletter_text)
             );
         }
 

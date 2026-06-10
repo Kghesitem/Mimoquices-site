@@ -37,7 +37,7 @@
                 <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:15px; border-bottom: 1px solid #f0f0f0; padding-bottom: 10px;">
                     <div>
                         <h3 style="margin:0; font-size: 1.1rem; color: #333;">
-                            Produto: 
+                            Produto:
                             <a href="{{ route('produto.show', $produtoDoPedido->url_completo) }}" style="color: #007bff; text-decoration: none;">
                                 {{ $produtoDoPedido?->titulo ?? 'Produto indisponível' }}
                             </a>
@@ -79,8 +79,8 @@
                                     @php
                                         $todosOpcoes = [];
                                         foreach($grupoItens as $item) {
-                                            $opcoes = is_array($item->opcoes_selecionadas) 
-                                                ? $item->opcoes_selecionadas 
+                                            $opcoes = is_array($item->opcoes_selecionadas)
+                                                ? $item->opcoes_selecionadas
                                                 : explode(',', $item->opcoes_selecionadas);
                                             $todosOpcoes = array_merge($todosOpcoes, $opcoes);
                                         }

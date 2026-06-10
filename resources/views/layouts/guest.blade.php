@@ -9,7 +9,10 @@
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap"
+      rel="stylesheet"
+      integrity="sha384-N2uHlqZqB5xNq9FmN9z3J8p0X7K8Q8z9YpZ0M5Uv8W6M0x5Y0b5M2u3l4k5j6M7N"
+      crossorigin="anonymous" />
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])

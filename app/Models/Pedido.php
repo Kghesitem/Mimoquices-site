@@ -10,10 +10,10 @@ class Pedido extends Model
     protected $table = 'pedido';
 
     protected $fillable = [
-        'id_user',      
+        'id_user',
         'estado',
     ];
-    
+
     public function user()
     {
         return $this->belongsTo(User::class, 'id_user');
@@ -25,5 +25,3 @@ class Pedido extends Model
     }
 
 }
-
-

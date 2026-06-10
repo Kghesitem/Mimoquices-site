@@ -3,11 +3,11 @@
     <title>Perfil de Utilizador - Mimoquices</title>
 </head>
 <body class="bg-light">
-    
+
 <main class="profile-page py-5">
     <div class="container">
         <div class="profile-card">
-            
+
             {{-- Cabeçalho do Perfil --}}
             <header class="profile-header text-center">
                 <div class="profile-avatar-placeholder">

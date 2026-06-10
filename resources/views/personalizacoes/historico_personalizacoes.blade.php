@@ -13,7 +13,7 @@
 
 <main>
 <div class="historico-full-container">
-    
+
     <div class="auth-header rounded" style="text-align: center; margin-bottom: 2rem;">
         <h1>O Meu Histórico de Mimos</h1>
         <p>Recorda aqui todas as tuas escolhas personalizadas</p>
@@ -21,24 +21,24 @@
 
     <div class="pedidos-grid">
         @forelse($historico->groupBy('id_pedido') as $idPedido => $itens)
-            @php 
-                $pedido = $itens->first()->pedido; 
+            @php
+                $pedido = $itens->first()->pedido;
                 // Buscamos o primeiro produto do grupo para exibir o título no topo
                 $primeiroProduto = $itens->first()->produto;
             @endphp
 
             <div class="pedido-card">
                 <div class="pedido-info-header" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px dashed #f0f0f0; padding-bottom: 10px; margin-bottom: 15px;">
-                    
+
                     <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 5px;">
-                        
+
                         <a href="{{ route('produto.show', $primeiroProduto->url_completo ?? '#') }}" style="color: #ff99aa; text-decoration: none; font-weight: 600; font-size: 1.1rem;">
                             {{ $primeiroProduto?->titulo ?? 'Indisponível' }}
                         </a>
 
                         <div style="font-weight: 600; color: #555; display: flex; align-items: center; gap: 5px;">
-                            <x-heroicon-s-calendar-date-range style="width: 1.5rem; height: 1.5rem; color:var(--main_color); "/> 
-                            {{ $pedido->created_at->format('d/m/Y') }} 
+                            <x-heroicon-s-calendar-date-range style="width: 1.5rem; height: 1.5rem; color:var(--main_color); "/>
+                            {{ $pedido->created_at->format('d/m/Y') }}
                             <span style="font-weight: 400; font-size: 0.8rem; background: #f0f0f0; padding: 4px 10px; border-radius: 20px;">
                                 {{ ucfirst($pedido->estado) }}
                             </span>

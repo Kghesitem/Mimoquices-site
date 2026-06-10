@@ -5,19 +5,19 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Produto;
 use App\Models\Tipo;
-use App\Models\Todas_as_personalizacoes;
-use App\Models\Todas_as_respostas;
+use App\Models\TodasAsPersonalizacoes;
+use App\Models\TodasAsRespostas;
 use App\Models\Associadas;
 
 class CategoriaController extends Controller
 {
     public function create()
-    {
-        $tipo    = Tipo::all();
-        $todas_personalizações = Todas_as_personalizacoes::all();
-        
-        return view('categoria.criar_categoria', compact( 'tipo', 'todas_personalizações'));
-    }
+{
+    $tipo = Tipo::all();
+    $todas_personalizacoes = TodasAsPersonalizacoes::all();
+
+    return view('categoria.criar_categoria', compact('tipo', 'todas_personalizacoes'));
+}
     public function store(Request $request)
     {
         $request->validate([
@@ -27,7 +27,7 @@ class CategoriaController extends Controller
         $categoria = new Tipo();
         $categoria->categoria = $request->input('Categoria');
         $categoria->save();
-        
+
         foreach ($request->input('personalizacoes', []) as $idPersonalizacao) {
             $associada = new Associadas();
             $associada->id_tipo  = $categoria->id;
@@ -37,13 +37,15 @@ class CategoriaController extends Controller
 
         return redirect()->route('dashboard')->with('success', 'Categoria criada com sucesso!');
     }
-    public function edit (Tipo $categoria, $id)
+    public function edit($id)
     {
         $categoria = Tipo::findOrFail($id);
-        $todas_personalizações = Todas_as_personalizacoes::all();
+
+        $todas_personalizacoes = TodasAsPersonalizacoes::all();
+
         $associados = Associadas::where('id_tipo', $categoria->id)->get();
 
-        return view('categoria.editar_categoria', compact('categoria', 'todas_personalizações', 'associados'));
+        return view('categoria.editar_categoria', compact('categoria', 'todas_personalizacoes', 'associados'));
     }
     public function update(Request $request, $id)
     {

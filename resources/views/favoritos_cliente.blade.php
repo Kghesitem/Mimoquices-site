@@ -22,21 +22,20 @@
             {{-- LISTA DE PRODUTOS --}}
             <div class="limite">
                 @foreach($produtos as $produto)
-                    <a href="{{ route('produto.show', $produto->url_completo) }}" 
-                    class="produtos-produto animacao-aparecer text-decoration-none" 
+                    <a href="{{ route('produto.show', $produto->url_completo) }}"
+                    class="produtos-produto animacao-aparecer text-decoration-none"
                     data-tipo="{{ $produto->tipo_prod }}" data-destaque="{{ $produto->destaque }}" data-produto-id="{{ $produto->id }}">
-                    <x-heroicon-c-heart 
-                            class="favorite-btn {{ in_array($produto->id, $favoritos) ? 'active' : '' }}" 
+                    <x-heroicon-c-heart
+                            class="favorite-btn {{ in_array($produto->id, $favoritos) ? 'active' : '' }}"
                             aria-label="Favoritar"
                         />
+
                         <div>
-                            <img class="produto-img" 
-                                src="{{asset("storage/{$produto->nome_cod}")}}" 
-                                alt="{{$produto->nome_original}}">
+                            <img class="produto-img" src="{{ asset('storage/' . $produto->nome_cod) }}" alt="Produto: {{ $produto->titulo ?? $produto->nome_original ?? 'Mimoquices' }}">
                         </div>
 
                         <div>
-                            <h3>{{$produto->titulo}}</h3> 
+                            <h3>{{$produto->titulo}}</h3>
                         </div>
 
                         <div>

@@ -10,8 +10,8 @@
         <div style="padding: 1.1rem 1.5rem 0;">
             {{-- explicação (texto pedido) --}}
             <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-                {{ __('Esqueceu sua senha? Não há problema. 
-                    Basta nos informar seu endereço de e-mail e 
+                {{ __('Esqueceu sua senha? Não há problema.
+                    Basta nos informar seu endereço de e-mail e
                     nós enviaremos um link de redefinição
                     de senha que permitirá que você escolha uma nova.') }}
             </div>
@@ -25,7 +25,7 @@
                     document.addEventListener('DOMContentLoaded', function() {
                         Swal.fire({
                             title: 'Erro!',
-                                
+
                             html: "{!! implode('<br>', array_map('e', $errors->all())) !!}",
                             icon: 'error',
                             confirmButtonColor: '#dc3545',

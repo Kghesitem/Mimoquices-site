@@ -5,31 +5,32 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class todas_as_personalizacoes extends Model
+// CORREÇÃO: Nome da classe alterado para PascalCase
+class TodasAsPersonalizacoes extends Model
 {
     use HasFactory;
 
     protected $table = 'todas_as_personalizacoes';
 
     protected $fillable = [
-        'titulo',    
+        'titulo',
         'descrição',
         'tipo_de_input',
     ];
 
-    // Relação com respostas/opções
+
     public function respostas()
     {
-        return $this->hasMany(Todas_as_respostas::class, 'id_personalizacao');
+        return $this->hasMany(TodasAsRespostas::class, 'id_personalizacao');
     }
-    
+
     public function tipos()
     {
         return $this->belongsToMany(
             Tipo::class,
-            'acossiadas_tipo', 
-            'id_todas',              
-            'id_tipo'                
+            'acossiadas_tipo',
+            'id_todas',
+            'id_tipo'
         );
     }
 }

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vereficação de e-mail- Mimoquices</title>    
+    <title>Vereficação de e-mail- Mimoquices</title>
     <link rel="icon" type="image/png" style="border-radius: .5em;" href="{{ asset('frontend/assets/img/logo.png') }}">
 </head>
 <body>
@@ -31,7 +31,7 @@
 
         <div class="auth-form">
             <div style="display: flex; flex-direction: column; gap: 1rem;">
-                
+
                 <form method="POST" action="{{ route('verification.send') }}">
                     @csrf
                     <button type="submit" class="btn-submit" onclick="this.disabled=true; this.form.submit();">
